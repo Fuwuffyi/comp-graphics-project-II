@@ -15,7 +15,7 @@ public:
 	 * \param _drawType The type of OpenGL shape it will draw.
 	 */
 	Mesh2D(const std::vector<Vertex2D>& vertices, const std::vector<uint32_t>& indices, const uint32_t _drawType);
-protected:
+private:
 	/**
 	 * Function to set the VAO vertices' attributes.
 	 *
