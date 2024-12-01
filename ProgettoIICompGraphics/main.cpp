@@ -1,6 +1,7 @@
 #include "Window.hpp"
 #include "Vertex.hpp"
 #include "Mesh2D.hpp"
+#include "Shader.hpp"
 
 int main() {
 	// Initialize glfw
@@ -23,12 +24,15 @@ int main() {
 	window.setWindowActive();
 	// Testing mesh
 	std::vector<Vertex2D> verts = {
-
+		Vertex2D {glm::vec2(-0.5f, -0.5f), glm::vec2(0.0f), glm::vec2(0.0f) },
+		Vertex2D {glm::vec2(0.5f, -0.5f), glm::vec2(0.0f), glm::vec2(0.0f) },
+		Vertex2D {glm::vec2(0.0f, 0.5f), glm::vec2(0.0f), glm::vec2(0.0f) }
 	};
 	std::vector<uint32_t> inds = {
-
+		0, 1, 2
 	};
 	const Mesh2D m(verts, inds, GL_TRIANGLES);
+	const Shader testingShader("testing.frag.glsl", "testing.vert.glsl");
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -45,9 +49,11 @@ int main() {
 		const float deltaTime = static_cast<float>(currTime - prevTime);
 		prevTime = currTime;
 		// Clear buffers
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+		// Test draw
+		testingShader.activate();
+		m.draw();
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();

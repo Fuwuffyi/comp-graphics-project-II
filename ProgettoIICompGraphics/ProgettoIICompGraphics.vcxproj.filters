@@ -78,6 +78,9 @@
     <ClCompile Include="Mesh3D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\dependencies\include\imgui\imconfig.h">
@@ -140,5 +143,16 @@
     <ClInclude Include="Mesh3D.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="testing.frag.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="testing.vert.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

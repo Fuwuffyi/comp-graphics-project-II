@@ -145,6 +145,7 @@
     <ClCompile Include="Mesh2D.cpp" />
     <ClCompile Include="Mesh3D.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleBuffer.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -166,11 +167,16 @@
     <ClInclude Include="Mesh2D.hpp" />
     <ClInclude Include="Mesh3D.hpp" />
     <ClInclude Include="Mouse.hpp" />
+    <ClInclude Include="Shader.hpp" />
     <ClInclude Include="SimpleBuffer.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="VertexArray.hpp" />
     <ClInclude Include="VertexBuffer.hpp" />
     <ClInclude Include="Window.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="testing.frag.glsl" />
+    <None Include="testing.vert.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
