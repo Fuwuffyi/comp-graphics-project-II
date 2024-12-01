@@ -1,6 +1,6 @@
 #include "Window.hpp"
 #include "Vertex.hpp"
-#include "Mesh2D.hpp"
+#include "Mesh3D.hpp"
 #include "Shader.hpp"
 #include "Transform.hpp"
 
@@ -26,17 +26,24 @@ int main() {
 	Window window(windowName, glm::uvec2(900, 900));
 	window.setWindowActive();
 	// Testing mesh
-	std::vector<Vertex2D> verts = {
-		Vertex2D {glm::vec2(-0.5f, -0.5f), glm::vec2(0.0f), glm::vec2(0.0f) },
-		Vertex2D {glm::vec2(0.5f, -0.5f), glm::vec2(0.0f), glm::vec2(0.0f) },
-		Vertex2D {glm::vec2(0.0f, 0.5f), glm::vec2(0.0f), glm::vec2(0.0f) }
+	std::vector<Vertex3D> verts = {
+		Vertex3D {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f) },
+		Vertex3D {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f) },
+		Vertex3D {glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f) },
+		Vertex3D {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(0.0f) },
+		Vertex3D {glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f) }
 	};
 	std::vector<uint32_t> inds = {
-		0, 1, 2,
+		0, 2, 1,
+		0, 3, 2,
+		0, 1, 4,
+		1, 2, 4,
+		2, 3, 4,
+		3, 0, 4
 	};
-	const Mesh2D m(verts, inds, GL_TRIANGLES);
+	const Mesh3D m(verts, inds, GL_TRIANGLES);
 	const Shader testingShader("testing.frag.glsl", "testing.vert.glsl");
-	Transform testTransform(glm::vec3(0.0f, 0.2f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.7f));
+	Transform testTransform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -52,9 +59,9 @@ int main() {
 		const double currTime = glfwGetTime();
 		const float deltaTime = static_cast<float>(currTime - prevTime);
 		prevTime = currTime;
-		testTransform.setRotation(testTransform.getRotation() + glm::vec3(0.0f, 1.0f, 0.0f) * deltaTime * 50.0f);
+		testTransform.setRotation(testTransform.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 50.0f);
 		// Clear buffers
-		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
 		testingShader.activate();
