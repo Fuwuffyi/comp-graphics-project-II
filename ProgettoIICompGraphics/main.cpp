@@ -1,6 +1,6 @@
 #include "Window.hpp"
 #include "Vertex.hpp"
-#include "Mesh.hpp"
+#include "Mesh2D.hpp"
 
 int main() {
 	// Initialize glfw

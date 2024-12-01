@@ -6,6 +6,7 @@
 
 /**
  * Contains data on how to draw properly a mesh's data.
+ * \tparam T The vertex type of the mesh.
  */
 template <typename T>
 class Mesh {
@@ -17,6 +18,7 @@ public:
 	const VertexArray vao;
 	const VertexBuffer<T> vbo;
 	const ElementBuffer ebo;
+protected:
 
 	/**
 	 * Creates a mesh with the given data.
@@ -26,6 +28,7 @@ public:
 	 * \param _drawType The type of OpenGL shape it will draw.
 	 */
 	Mesh(const std::vector<T>& vertices, const std::vector<uint32_t>& indices, const uint32_t _drawType);
+public:
 
 	/**
 	 * Draws the object to the screen.
@@ -33,12 +36,10 @@ public:
 	 */
 	virtual void draw() const;
 protected:
+
 	/**
 	 * Function to set the VAO vertices' attributes.
 	 *
 	 */
-	virtual void setVertexArrayAttributes() const = 0;
+	virtual void setVertexArrayAttributes() const;
 };
-
-using Mesh2D = Mesh<Vertex2D>;
-using Mesh3D = Mesh<Vertex3D>;
