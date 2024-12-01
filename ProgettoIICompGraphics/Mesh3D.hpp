@@ -20,5 +20,5 @@ protected:
 	 * Function to set the VAO vertices' attributes.
 	 *
 	 */
-	virtual void setVertexArrayAttributes() const override;
+	void setVertexArrayAttributes() const;
 };

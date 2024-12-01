@@ -35,11 +35,4 @@ public:
 	 *
 	 */
 	virtual void draw() const;
-protected:
-
-	/**
-	 * Function to set the VAO vertices' attributes.
-	 *
-	 */
-	virtual void setVertexArrayAttributes() const;
 };

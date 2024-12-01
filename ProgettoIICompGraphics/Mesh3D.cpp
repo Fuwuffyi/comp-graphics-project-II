@@ -6,7 +6,15 @@
 Mesh3D::Mesh3D(const std::vector<Vertex3D>& vertices, const std::vector<uint32_t>& indices, const uint32_t _drawType)
 	:
 	Mesh(vertices, indices, _drawType)
-{}
+{
+	this->vao.bind();
+	this->vbo.bind();
+	this->ebo.bind();
+	this->setVertexArrayAttributes();
+	this->vao.unbind();
+	this->vbo.unbind();
+	this->ebo.unbind();
+}
 
 void Mesh3D::setVertexArrayAttributes() const {
 	// Link the vertice's attributes to slots: (0 = vec2 position, 1 = vec2 normal, 2 = vec2 uv)
