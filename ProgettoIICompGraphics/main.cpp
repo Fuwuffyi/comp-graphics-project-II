@@ -1,4 +1,6 @@
 #include "Window.hpp"
+#include "Vertex.hpp"
+#include "Mesh.hpp"
 
 int main() {
 	// Initialize glfw
@@ -19,6 +21,14 @@ int main() {
 	const std::string windowName = "unnamed window";
 	Window window(windowName, glm::uvec2(900, 900));
 	window.setWindowActive();
+	// Testing mesh
+	std::vector<Vertex2D> verts = {
+
+	};
+	std::vector<uint32_t> inds = {
+
+	};
+	const Mesh2D m(verts, inds, GL_TRIANGLES);
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

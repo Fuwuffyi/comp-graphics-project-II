@@ -39,3 +39,6 @@ protected:
 	 */
 	virtual void setVertexArrayAttributes() const = 0;
 };
+
+using Mesh2D = Mesh<Vertex2D>;
+using Mesh3D = Mesh<Vertex3D>;
