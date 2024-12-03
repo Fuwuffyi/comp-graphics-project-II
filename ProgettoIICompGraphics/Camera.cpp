@@ -18,7 +18,7 @@ void Camera::updateProjectionMatrix() {
 }
 
 void Camera::updateCameraMatrix() {
-	this->cameraMatrix = this->transform.getTransformMatrix() * this->getProjectionMatrix();
+	this->cameraMatrix = this->getProjectionMatrix() * this->transform.getTransformMatrix();
 }
 
 const glm::mat4& Camera::getProjectionMatrix() {

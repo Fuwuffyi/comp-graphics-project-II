@@ -10,6 +10,6 @@ uniform mat4 objMatrix;
 uniform mat4 cameraMatrix;
 
 void main() {
-    gl_Position = objMatrix * cameraMatrix * vec4(aPos, 1.0);
+    gl_Position = cameraMatrix * objMatrix * vec4(aPos, 1.0);
     col = vec4(aNormal, 1.0);
 }

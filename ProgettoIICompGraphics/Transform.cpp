@@ -38,8 +38,10 @@ void Transform::setRotation(const glm::vec3& rot) {
 }
 
 void Transform::setRotation(const glm::vec3& vUp, const glm::vec3& viewDir) {
-	this->matRotation = glm::lookAt(this->position, this->position + viewDir, vUp);
-	this->rotation = glm::vec4(glm::vec3(0.0f), 1.0f) * this->matRotation;
+	glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0.0f), viewDir, vUp);
+	this->matRotation = glm::mat4(glm::mat3(viewMatrix)); // Extract only the rotation part
+	glm::quat orientation = glm::quat_cast(this->matRotation);
+	this->rotation = glm::eulerAngles(orientation); // Convert quaternion to Euler angles
 	this->dirtyTransform = true;
 }
 
