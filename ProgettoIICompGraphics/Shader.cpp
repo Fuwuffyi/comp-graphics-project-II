@@ -40,7 +40,7 @@ void Shader::checkErrors(const std::string& shaderType, const uint32_t shaderId)
 	}
 }
 
-Shader::Shader(const std::string& fragmentFile, const std::string& vertexFile)
+Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile)
 	:
 	id(glCreateProgram())
 {

@@ -46,7 +46,7 @@ int main() {
 		3, 0, 4
 	};
 	const Mesh3D m(verts, inds, GL_TRIANGLES);
-	Shader testingShader("testing.frag.glsl", "testing.vert.glsl");
+	Shader testingShader("testing.vert.glsl", "testing.frag.glsl");
 	Material testingMaterial1(&testingShader, {
 		{"testUniform", glm::vec4(1.0f, 0.2f, 0.0f, 1.0f)}
 	});

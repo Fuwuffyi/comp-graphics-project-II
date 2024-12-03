@@ -33,10 +33,10 @@ public:
 	/**
 	 * Creates a new shader program from a fragment and vertex shader.
 	 *
-	 * \param fragmentFile The fragment shader's file location.
 	 * \param vertexFile The vertex shader's file location.
+	 * \param fragmentFile The fragment shader's file location.
 	 */
-	Shader(const std::string& fragmentFile, const std::string& vertexFile);
+	Shader(const std::string& vertexFile, const std::string& fragmentFile);
 
 	/**
 	 * Deallocates the GPU memory for this shader program.
