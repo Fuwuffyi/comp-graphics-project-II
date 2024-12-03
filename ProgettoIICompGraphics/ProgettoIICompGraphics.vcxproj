@@ -137,6 +137,7 @@
     <ClCompile Include="..\dependencies\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\dependencies\include\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\dependencies\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ElementBuffer.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Keyboard.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="..\dependencies\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\dependencies\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\dependencies\include\imgui\imstb_truetype.h" />
+    <ClInclude Include="Camera.hpp" />
     <ClInclude Include="ElementBuffer.hpp" />
     <ClInclude Include="Keyboard.hpp" />
     <ClInclude Include="Mesh.hpp" />

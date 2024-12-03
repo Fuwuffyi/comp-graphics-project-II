@@ -3,6 +3,7 @@
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Transform.hpp"
+#include "Camera.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -25,6 +26,8 @@ int main() {
 	const std::string windowName = "unnamed window";
 	Window window(windowName, glm::uvec2(900, 900));
 	window.setWindowActive();
+	// Testing camera
+	Camera cam(90.0f, 1.0f, 0.01f, 1000.0f);
 	// Testing mesh
 	std::vector<Vertex3D> verts = {
 		Vertex3D {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f) },
@@ -72,6 +75,7 @@ int main() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
 		testingShader.activate();
+		testingShader.setUniformMatrix("cameraMatrix", cam.getCameraMatrix());
 		testingShader.setUniformMatrix("objMatrix", testTransform0.getTransformMatrix());
 		m.draw();
 		testingShader.setUniformMatrix("objMatrix", testTransform1.getTransformMatrix());
