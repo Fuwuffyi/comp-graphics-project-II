@@ -21,7 +21,7 @@ const glm::vec3& Transform::getPosition() const {
 	return this->position;
 }
 
-void Transform::setPosition(const glm::vec3 & pos) {
+void Transform::setPosition(const glm::vec3& pos) {
 	this->position = pos;
 	this->dirtyPosition = true;
 	this->dirtyTransform = true;
@@ -31,9 +31,15 @@ const glm::vec3& Transform::getRotation() const {
 	return this->rotation;
 }
 
-void Transform::setRotation(const glm::vec3 & rot) {
+void Transform::setRotation(const glm::vec3& rot) {
 	this->rotation = rot;
 	this->dirtyRotation = true;
+	this->dirtyTransform = true;
+}
+
+void Transform::setRotation(const glm::vec3& vUp, const glm::vec3& viewDir) {
+	this->matRotation = glm::lookAt(this->position, this->position + viewDir, vUp);
+	this->rotation = glm::vec4(glm::vec3(0.0f), 1.0f) * this->matRotation;
 	this->dirtyTransform = true;
 }
 
@@ -41,7 +47,7 @@ const glm::vec3& Transform::getScale() const {
 	return this->scale;
 }
 
-void Transform::setScale(const glm::vec3 & _scale) {
+void Transform::setScale(const glm::vec3& _scale) {
 	this->scale = _scale;
 	this->dirtyScale = true;
 	this->dirtyTransform = true;
