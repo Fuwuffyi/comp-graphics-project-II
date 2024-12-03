@@ -1,6 +1,6 @@
 #include "Window.hpp"
 #include "Vertex.hpp"
-#include "Mesh3D.hpp"
+#include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Transform.hpp"
 
@@ -43,7 +43,10 @@ int main() {
 	};
 	const Mesh3D m(verts, inds, GL_TRIANGLES);
 	const Shader testingShader("testing.frag.glsl", "testing.vert.glsl");
-	Transform testTransform(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Transform testTransform0(glm::vec3(-0.2f, -0.3f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
+	Transform testTransform1(glm::vec3(0.1f, 0.4f, 0.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
+	Transform testTransform2(glm::vec3(0.3f, -0.6f, 0.0f), glm::vec3(45.0f, 0.0f, 0.0f), glm::vec3(0.5f));
+	Transform testTransform3(glm::vec3(-0.5f, 0.2f, 0.0f), glm::vec3(0.0f, 0.0f, 45.0f), glm::vec3(0.5f));
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -59,13 +62,23 @@ int main() {
 		const double currTime = glfwGetTime();
 		const float deltaTime = static_cast<float>(currTime - prevTime);
 		prevTime = currTime;
-		testTransform.setRotation(testTransform.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 50.0f);
+		window.setTitle(windowName + " - " + std::to_string(1.0f / deltaTime) + " FPS");
+		testTransform0.setRotation(testTransform0.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 100.0f);
+		testTransform1.setRotation(testTransform1.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 100.0f);
+		testTransform2.setRotation(testTransform2.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 100.0f);
+		testTransform3.setRotation(testTransform3.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 100.0f);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
 		testingShader.activate();
-		testingShader.setUniformMatrix("objMatrix", testTransform.getTransformMatrix());
+		testingShader.setUniformMatrix("objMatrix", testTransform0.getTransformMatrix());
+		m.draw();
+		testingShader.setUniformMatrix("objMatrix", testTransform1.getTransformMatrix());
+		m.draw();
+		testingShader.setUniformMatrix("objMatrix", testTransform2.getTransformMatrix());
+		m.draw();
+		testingShader.setUniformMatrix("objMatrix", testTransform3.getTransformMatrix());
 		m.draw();
 		// End frame
 		window.swapBuffers();

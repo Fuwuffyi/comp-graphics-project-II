@@ -142,8 +142,6 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Mesh2D.cpp" />
-    <ClCompile Include="Mesh3D.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleBuffer.cpp" />
@@ -165,8 +163,6 @@
     <ClInclude Include="ElementBuffer.hpp" />
     <ClInclude Include="Keyboard.hpp" />
     <ClInclude Include="Mesh.hpp" />
-    <ClInclude Include="Mesh2D.hpp" />
-    <ClInclude Include="Mesh3D.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="SimpleBuffer.hpp" />
