@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
 
 class Transform {
 protected:
@@ -26,7 +25,6 @@ public:
 
 	const glm::vec3& getRotation() const;
 	void setRotation(const glm::vec3& rot);
-	void setRotation(const glm::vec3& vUp, const glm::vec3& viewDir);
 
 	const glm::vec3& getScale() const;
 	void setScale(const glm::vec3& _scale);

@@ -1,5 +1,6 @@
 #include "Transform.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 
 Transform::Transform(const glm::vec3& _position, const glm::vec3& _rotation, const glm::vec3& _scale) 
@@ -34,16 +35,6 @@ const glm::vec3& Transform::getRotation() const {
 void Transform::setRotation(const glm::vec3& rot) {
 	this->rotation = rot;
 	this->dirtyRotation = true;
-	this->dirtyTransform = true;
-}
-
-void Transform::setRotation(const glm::vec3& vUp, const glm::vec3& viewDir) {
-	// Calculate new matrix given the inputs
-	const glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0.0f), viewDir, vUp);
-	this->matRotation = glm::mat4(glm::mat3(viewMatrix));
-	// Get euler angles from quaternion
-	const glm::quat orientation = glm::quat_cast(this->matRotation);
-	this->rotation = glm::eulerAngles(orientation);
 	this->dirtyTransform = true;
 }
 
