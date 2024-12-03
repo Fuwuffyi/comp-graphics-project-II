@@ -7,6 +7,8 @@ private:
 	glm::mat4 projectionMatrix;
 	glm::mat4 cameraMatrix;
 
+	Transform transform;
+
 	bool dirtyProjection;
 	bool dirtyCamera;
 
@@ -31,8 +33,12 @@ public:
 	 * Creates a new camera at the given position.
 	 *
 	 * \param _transform The camera's transform.
+	 * \param _fov The camera's field of view.
+	 * \param _aspectRatio The camera's width/height ratio.
+	 * \param _near The near clip plane value.
+	 * \param _far The far clip plane value.
 	 */
-	Camera(const float _fov, const float _aspectRatio, const float _near, const float _far);
+	Camera(const Transform& _transform, const float _fov, const float _aspectRatio, const float _near, const float _far);
 
 	/**
 	 * Getter for the camera's projection matrix.

@@ -1,9 +1,10 @@
 #include "Camera.hpp"
 
-Camera::Camera(const float _fov, const float _aspectRatio, const float _near, const float _far)
+Camera::Camera(const Transform& _transform, const float _fov, const float _aspectRatio, const float _near, const float _far)
 	:
 	projectionMatrix(1.0f),
 	cameraMatrix(1.0f),
+	transform(_transform),
 	dirtyProjection(true),
 	dirtyCamera(true),
 	fov(_fov),
@@ -17,7 +18,7 @@ void Camera::updateProjectionMatrix() {
 }
 
 void Camera::updateCameraMatrix() {
-	this->cameraMatrix = glm::mat4(1.0f) * this->getProjectionMatrix();
+	this->cameraMatrix = this->transform.getTransformMatrix() * this->getProjectionMatrix();
 }
 
 const glm::mat4& Camera::getProjectionMatrix() {
