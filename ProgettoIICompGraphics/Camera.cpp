@@ -2,7 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Camera::Camera(const glm::vec3& pos, const glm::vec3& vUp, const glm::vec3& dir, const float _fov, const float _aspectRatio, const float _near, const float _far)
+Camera::Camera(const Transform& _transform, const glm::vec3& vUp, const float _fov, const float _aspectRatio, const float _near, const float _far)
 	:
 	viewMatrix(1.0f),
 	projectionMatrix(1.0f),
@@ -10,9 +10,8 @@ Camera::Camera(const glm::vec3& pos, const glm::vec3& vUp, const glm::vec3& dir,
 	dirtyView(true),
 	dirtyProjection(true),
 	dirtyCamera(true),
-	position(pos),
+	transform(_transform.getPosition(), _transform.getRotation()), // Make sure scale is default
 	vectorUp(vUp),
-	viewDir(dir),
 	fov(_fov),
 	aspectRatio(_aspectRatio),
 	near(_near),
@@ -20,7 +19,10 @@ Camera::Camera(const glm::vec3& pos, const glm::vec3& vUp, const glm::vec3& dir,
 {}
 
 void Camera::updateViewMatrix() {
-	this->viewMatrix = glm::lookAt(this->position, this->position + glm::normalize(this->viewDir), this->vectorUp);
+	const glm::vec3 cameraPos = this->transform.getPosition();
+	const glm::mat4 rotationMatrix = this->transform.getRotationMatrix();
+	const glm::vec3 viewDir = glm::normalize(glm::vec3(rotationMatrix * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f)));
+	this->viewMatrix = glm::lookAt(cameraPos, cameraPos + viewDir, this->vectorUp);
 }
 
 void Camera::updateProjectionMatrix() {
@@ -53,4 +55,8 @@ const glm::mat4& Camera::getCameraMatrix() {
 		this->dirtyCamera = false;
 	}
 	return this->cameraMatrix;
+}
+
+const Transform& Camera::getTransform() const {
+	return this->transform;
 }

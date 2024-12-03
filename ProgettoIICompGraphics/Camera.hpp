@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Transform.hpp"
 
 class Camera {
 private:
@@ -12,9 +12,8 @@ private:
 	bool dirtyProjection;
 	bool dirtyCamera;
 
-	glm::vec3 position;
+	Transform transform;
 	glm::vec3 vectorUp;
-	glm::vec3 viewDir;
 
 	float fov;
 	float aspectRatio;
@@ -41,15 +40,14 @@ public:
 	/**
 	 * Creates a new camera at the given position.
 	 *
-	 * \param pos The camera's position.
+	 * \param _transform The camera's transform properties.
 	 * \param vUp The camera's up vector.
-	 * \param dir The camera's view direction.
 	 * \param _fov The camera's field of view.
 	 * \param _aspectRatio The camera's width/height ratio.
 	 * \param _near The near clip plane value.
 	 * \param _far The far clip plane value.
 	 */
-	Camera(const glm::vec3& pos, const glm::vec3& vUp, const glm::vec3& dir, const float _fov, const float _aspectRatio, const float _near, const float _far);
+	Camera(const Transform& _transform, const glm::vec3& vUp, const float _fov, const float _aspectRatio, const float _near, const float _far);
 
 	/**
 	 * Getter for the camera's view matrix.
@@ -71,4 +69,11 @@ public:
 	 * \return The camera's combined matrix.
 	 */
 	const glm::mat4& getCameraMatrix();
+
+	/**
+	 * Getter for the camera's trasform.
+	 *
+	 * \return The camera's transform reference.
+	 */
+	const Transform& getTransform() const;
 };

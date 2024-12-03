@@ -27,7 +27,7 @@ int main() {
 	Window window(windowName, glm::uvec2(900, 900));
 	window.setWindowActive();
 	// Testing camera
-	Camera cam(glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), 90.0f, 1.0f, 0.01f, 100.0f);
+	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.1f, 100.0f);
 	// Testing mesh
 	std::vector<Vertex3D> verts = {
 		Vertex3D {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f) },

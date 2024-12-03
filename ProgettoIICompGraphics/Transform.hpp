@@ -18,7 +18,7 @@ protected:
 	bool dirtyRotation;
 	bool dirtyTransform;
 public:
-	Transform(const glm::vec3& _position, const glm::vec3& _rotation, const glm::vec3& _scale);
+	Transform(const glm::vec3& _position = glm::vec3(0.0f), const glm::vec3& _rotation = glm::vec3(0.0f), const glm::vec3& _scale = glm::vec3(1.0f));
 
 	const glm::vec3& getPosition() const;
 	void setPosition(const glm::vec3& pos);
