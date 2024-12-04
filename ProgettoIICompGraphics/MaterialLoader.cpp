@@ -141,11 +141,11 @@ Material* MaterialLoader::load(const std::string& materialAssetFileName) {
 }
 
 void MaterialLoader::unload(const std::string& materialName) {
-	if (loadedMaterials.find(materialName) == loadedMaterials.end()) {
+	auto it = loadedMaterials.find(materialName);
+	if (it == loadedMaterials.end()) {
 		return;
 	}
-	uint32_t& refCount = loadedMaterials.at(materialName).first;
-	if (--refCount == 0u) {
+	if (--it->second.first == 0u) {
 		loadedMaterials.erase(materialName);
 	}
 }
