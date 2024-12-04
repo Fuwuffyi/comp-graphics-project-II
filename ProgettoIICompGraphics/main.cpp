@@ -47,7 +47,7 @@ int main() {
 		3, 0, 4
 	};
 	const Mesh3D m(verts, inds, GL_TRIANGLES);
-	Shader* testingShader = ShaderLoader::load("testing", "assets/shaders/sources/testing.vert.glsl", "assets/shaders/sources/testing.frag.glsl");
+	Shader* testingShader = ShaderLoader::load("testing.shader");
 	Transform testTransform0(glm::vec3(-0.2f, -0.3f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	Transform testTransform1(glm::vec3(0.1f, 0.4f, 0.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
 	Transform testTransform2(glm::vec3(0.3f, -0.6f, 0.0f), glm::vec3(45.0f, 0.0f, 0.0f), glm::vec3(0.5f));
