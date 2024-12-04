@@ -29,14 +29,16 @@ private:
 	std::unordered_map<std::string, uint32_t> uniformLocations; // Contains all of the uniform variable locations
 public:
 	const uint32_t id;
+	const std::string vertexFile;
+	const std::string fragmentFile;
 
 	/**
 	 * Creates a new shader program from a fragment and vertex shader.
 	 *
-	 * \param vertexFile The vertex shader's file location.
-	 * \param fragmentFile The fragment shader's file location.
+	 * \param _vertexFile The vertex shader's file location.
+	 * \param _fragmentFile The fragment shader's file location.
 	 */
-	Shader(const std::string& vertexFile, const std::string& fragmentFile);
+	Shader(const std::string& _vertexFile, const std::string& _fragmentFile);
 
 	/**
 	 * Deallocates the GPU memory for this shader program.

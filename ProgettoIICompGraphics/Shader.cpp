@@ -40,13 +40,16 @@ void Shader::checkErrors(const std::string& shaderType, const uint32_t shaderId)
 	}
 }
 
-Shader::Shader(const std::string& vertexFile, const std::string& fragmentFile)
+Shader::Shader(const std::string& _vertexFile, const std::string& _fragmentFile)
 	:
-	id(glCreateProgram())
+	uniformLocations(),
+	id(glCreateProgram()),
+	vertexFile(_vertexFile),
+	fragmentFile(_fragmentFile)
 {
 	// Load shader source code to c style strings
-	const std::string vertCode = Shader::readShaderSource(vertexFile);
-	const std::string fragCode = Shader::readShaderSource(fragmentFile);
+	const std::string vertCode = Shader::readShaderSource(this->vertexFile);
+	const std::string fragCode = Shader::readShaderSource(this->fragmentFile);
 	const char* vertSource = vertCode.c_str();
 	const char* fragSource = fragCode.c_str();
 	// Compile vertex shader
