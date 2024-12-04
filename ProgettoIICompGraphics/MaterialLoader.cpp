@@ -114,34 +114,30 @@ std::tuple<std::string, bool, bool, std::unordered_map<std::string, Material::Ma
 }
 
 Material* MaterialLoader::load(const std::string& materialAssetFileName) {
+	// If no material, return a null pointer
 	if (materialAssetFileName.empty()) {
 		return nullptr;
 	}
+	// If already loaded, return reference of it
+	if (loadedMaterials.find(materialAssetFileName) != loadedMaterials.end()) {
+		++loadedMaterials.at(materialAssetFileName).first;
+		return &loadedMaterials.at(materialAssetFileName).second;
+	}
+	// Read the file
 	auto [shaderName, transparent, lit, propertyMap] = readMaterialAssetFile(materialAssetFileName + MATERIAL_ASSET_FILE_EXTENSION);
-	Shader* shader = ShaderLoader::get(shaderName);
-	if (shader == nullptr) {
-		shader = ShaderLoader::load(shaderName);
-	}
-	if (loadedMaterials.find(materialAssetFileName) == loadedMaterials.end()) {
-		loadedMaterials.emplace(
+	// Load the shader
+	Shader* shader = ShaderLoader::load(shaderName);
+	// Load the material
+	loadedMaterials.emplace(
+		std::piecewise_construct,
+		std::forward_as_tuple(materialAssetFileName),
+		std::forward_as_tuple(
 			std::piecewise_construct,
-			std::forward_as_tuple(materialAssetFileName),
-			std::forward_as_tuple(
-				std::piecewise_construct,
-				std::forward_as_tuple(0u),
-				std::forward_as_tuple(materialAssetFileName, shader, propertyMap, lit, transparent)
-			)
-		);
-	}
-	return get(materialAssetFileName);
-}
-
-Material* MaterialLoader::get(const std::string& materialName) {
-	if (loadedMaterials.find(materialName) == loadedMaterials.end()) {
-		return nullptr;
-	}
-	++loadedMaterials.at(materialName).first;
-	return &loadedMaterials.at(materialName).second;
+			std::forward_as_tuple(0u),
+			std::forward_as_tuple(materialAssetFileName, shader, propertyMap, lit, transparent)
+		)
+	);
+	return &loadedMaterials.at(materialAssetFileName).second;
 }
 
 void MaterialLoader::unload(const std::string& materialName) {

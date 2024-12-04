@@ -68,10 +68,18 @@ std::tuple<std::string, std::string> ShaderLoader::readShaderAssetFile(const std
 }
 
 Shader* ShaderLoader::load(const std::string& shaderAssetFileName) {
+	// Return null pointer if empty
 	if (shaderAssetFileName.empty()) {
 		return nullptr;
 	}
+	// If shader already loaded, return ref
+	if (loadedShaders.find(shaderAssetFileName) != loadedShaders.end()) {
+		++loadedShaders.at(shaderAssetFileName).first;
+		return &loadedShaders.at(shaderAssetFileName).second;
+	}
+	// Read shader file
 	auto [vertShaderFile, fragShaderFile] = readShaderAssetFile(shaderAssetFileName + SHADER_ASSET_FILE_EXTENSION);
+	// Load it
 	if (loadedShaders.find(shaderAssetFileName) == loadedShaders.end()) {
 		loadedShaders.emplace(
 			std::piecewise_construct,
@@ -83,23 +91,15 @@ Shader* ShaderLoader::load(const std::string& shaderAssetFileName) {
 			)
 		);
 	}
-	return get(shaderAssetFileName);
-}
-
-Shader* ShaderLoader::get(const std::string& shaderName) {
-	if (loadedShaders.find(shaderName) == loadedShaders.end()) {
-		return nullptr;
-	}
-	++loadedShaders.at(shaderName).first;
-	return &loadedShaders.at(shaderName).second;
+	return &loadedShaders.at(shaderAssetFileName).second;
 }
 
 void ShaderLoader::unload(const std::string& shaderName) {
-	if (loadedShaders.find(shaderName) == loadedShaders.end()) {
+	auto it = loadedShaders.find(shaderName);
+	if (it == loadedShaders.end()) {
 		return;
 	}
-	uint32_t& refCount = loadedShaders.at(shaderName).first;
-	if (--refCount == 0u) {
+	if (--it->second.first == 0u) {
 		loadedShaders.erase(shaderName);
 	}
 }
