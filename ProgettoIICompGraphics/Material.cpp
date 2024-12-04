@@ -4,12 +4,13 @@
 
 #include <stdexcept>
 
-Material::Material(Shader* _shader, const std::unordered_map<std::string, Material::MaterialValueType>& values, const bool _lit, const bool _transparent)
+Material::Material(const std::string& _name, Shader* _shader, const std::unordered_map<std::string, Material::MaterialValueType>& values, const bool _lit, const bool _transparent)
 	:
 	shader(_shader),
 	materialValues(values),
 	lit(_lit),
-	trasnparent(_transparent)
+	trasnparent(_transparent),
+	name(_name)
 {
 	if (this->shader == nullptr) {
 		std::runtime_error("The material has been initialized without a shader!");

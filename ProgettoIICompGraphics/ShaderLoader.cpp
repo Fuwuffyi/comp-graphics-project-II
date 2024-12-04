@@ -7,14 +7,15 @@
 #include <sstream>
 #include <fstream>
 
-static constexpr std::string_view SHADER_DIR = "assets/shaders/";
+static constexpr std::string_view SHADER_ASSET_DIR = "assets/shaders/";
+static constexpr std::string_view SHADER_ASSET_FILE_EXTENSION = ".shader";
 static constexpr std::string_view SHADER_SOURCE_DIR = "assets/shaders/sources/";
 
 namespace ShaderLoader {
 	static std::unordered_map<std::string, std::pair<uint32_t, Shader>> loadedShaders;
 
 	static std::string readShaderSource(const std::string& shaderFile);
-	static std::tuple<std::string, std::string, std::string> readShaderAssetFile(const std::string& shaderAssetFile);
+	static std::tuple<std::string, std::string> readShaderAssetFile(const std::string& shaderAssetFile);
 }
 
 std::string ShaderLoader::readShaderSource(const std::string& shaderFile) {
@@ -34,14 +35,14 @@ std::string ShaderLoader::readShaderSource(const std::string& shaderFile) {
 	return contents;
 }
 
-std::tuple<std::string, std::string, std::string> ShaderLoader::readShaderAssetFile(const std::string& shaderAssetFile) {
+std::tuple<std::string, std::string> ShaderLoader::readShaderAssetFile(const std::string& shaderAssetFile) {
 	// Open shader asset file
-	std::ifstream assetFile(std::string(SHADER_DIR) + shaderAssetFile);
+	std::ifstream assetFile(std::string(SHADER_ASSET_DIR) + shaderAssetFile);
 	if (!assetFile.is_open()) {
 		throw std::runtime_error("Failed to open shader asset file: " + shaderAssetFile);
 	}
 	// Prepare variables to output
-	std::string line, name, vertShaderFile, fragShaderFile;
+	std::string line, vertShaderFile, fragShaderFile;
 	while (std::getline(assetFile, line)) {
 		// Read all lines
 		std::istringstream iss(line);
@@ -49,39 +50,37 @@ std::tuple<std::string, std::string, std::string> ShaderLoader::readShaderAssetF
 		// Get the key value pairs of the shader file
 		iss >> key >> value;
 		// Check the indices
-		if (key == "name") {
-			name = value;
-		} else if (key == "vertex") {
+		if (key == "vertex") {
 			vertShaderFile = std::string(SHADER_SOURCE_DIR) + value;
 		} else if (key == "fragment") {
 			fragShaderFile = std::string(SHADER_SOURCE_DIR) + value;
 		}
 	}
 	// Exit if one of them is not present
-	if (name.empty() || vertShaderFile.empty() || fragShaderFile.empty()) {
+	if (vertShaderFile.empty() || fragShaderFile.empty()) {
 		throw std::runtime_error("Shader asset file missing required fields: " + shaderAssetFile);
 	}
 	// Return the values
-	return { name, vertShaderFile, fragShaderFile };
+	return { vertShaderFile, fragShaderFile };
 }
 
-Shader* ShaderLoader::load(const std::string& shaderAssetFile) {
-	if (shaderAssetFile.empty()) {
+Shader* ShaderLoader::load(const std::string& shaderAssetFileName) {
+	if (shaderAssetFileName.empty()) {
 		return nullptr;
 	}
-	auto [name, vertShaderFile, fragShaderFile] = readShaderAssetFile(shaderAssetFile);
-	if (loadedShaders.find(name) == loadedShaders.end()) {
+	auto [vertShaderFile, fragShaderFile] = readShaderAssetFile(shaderAssetFileName + std::string(SHADER_ASSET_FILE_EXTENSION));
+	if (loadedShaders.find(shaderAssetFileName) == loadedShaders.end()) {
 		loadedShaders.emplace(
 			std::piecewise_construct,
-			std::forward_as_tuple(name),
+			std::forward_as_tuple(shaderAssetFileName),
 			std::forward_as_tuple(
 				std::piecewise_construct,
 				std::forward_as_tuple(0u),
-				std::forward_as_tuple(name, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile))
+				std::forward_as_tuple(shaderAssetFileName, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile))
 			)
 		);
 	}
-	return get(name);
+	return get(shaderAssetFileName);
 }
 
 Shader* ShaderLoader::get(const std::string& shaderName) {
