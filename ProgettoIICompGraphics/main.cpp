@@ -47,19 +47,7 @@ int main() {
 		3, 0, 4
 	};
 	const Mesh3D m(verts, inds, GL_TRIANGLES);
-	Shader* testingShader = ShaderLoader::load("testing", "assets/shaders/testing.vert.glsl", "assets/shaders/testing.frag.glsl");
-	Material testingMaterial1(testingShader, {
-		{"testUniform", glm::vec4(1.0f, 0.2f, 0.0f, 1.0f)}
-	});
-	Material testingMaterial2(testingShader, {
-		{"testUniform", glm::vec4(1.0f, 0.2f, 0.2f, 1.0f)}
-	});
-	Material testingMaterial3(testingShader, {
-		{"testUniform", glm::vec4(1.0f, 0.4f, 0.0f, 1.0f)}
-	});
-	Material testingMaterial4(testingShader, {
-		{"testUniform", glm::vec4(1.0f, 0.2f, 0.6f, 1.0f)}
-	});
+	Shader* testingShader = ShaderLoader::load("testing", "assets/shaders/sources/testing.vert.glsl", "assets/shaders/sources/testing.frag.glsl");
 	Transform testTransform0(glm::vec3(-0.2f, -0.3f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	Transform testTransform1(glm::vec3(0.1f, 0.4f, 0.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
 	Transform testTransform2(glm::vec3(0.3f, -0.6f, 0.0f), glm::vec3(45.0f, 0.0f, 0.0f), glm::vec3(0.5f));
@@ -88,17 +76,15 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
-		testingMaterial1.activate();
+		testingShader->activate();
+		testingShader->setUniform("materialColor", glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
 		testingShader->setUniformMatrix("cameraMatrix", cam.getCameraMatrix());
 		testingShader->setUniformMatrix("objMatrix", testTransform0.getTransformMatrix());
 		m.draw();
-		testingMaterial2.activate();
 		testingShader->setUniformMatrix("objMatrix", testTransform1.getTransformMatrix());
 		m.draw();
-		testingMaterial3.activate();
 		testingShader->setUniformMatrix("objMatrix", testTransform2.getTransformMatrix());
 		m.draw();
-		testingMaterial4.activate();
 		testingShader->setUniformMatrix("objMatrix", testTransform3.getTransformMatrix());
 		m.draw();
 		// End frame
