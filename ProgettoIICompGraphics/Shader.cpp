@@ -4,23 +4,7 @@
 
 #include <glad/glad.h>
 
-#include <stdexcept>
-#include <fstream>
-#include <memory>
 #include <iostream>
-
-std::string Shader::readShaderSource(const std::string& shaderFile) {
-	std::ifstream file(shaderFile, std::ios::binary);
-	if (!file) {
-		throw std::runtime_error("Failed to open shader file");
-	}
-	file.seekg(0, std::ios::end);
-	const std::streamsize size = file.tellg();
-	file.seekg(0, std::ios::beg);
-	std::string contents(static_cast<uint64_t>(size), ' ');
-	file.read(&contents[0], static_cast<int64_t>(contents.size()));
-	return contents;
-}
 
 void Shader::checkErrors(const std::string& shaderType, const uint32_t shaderId) const {
 	// Check if shader has compiled successfully
@@ -40,18 +24,13 @@ void Shader::checkErrors(const std::string& shaderType, const uint32_t shaderId)
 	}
 }
 
-Shader::Shader(const std::string& _vertexFile, const std::string& _fragmentFile)
+Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource)
 	:
 	uniformLocations(),
-	id(glCreateProgram()),
-	vertexFile(_vertexFile),
-	fragmentFile(_fragmentFile)
+	id(glCreateProgram())
 {
-	// Load shader source code to c style strings
-	const std::string vertCode = Shader::readShaderSource(this->vertexFile);
-	const std::string fragCode = Shader::readShaderSource(this->fragmentFile);
-	const char* vertSource = vertCode.c_str();
-	const char* fragSource = fragCode.c_str();
+	const char* vertSource = vertexSource.c_str();
+	const char* fragSource = fragmentSource.c_str();
 	// Compile vertex shader
 	const uint32_t vertShader = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertShader, 1, &vertSource, nullptr);
@@ -75,14 +54,15 @@ Shader::Shader(const std::string& _vertexFile, const std::string& _fragmentFile)
 	int32_t maxUniformNameLength;
 	glGetProgramiv(this->id, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxUniformNameLength);
 	// Create buffer and loop through all uniforms to save them
-	const std::unique_ptr<GLchar[]> uniformName = std::make_unique<GLchar[]>(static_cast<uint64_t>(maxUniformNameLength));
+	char* uniformName = new char[static_cast<size_t>(maxUniformNameLength)];
 	for (uint32_t i = 0; i < static_cast<uint32_t>(numUniforms); ++i) {
 		int32_t size;
-		GLenum type;
-		glGetActiveUniform(this->id, i, maxUniformNameLength, nullptr, &size, &type, uniformName.get());
-		const int32_t loc = glGetUniformLocation(this->id, uniformName.get());
-		this->uniformLocations[uniformName.get()] = loc;
+		uint32_t type;
+		glGetActiveUniform(this->id, i, maxUniformNameLength, nullptr, &size, &type, uniformName);
+		const int32_t loc = glGetUniformLocation(this->id, uniformName);
+		this->uniformLocations[uniformName] = loc;
 	}
+	delete[] uniformName;
 }
 
 Shader::~Shader() {

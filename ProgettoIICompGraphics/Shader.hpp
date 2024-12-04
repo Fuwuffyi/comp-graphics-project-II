@@ -11,14 +11,6 @@
 class Shader {
 private:
 	/**
-	 * Reads the content of a file to compile the shader in OpenGL.
-	 *
-	 * \param shaderFile The file to read.
-	 * \return The string containing the source of the file.
-	 */
-	static std::string readShaderSource(const std::string& shaderFile);
-
-	/**
 	 * Checks and prints error of given shader sources.
 	 *
 	 * \param shaderType The type of the shader to log.
@@ -29,8 +21,6 @@ private:
 	std::unordered_map<std::string, uint32_t> uniformLocations; // Contains all of the uniform variable locations
 
 	uint32_t id;
-	std::string vertexFile;
-	std::string fragmentFile;
 public:
 	// Erase copy constructors, as it would break opengl
 	Shader(const Shader&) = delete;
@@ -40,10 +30,10 @@ public:
 	/**
 	 * Creates a new shader program from a fragment and vertex shader.
 	 *
-	 * \param _vertexFile The vertex shader's file location.
-	 * \param _fragmentFile The fragment shader's file location.
+	 * \param vertexSource The vertex shader's code.
+	 * \param fragmentSile The fragment shader's code.
 	 */
-	Shader(const std::string& _vertexFile, const std::string& _fragmentFile);
+	Shader(const std::string& vertexSource, const std::string& fragmentSile);
 
 	/**
 	 * Deallocates the GPU memory for this shader program.
