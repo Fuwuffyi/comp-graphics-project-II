@@ -16,7 +16,14 @@ Material::Material(Shader* _shader, const std::unordered_map<std::string, Materi
 	}
 }
 
+Material::~Material() {
+	this->shader = nullptr;
+}
+
 void Material::activate() const {
+	if (!this->shader) {
+		return;
+	}
 	this->shader->activate();
 	for (const std::pair<std::string, Material::MaterialValueType>& keyValuePair : this->materialValues) {
 		const std::string& uniformName = keyValuePair.first;

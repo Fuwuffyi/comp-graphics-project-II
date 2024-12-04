@@ -39,6 +39,12 @@ public:
 	Material(Shader* _shader, const std::unordered_map<std::string, MaterialValueType>& values, const bool _lit = false, const bool _transparent = false);
 
 	/**
+	 * Destructor for the material class.
+	 * 
+	 */
+	~Material();
+
+	/**
 	 * Checks if the material can be transparent.
 	 *
 	 * \return True if it is transparent.
