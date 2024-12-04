@@ -15,6 +15,10 @@ private:
 	static uint32_t generateBuffer();
 public:
 	const uint32_t id;
+	
+	// Erase copy constructors, as it would break opengl
+	VertexArray(const VertexArray&) = delete;
+	VertexArray& operator=(const VertexArray&) = delete;
 
 	/**
 	 * Creates a new VertexArray.

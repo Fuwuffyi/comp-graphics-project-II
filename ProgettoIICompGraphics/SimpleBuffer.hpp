@@ -18,6 +18,10 @@ public:
 	const uint32_t type;
 	const bool isDynamic;
 
+	// Erase copy constructors, as it would break opengl
+	SimpleBuffer(const SimpleBuffer&) = delete;
+	SimpleBuffer& operator=(const SimpleBuffer&) = delete;
+
 	/**
 	 * Constructore for the base class.
 	 *

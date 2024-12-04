@@ -27,6 +27,10 @@ static_assert(
 	"T must be either Vertex2D or Vertex3D."
 );
 public:
+	// Erase copy constructors, as it would break opengl
+	VertexBuffer(const VertexBuffer&) = delete;
+	VertexBuffer& operator=(const VertexBuffer&) = delete;
+
 	/**
 	 * Constructor for the vertex buffer.
 	 *

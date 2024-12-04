@@ -27,10 +27,15 @@ private:
 	void checkErrors(const std::string& shaderType, const uint32_t shaderId) const;
 
 	std::unordered_map<std::string, uint32_t> uniformLocations; // Contains all of the uniform variable locations
+
+	uint32_t id;
+	std::string vertexFile;
+	std::string fragmentFile;
 public:
-	const uint32_t id;
-	const std::string vertexFile;
-	const std::string fragmentFile;
+	// Erase copy constructors, as it would break opengl
+	Shader(const Shader&) = delete;
+	Shader& operator=(const Shader&) = delete;
+
 
 	/**
 	 * Creates a new shader program from a fragment and vertex shader.

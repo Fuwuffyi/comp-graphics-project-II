@@ -19,6 +19,10 @@ public:
 	const VertexBuffer<T> vbo;
 	const ElementBuffer ebo;
 public:
+	// Erase copy constructors, as it would break opengl
+	Mesh(const Mesh&) = delete;
+	Mesh& operator=(const Mesh&) = delete;
+
 	/**
 	 * Creates a mesh with the given data.
 	 *
