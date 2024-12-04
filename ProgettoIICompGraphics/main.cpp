@@ -2,10 +2,11 @@
 #include "Vertex.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"
-#include "ShaderLoader.hpp"
 #include "Transform.hpp"
 #include "Camera.hpp"
 #include "Material.hpp"
+#include "ShaderLoader.hpp"
+#include "MaterialLoader.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -47,6 +48,7 @@ int main() {
 		3, 0, 4
 	};
 	const Mesh3D m(verts, inds, GL_TRIANGLES);
+	Material* testingMaterial = MaterialLoader::load("testing");
 	Shader* testingShader = ShaderLoader::load("testing");
 	Transform testTransform0(glm::vec3(-0.2f, -0.3f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	Transform testTransform1(glm::vec3(0.1f, 0.4f, 0.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
@@ -76,8 +78,7 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
-		testingShader->activate();
-		testingShader->setUniform("materialColor", glm::vec4(1.0f, 0.5f, 0.0f, 1.0f));
+		testingMaterial->activate();
 		testingShader->setUniformMatrix("cameraMatrix", cam.getCameraMatrix());
 		testingShader->setUniformMatrix("objMatrix", testTransform0.getTransformMatrix());
 		m.draw();
@@ -91,6 +92,7 @@ int main() {
 		window.swapBuffers();
 		glfwPollEvents();
 	}
+	MaterialLoader::unloadAll();
 	ShaderLoader::unloadAll();
 	return EXIT_SUCCESS;
 }
