@@ -4,7 +4,6 @@
 
 #include <unordered_map>
 #include <stdexcept>
-#include <iostream>
 #include <sstream>
 #include <fstream>
 
@@ -70,10 +69,6 @@ Shader* ShaderLoader::load(const std::string& shaderAssetFile) {
 	if (shaderAssetFile.empty()) {
 		return nullptr;
 	}
-	std::ifstream assetFile(std::string(SHADER_DIR) + shaderAssetFile);
-	if (!assetFile.is_open()) {
-		throw std::runtime_error("Failed to open shader asset file: " + shaderAssetFile);
-	}
 	auto [name, vertShaderFile, fragShaderFile] = readShaderAssetFile(shaderAssetFile);
 	if (loadedShaders.find(name) == loadedShaders.end()) {
 		loadedShaders.emplace(
@@ -97,13 +92,13 @@ Shader* ShaderLoader::get(const std::string& shaderName) {
 	return &loadedShaders.at(shaderName).second;
 }
 
-void ShaderLoader::unload(const std::string& name) {
-	if (loadedShaders.find(name) == loadedShaders.end()) {
+void ShaderLoader::unload(const std::string& shaderName) {
+	if (loadedShaders.find(shaderName) == loadedShaders.end()) {
 		return;
 	}
-	uint32_t& refCount = loadedShaders.at(name).first;
+	uint32_t& refCount = loadedShaders.at(shaderName).first;
 	if (--refCount == 0u) {
-		loadedShaders.erase(name);
+		loadedShaders.erase(shaderName);
 	}
 }
 
