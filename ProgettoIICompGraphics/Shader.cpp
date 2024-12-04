@@ -24,9 +24,10 @@ void Shader::checkErrors(const std::string& shaderType, const uint32_t shaderId)
 	}
 }
 
-Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource)
+Shader::Shader(const std::string& _name, const std::string& vertexSource, const std::string& fragmentSource)
 	:
 	uniformLocations(),
+	name(_name),
 	id(glCreateProgram())
 {
 	const char* vertSource = vertexSource.c_str();
@@ -79,6 +80,10 @@ int32_t Shader::getUniformLocation(const std::string& uniform) const {
 		return it->second;
 	}
 	return -1;
+}
+
+const std::string& Shader::getName() const {
+	return this->name;
 }
 
 void Shader::setUniform(const std::string& uniformName, const float v) const {

@@ -25,15 +25,15 @@ std::string ShaderLoader::readShaderSource(const std::string& shaderFile) {
 	return contents;
 }
 
-Shader* ShaderLoader::load(const std::string& name, const std::string& vertShader, const std::string& fragShader) {
-	if (loadedShaders.find(name) == loadedShaders.end()) {
+Shader* ShaderLoader::load(const std::string& name, const std::string& vertShaderFile , const std::string& fragShaderFile) {
+	if (vertShaderFile.length() > 0 && fragShaderFile.length() > 0 && loadedShaders.find(name) == loadedShaders.end()) {
 		loadedShaders.emplace(
 			std::piecewise_construct,
 			std::forward_as_tuple(name),
 			std::forward_as_tuple(
 				std::piecewise_construct,
 				std::forward_as_tuple(0u),
-				std::forward_as_tuple(readShaderSource(vertShader), readShaderSource(fragShader))
+				std::forward_as_tuple(name, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile))
 			)
 		);
 	}

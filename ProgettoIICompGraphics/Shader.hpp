@@ -19,21 +19,22 @@ private:
 	void checkErrors(const std::string& shaderType, const uint32_t shaderId) const;
 
 	std::unordered_map<std::string, uint32_t> uniformLocations; // Contains all of the uniform variable locations
-
-	uint32_t id;
 public:
 	// Erase copy constructors, as it would break opengl
 	Shader(const Shader&) = delete;
 	Shader& operator=(const Shader&) = delete;
 
+	const std::string name;
+	const uint32_t id;
 
 	/**
 	 * Creates a new shader program from a fragment and vertex shader.
 	 *
+	 * \param The shader's name.
 	 * \param vertexSource The vertex shader's code.
 	 * \param fragmentSile The fragment shader's code.
 	 */
-	Shader(const std::string& vertexSource, const std::string& fragmentSile);
+	Shader(const std::string& _name, const std::string& vertexSource, const std::string& fragmentSile);
 
 	/**
 	 * Deallocates the GPU memory for this shader program.
@@ -54,6 +55,13 @@ public:
 	 * \return The uniform's location within the shader, -1 if it does not exist.
 	 */
 	int32_t getUniformLocation(const std::string& uniform) const;
+
+	/**
+	 * Getter for the shader's name.
+	 * 
+	 * \return The shader's name.
+	 */
+	const std::string& getName() const;
 
 	/**
 	 * Sets a uniform on the shader (provided the shader is active, and the uniform exists).
