@@ -1,3 +1,4 @@
-name Testing
-shader Testing
-materialColor 1.0 0.5 0.0 1.0
+shader testing
+transparent 0
+lit 0
+p materialColor 1.0 0.5 0.0 1.0

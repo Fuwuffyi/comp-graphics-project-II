@@ -31,6 +31,15 @@
     <Filter Include="Resource Files\textures">
       <UniqueIdentifier>{1d6c4697-b3f9-44d6-ab5a-6407deeddf4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\loaders">
+      <UniqueIdentifier>{17173d7d-163d-4cd3-8720-e4bead1c0a23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\loaders">
+      <UniqueIdentifier>{88597e10-b6e8-473d-ba90-6b644ddcf633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\sources">
+      <UniqueIdentifier>{69339335-b172-4802-9d22-762feeaa5551}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -97,7 +106,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShaderLoader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,16 +179,25 @@
     <ClInclude Include="Material.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="MaterialLoader.hpp">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
     <ClInclude Include="ShaderLoader.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\testing.frag.glsl">
+    <None Include="assets\shaders\sources\testing.frag.glsl">
+      <Filter>Resource Files\shaders\sources</Filter>
+    </None>
+    <None Include="assets\shaders\sources\testing.vert.glsl">
+      <Filter>Resource Files\shaders\sources</Filter>
+    </None>
+    <None Include="assets\shaders\testing.shader">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="assets\shaders\testing.vert.glsl">
-      <Filter>Resource Files\shaders</Filter>
+    <None Include="assets\materials\testing.material">
+      <Filter>Resource Files\materials</Filter>
     </None>
   </ItemGroup>
 </Project>

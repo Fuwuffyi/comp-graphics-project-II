@@ -150,6 +150,7 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialLoader.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Shader.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="ElementBuffer.hpp" />
     <ClInclude Include="Keyboard.hpp" />
+    <ClInclude Include="MaterialLoader.hpp" />
     <ClInclude Include="Material.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Mouse.hpp" />
@@ -186,8 +188,10 @@
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\testing.frag.glsl" />
-    <None Include="assets\shaders\testing.vert.glsl" />
+    <None Include="assets\materials\testing.material" />
+    <None Include="assets\shaders\sources\testing.frag.glsl" />
+    <None Include="assets\shaders\sources\testing.vert.glsl" />
+    <None Include="assets\shaders\testing.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
