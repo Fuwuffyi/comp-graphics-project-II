@@ -96,6 +96,9 @@
     <ClCompile Include="Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Keyboard.hpp">
@@ -162,6 +165,9 @@
       <Filter>Header Files\imgui</Filter>
     </ClInclude>
     <ClInclude Include="Material.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderLoader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
