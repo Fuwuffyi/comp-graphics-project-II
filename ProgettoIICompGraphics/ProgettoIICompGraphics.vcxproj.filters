@@ -43,6 +43,18 @@
     <Filter Include="Source Files\renderables">
       <UniqueIdentifier>{a4f1ff98-ad72-4850-b42b-38f5ab78706e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\buffers">
+      <UniqueIdentifier>{15ccd411-21a3-4fd7-ae01-9f252737ecc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\buffers">
+      <UniqueIdentifier>{a8d10d65-c38c-4247-b6c5-9426d115fd50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\io">
+      <UniqueIdentifier>{24bd1481-548a-4a13-89a1-634671b63151}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\io">
+      <UniqueIdentifier>{a9310456-4aec-4d05-8f4e-43e9a09852d2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,25 +63,7 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ElementBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
@@ -114,39 +108,39 @@
     <ClCompile Include="MaterialLoader.cpp">
       <Filter>Source Files\loaders</Filter>
     </ClCompile>
-    <ClCompile Include="AssimpTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MeshInstance.cpp">
       <Filter>Source Files\renderables</Filter>
     </ClCompile>
     <ClCompile Include="ModelInstance.cpp">
       <Filter>Source Files\renderables</Filter>
     </ClCompile>
+    <ClCompile Include="AssimpTest.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Source Files\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArray.cpp">
+      <Filter>Source Files\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleBuffer.cpp">
+      <Filter>Source Files\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="ElementBuffer.cpp">
+      <Filter>Source Files\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\io</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Keyboard.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleBuffer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ElementBuffer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBuffer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vertex.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexArray.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.hpp">
@@ -197,9 +191,6 @@
     <ClInclude Include="ShaderLoader.hpp">
       <Filter>Header Files\loaders</Filter>
     </ClInclude>
-    <ClInclude Include="AssimpTest.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IRenderable.hpp">
       <Filter>Header Files\renderables</Filter>
     </ClInclude>
@@ -208,6 +199,27 @@
     </ClInclude>
     <ClInclude Include="ModelInstance.hpp">
       <Filter>Header Files\renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpTest.hpp">
+      <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.hpp">
+      <Filter>Header Files\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArray.hpp">
+      <Filter>Header Files\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleBuffer.hpp">
+      <Filter>Header Files\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="ElementBuffer.hpp">
+      <Filter>Header Files\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.hpp">
+      <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.hpp">
+      <Filter>Header Files\io</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
