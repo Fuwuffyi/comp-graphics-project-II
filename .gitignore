@@ -401,3 +401,9 @@ FodyWeavers.xsd
 
 # Imgui ini
 imgui.ini
+
+# Keep assets
+!ProgettoIICompGraphics/assets/*
+!ProgettoIICompGraphics/assets/meshes/*
+!ProgettoIICompGraphics/assets/shaders/*
+!ProgettoIICompGraphics/assets/materials/*

@@ -76,11 +76,21 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\external\glfw\src\Debug;$(SolutionDir)\external\assimp\lib\Debug;$(SolutionDir)\external\assimp\contrib\zlib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;;zlibstaticd.libassimp-vc143-mtd.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>git submodule update --init --recursive
+cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)\external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
+cmake --build $(SolutionDir)external\glfw --config $(Configuration)
+cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)\external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
+cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -90,13 +100,23 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\external\glfw\src\Release;$(SolutionDir)\external\assimp\lib\Release;$(SolutionDir)\external\assimp\contrib\zlib\Release</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;zlibstatic.lib;assimp-vc143-mt.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>git submodule update --init --recursive
+cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)\external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
+cmake --build $(SolutionDir)external\glfw --config $(Configuration)
+cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)\external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
+cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -111,9 +131,16 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;assimp-vc142-mtd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\external\glfw\src\Debug;$(SolutionDir)\external\assimp\lib\Debug;$(SolutionDir)\external\assimp\contrib\zlib\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;;zlibstaticd.libassimp-vc143-mtd.lib</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>git submodule update --init --recursive
+cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)\external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
+cmake --build $(SolutionDir)external\glfw --config $(Configuration)
+cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)\external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
+cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -132,9 +159,16 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3_mt.lib;assimp-vc142-mt.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\dependencies\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;zlibstatic.lib;assimp-vc143-mt.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\external\glfw\src\Release;$(SolutionDir)\external\assimp\lib\Release;$(SolutionDir)\external\assimp\contrib\zlib\Release</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>git submodule update --init --recursive
+cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)\external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
+cmake --build $(SolutionDir)external\glfw --config $(Configuration)
+cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)\external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
+cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\external\imgui\backends\imgui_impl_glfw.cpp" />

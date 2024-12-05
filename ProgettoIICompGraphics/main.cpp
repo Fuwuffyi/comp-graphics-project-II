@@ -35,7 +35,7 @@ int main() {
 	// Testing camera
 	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.1f, 1000.0f);
 	// Testing mesh
-	const std::vector<Mesh3D *> meshes = importModel("assets/meshes/dragon_vrip.obj");
+	const std::vector<Mesh3D *> meshes = importModel("assets/meshes/dragon_vrip.ply");
 	Material* dragonMaterial = MaterialLoader::load("testing");
 	Shader* dragonShader = ShaderLoader::load("testing");
 	Transform dragonTrasnform(glm::vec3(0.0f, -1.5f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(14.0f));
