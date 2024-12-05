@@ -58,5 +58,6 @@ std::vector<Mesh3D *> importModel(const std::string& filePath) {
 		throw std::runtime_error("Failed to open mesh file: " + filePath);
 	}
     processNode(scene->mRootNode, scene, meshes);
+    importer.FreeScene();
 	return meshes;
 }
