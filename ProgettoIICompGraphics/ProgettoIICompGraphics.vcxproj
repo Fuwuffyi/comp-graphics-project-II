@@ -82,7 +82,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\external\glfw\src\Debug;$(SolutionDir)\external\assimp\lib\Debug;$(SolutionDir)\external\assimp\contrib\zlib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;;zlibstaticd.libassimp-vc143-mtd.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;zlibstaticd.lib;assimp-vc143-mtd.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>git submodule update --init --recursive
@@ -132,7 +132,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\external\glfw\src\Debug;$(SolutionDir)\external\assimp\lib\Debug;$(SolutionDir)\external\assimp\contrib\zlib\Debug</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;;zlibstaticd.libassimp-vc143-mtd.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;zlibstaticd.lib;assimp-vc143-mtd.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>git submodule update --init --recursive
