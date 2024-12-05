@@ -99,6 +99,7 @@ std::tuple<std::string, bool, bool, std::unordered_map<std::string, Material::Ma
 			}
 		}
 	}
+	assetFile.close();
 	// Exit if one of them is not present
 	if (shaderText.empty()) {
 		throw std::runtime_error("Missing shader in material asset: " + materialAssetFile);

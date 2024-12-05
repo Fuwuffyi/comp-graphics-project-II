@@ -35,6 +35,7 @@ std::string ShaderLoader::readShaderSource(const std::string& shaderFile) {
 	// Read file
 	std::string contents(static_cast<uint64_t>(size), ' ');
 	file.read(&contents[0], static_cast<int64_t>(contents.size()));
+	file.close();
 	return contents;
 }
 
@@ -56,6 +57,7 @@ std::tuple<std::string, std::string> ShaderLoader::readShaderAssetFile(const std
 			fragShaderFile = SHADER_SOURCE_DIR + value;
 		}
 	}
+	assetFile.close();
 	// Exit if one of them is not present
 	if (vertShaderFile.empty()) {
 		throw std::runtime_error("Missing vertex shader file in shader asset: " + shaderAssetFile);
