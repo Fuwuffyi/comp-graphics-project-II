@@ -19,9 +19,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Resource Files\meshes">
-      <UniqueIdentifier>{9a9c75b6-8014-493c-8b21-c546ffed68b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\shaders">
       <UniqueIdentifier>{18f6758d-10fd-4106-bf87-cb3bd3a1a4e7}</UniqueIdentifier>
     </Filter>
@@ -34,11 +31,17 @@
     <Filter Include="Header Files\loaders">
       <UniqueIdentifier>{17173d7d-163d-4cd3-8720-e4bead1c0a23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\shaders\sources">
+      <UniqueIdentifier>{69339335-b172-4802-9d22-762feeaa5551}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\loaders">
       <UniqueIdentifier>{88597e10-b6e8-473d-ba90-6b644ddcf633}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\shaders\sources">
-      <UniqueIdentifier>{69339335-b172-4802-9d22-762feeaa5551}</UniqueIdentifier>
+    <Filter Include="Header Files\renderables">
+      <UniqueIdentifier>{e9e0a6e5-01b8-474d-b02f-95fdfd7e5856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\renderables">
+      <UniqueIdentifier>{a4f1ff98-ad72-4850-b42b-38f5ab78706e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +113,15 @@
     </ClCompile>
     <ClCompile Include="MaterialLoader.cpp">
       <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="AssimpTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshInstance.cpp">
+      <Filter>Source Files\renderables</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelInstance.cpp">
+      <Filter>Source Files\renderables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +196,18 @@
     </ClInclude>
     <ClInclude Include="ShaderLoader.hpp">
       <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AssimpTest.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderable.hpp">
+      <Filter>Header Files\renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshInstance.hpp">
+      <Filter>Header Files\renderables</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelInstance.hpp">
+      <Filter>Header Files\renderables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

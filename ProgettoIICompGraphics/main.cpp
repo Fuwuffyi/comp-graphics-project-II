@@ -7,6 +7,9 @@
 #include "Material.hpp"
 #include "ShaderLoader.hpp"
 #include "MaterialLoader.hpp"
+#include "MeshInstance.hpp"
+
+#include "AssimpTest.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
 
@@ -30,30 +33,13 @@ int main() {
 	Window window(windowName, glm::uvec2(900, 900));
 	window.setWindowActive();
 	// Testing camera
-	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.1f, 100.0f);
+	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.1f, 1000.0f);
 	// Testing mesh
-	std::vector<Vertex3D> verts = {
-		Vertex3D {glm::vec3(-0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f) },
-		Vertex3D {glm::vec3(-0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.0f) },
-		Vertex3D {glm::vec3(0.5f, -0.5f, -0.5f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f) },
-		Vertex3D {glm::vec3(0.5f, -0.5f, 0.5f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(0.0f) },
-		Vertex3D {glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f) }
-	};
-	std::vector<uint32_t> inds = {
-		0, 2, 1,
-		0, 3, 2,
-		0, 1, 4,
-		1, 2, 4,
-		2, 3, 4,
-		3, 0, 4
-	};
-	const Mesh3D m(verts, inds, GL_TRIANGLES);
-	Material* testingMaterial = MaterialLoader::load("testing");
-	Shader* testingShader = ShaderLoader::load("testing");
-	Transform testTransform0(glm::vec3(-0.2f, -0.3f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	Transform testTransform1(glm::vec3(0.1f, 0.4f, 0.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
-	Transform testTransform2(glm::vec3(0.3f, -0.6f, 0.0f), glm::vec3(45.0f, 0.0f, 0.0f), glm::vec3(0.5f));
-	Transform testTransform3(glm::vec3(-0.5f, 0.2f, 0.0f), glm::vec3(0.0f, 0.0f, 45.0f), glm::vec3(0.5f));
+	const std::vector<Mesh3D *> meshes = importModel("assets/meshes/dragon_vrip.obj");
+	Material* dragonMaterial = MaterialLoader::load("testing");
+	Shader* dragonShader = ShaderLoader::load("testing");
+	Transform dragonTrasnform(glm::vec3(0.0f, -1.5f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(14.0f));
+	MeshInstance3D instance(meshes[0], dragonMaterial, dragonTrasnform);
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -70,29 +56,25 @@ int main() {
 		const float deltaTime = static_cast<float>(currTime - prevTime);
 		prevTime = currTime;
 		window.setTitle(windowName + " - " + std::to_string(1.0f / deltaTime) + " FPS");
-		testTransform0.setRotation(testTransform0.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 100.0f);
-		testTransform1.setRotation(testTransform1.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 100.0f);
-		testTransform2.setRotation(testTransform2.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 100.0f);
-		testTransform3.setRotation(testTransform3.getRotation() + glm::vec3(0.3f, 1.0f, 0.2f) * deltaTime * 100.0f);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
-		testingMaterial->activate();
-		testingShader->setUniformMatrix("cameraMatrix", cam.getCameraMatrix());
-		testingShader->setUniformMatrix("objMatrix", testTransform0.getTransformMatrix());
-		m.draw();
-		testingShader->setUniformMatrix("objMatrix", testTransform1.getTransformMatrix());
-		m.draw();
-		testingShader->setUniformMatrix("objMatrix", testTransform2.getTransformMatrix());
-		m.draw();
-		testingShader->setUniformMatrix("objMatrix", testTransform3.getTransformMatrix());
-		m.draw();
+		auto drawables = instance.getDrawables();
+		for (auto [meshPtr, materialPtr, transform] : drawables) {
+			materialPtr->activate();
+			dragonShader->setUniformMatrix("cameraMatrix", cam.getCameraMatrix());
+			dragonShader->setUniformMatrix("objMatrix", transform);
+			meshPtr->draw();
+		}
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();
 	}
 	MaterialLoader::unloadAll();
 	ShaderLoader::unloadAll();
+	for (const Mesh3D* m : meshes) {
+		delete m;
+	}
 	return EXIT_SUCCESS;
 }
