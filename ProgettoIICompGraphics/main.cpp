@@ -35,10 +35,10 @@ int main() {
 	// Testing camera
 	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.1f, 1000.0f);
 	// Testing mesh
-	const std::vector<Mesh3D *> meshes = importModel("assets/meshes/dragon_vrip.ply");
+	const std::vector<Mesh3D *> meshes = importModel("assets/meshes/pot.obj");
 	Material* dragonMaterial = MaterialLoader::load("testing");
 	Shader* dragonShader = ShaderLoader::load("testing");
-	Transform dragonTrasnform(glm::vec3(0.0f, -1.5f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(14.0f));
+	Transform dragonTrasnform(glm::vec3(0.0f, -1.5f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.7f));
 	MeshInstance3D instance(meshes[0], dragonMaterial, dragonTrasnform);
 	// Enable blending
 	glEnable(GL_BLEND);
@@ -57,24 +57,24 @@ int main() {
 		prevTime = currTime;
 		window.setTitle(windowName + " - " + std::to_string(1.0f / deltaTime) + " FPS");
 		// Clear buffers
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
 		auto drawables = instance.getDrawables();
 		for (auto [meshPtr, materialPtr, transform] : drawables) {
 			materialPtr->activate();
 			dragonShader->setUniformMatrix("cameraMatrix", cam.getCameraMatrix());
-			dragonShader->setUniformMatrix("objMatrix", transform);
+			dragonShader->setUniformMatrix("objMatrix", transform->getTransformMatrix());
 			meshPtr->draw();
 		}
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();
 	}
-	MaterialLoader::unloadAll();
-	ShaderLoader::unloadAll();
 	for (const Mesh3D* m : meshes) {
 		delete m;
 	}
+	MaterialLoader::unloadAll();
+	ShaderLoader::unloadAll();
 	return EXIT_SUCCESS;
 }

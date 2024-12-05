@@ -7,7 +7,6 @@
 
 #include <glad/glad.h>
 #include <stdexcept>
-#include <iostream>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

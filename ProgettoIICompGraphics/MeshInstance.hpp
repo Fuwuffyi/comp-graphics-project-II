@@ -15,7 +15,7 @@ private:
 public:
 	MeshInstance(Mesh<T>* _mesh, Material* _material, const Transform& _transform);
 
-	std::vector<std::tuple<Mesh<T> *, Material *, const glm::mat4&>> getDrawables() override;
+	std::vector<std::tuple<Mesh<T>*, Material*, Transform*>> getDrawables() override;
 };
 
 using MeshInstance2D = MeshInstance<Vertex2D>;

@@ -7,10 +7,10 @@ ModelInstance<T>::ModelInstance(const std::vector<MeshInstance<T>>& _meshInstanc
 {}
 
 template <typename T>
-std::vector<std::tuple<Mesh<T>*, Material*, const glm::mat4&>> ModelInstance<T>::getDrawables() {
-	std::vector<std::tuple<Mesh<T>*, Material*, const glm::mat4&>> drawables;
+std::vector<std::tuple<Mesh<T>*, Material*, Transform*>> ModelInstance<T>::getDrawables() {
+	std::vector<std::tuple<Mesh<T>*, Material*, Transform*>> drawables;
 	for (MeshInstance& instance : this->meshInstances) {
-		const std::vector<std::tuple<Mesh<T>*, Material*, const glm::mat4&>> instanceDrawables = instance.getDrawables();
+		const std::vector<std::tuple<Mesh<T>*, Material*, Transform*>> instanceDrawables = instance.getDrawables();
 		drawables.insert(drawables.end(), instanceDrawables.begin(), instanceDrawables.end());
 	}
 	return drawables;

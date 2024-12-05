@@ -12,8 +12,8 @@ MeshInstance<T>::MeshInstance(Mesh<T>* _mesh, Material* _material, const Transfo
 {}
 
 template <typename T>
-std::vector<std::tuple<Mesh<T>*, Material*, const glm::mat4&>> MeshInstance<T>::getDrawables() {
-	return std::vector<std::tuple<Mesh<T> *, Material*, const glm::mat4&>>({ std::make_tuple(this->mesh, this->material, this->transform.getTransformMatrix()) });
+std::vector<std::tuple<Mesh<T>*, Material*, Transform*>> MeshInstance<T>::getDrawables() {
+	return std::vector<std::tuple<Mesh<T>*, Material*, Transform*>>({ std::make_tuple(this->mesh, this->material, &this->transform) });
 };
 
 template class MeshInstance<Vertex2D>;
