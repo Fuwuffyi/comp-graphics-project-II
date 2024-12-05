@@ -1,8 +1,5 @@
-#include "AssimpTest.hpp"
+#include "MeshLoader.hpp"
 
-// TODO: change this file!!!
-
-#include "Mesh.hpp"
 #include "Vertex.hpp"
 
 #include <glad/glad.h>
@@ -12,7 +9,12 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-static Mesh3D* processMesh(aiMesh* mesh, const aiScene* scene) {
+namespace MeshLoader {
+    static Mesh3D* processMesh(aiMesh* mesh, const aiScene* scene);
+    static void processNode(aiNode* node, const aiScene* scene, std::vector<Mesh3D*>& meshesOutput);
+}
+
+Mesh3D* MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene) {
     std::vector<Vertex3D> vertices;
     std::vector<uint32_t> indices;
 
@@ -37,7 +39,7 @@ static Mesh3D* processMesh(aiMesh* mesh, const aiScene* scene) {
     return new Mesh3D(vertices, indices, GL_TRIANGLES);
 }
 
-static void processNode(aiNode* node, const aiScene* scene, std::vector<Mesh3D *>& meshesOutput) {
+void MeshLoader::processNode(aiNode* node, const aiScene* scene, std::vector<Mesh3D *>& meshesOutput) {
     // process all the node's meshes (if any)
     for (uint32_t i = 0; i < node->mNumMeshes; ++i) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -49,12 +51,12 @@ static void processNode(aiNode* node, const aiScene* scene, std::vector<Mesh3D *
     }
 }
 
-std::vector<Mesh3D *> importModel(const std::string& filePath) {
+std::vector<Mesh3D *> MeshLoader::loadMesh(const std::string& fileName) {
 	std::vector<Mesh3D *> meshes;
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(filePath, aiProcess_OptimizeMeshes | aiProcess_GenNormals | aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeMeshes | aiProcess_GenNormals | aiProcess_Triangulate | aiProcess_FlipUVs);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-		throw std::runtime_error("Failed to open mesh file: " + filePath);
+		throw std::runtime_error("Failed to open mesh file: " + fileName);
 	}
     processNode(scene->mRootNode, scene, meshes);
     importer.FreeScene();

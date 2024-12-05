@@ -12,7 +12,7 @@ private:
 public:
 	ModelInstance(const std::vector<MeshInstance<T>>& _meshInstances);
 
-	std::vector<std::tuple<Mesh<T>*, Material*, Transform*>> getDrawables() override;
+	std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>> getDrawables() override;
 };
 
 using ModelInstance2D = ModelInstance<Vertex2D>;

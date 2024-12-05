@@ -111,7 +111,7 @@
     <ClCompile Include="ModelInstance.cpp">
       <Filter>Source Files\renderables</Filter>
     </ClCompile>
-    <ClCompile Include="AssimpTest.cpp">
+    <ClCompile Include="MeshLoader.cpp">
       <Filter>Source Files\loaders</Filter>
     </ClCompile>
     <ClCompile Include="VertexBuffer.cpp">
@@ -197,7 +197,7 @@
     <ClInclude Include="ModelInstance.hpp">
       <Filter>Header Files\renderables</Filter>
     </ClInclude>
-    <ClInclude Include="AssimpTest.hpp">
+    <ClInclude Include="MeshLoader.hpp">
       <Filter>Header Files\loaders</Filter>
     </ClInclude>
     <ClInclude Include="VertexBuffer.hpp">

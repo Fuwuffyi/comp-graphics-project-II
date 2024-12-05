@@ -11,6 +11,5 @@ class Mesh;
 
 template <typename T>
 class IRenderable {
-
-	virtual std::vector<std::tuple<Mesh<T>*, Material*, Transform*>> getDrawables() = 0;
+	virtual std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>> getDrawables() = 0;
 };
