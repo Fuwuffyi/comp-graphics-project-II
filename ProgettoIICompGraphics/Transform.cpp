@@ -102,18 +102,3 @@ void Transform::updatePositionMatrix() {
 void Transform::updateScaleMatrix() {
 	this->matScale = glm::scale(glm::mat4(1.0f), this->scale);
 }
-
-Transform Transform::operator+(Transform const& rhs) const {
-	return Transform(this->position + rhs.position, this->rotation + rhs.rotation, this->scale * rhs.scale);
-}
-
-Transform& Transform::operator+=(Transform const& rhs) {
-	this->dirtyPosition = true;
-	this->dirtyRotation = true;
-	this->dirtyScale = true;
-	this->dirtyTransform = true;
-	this->position += rhs.position;
-	this->rotation += rhs.rotation;
-	this->scale *= rhs.scale;
-	return *this;
-}

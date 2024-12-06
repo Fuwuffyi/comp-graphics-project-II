@@ -13,7 +13,7 @@ std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>> ModelInstance<T>::getDra
 	for (MeshInstance<T>& instance : this->meshInstances) {
 		std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>> instanceDrawables = instance.getDrawables();
 		for (auto& [meshPtr, materialPtr, modelMatrix] : instanceDrawables) {
-			modelMatrix = (instance.getTransform() + this->transform).getTransformMatrix();
+			modelMatrix = this->transform.getTransformMatrix() * instance.getMutableTransform().getTransformMatrix();
 		}
 		drawables.insert(drawables.end(), instanceDrawables.begin(), instanceDrawables.end());
 	}

@@ -38,10 +38,10 @@ int main() {
 	const std::vector<Mesh3D *> meshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
 	Material* dragonMaterial = MaterialLoader::load("testing");
 	Shader* dragonShader = ShaderLoader::load("testing");
-	Transform dragonTrasnformA(glm::vec3(0.0f, 0.0f, 0.5f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(1.0f));
-	Transform dragonTrasnformB(glm::vec3(0.0f, 0.0f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-	Transform dragonTrasnformC(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f));
-	Transform dragonTrasnformD(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f, 270.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonTrasnformA(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonTrasnformB(glm::vec3(0.0f, 0.0f, -0.25f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonTrasnformC(glm::vec3(0.25f, 0.0f, 0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonTrasnformD(glm::vec3(-0.25f, 0.0f, 0.0f), glm::vec3(0.0f, 270.0f, 0.0f), glm::vec3(1.0f));
 	Transform dragonsTransform(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(6.0f));
 	MeshInstance3D instanceA(meshes[0], dragonMaterial, dragonTrasnformA);
 	MeshInstance3D instanceB(meshes[0], dragonMaterial, dragonTrasnformB);
@@ -64,7 +64,7 @@ int main() {
 		const float deltaTime = static_cast<float>(currTime - prevTime);
 		prevTime = currTime;
 		window.setTitle(windowName + " - " + std::to_string(1.0f / deltaTime) + " FPS");
-		instance.getMutableTransform().setRotation(glm::vec3(0.0f, 1.0f, 0.0f) * (float)glfwGetTime() * 300.0f);
+		instance.getMutableTransform().setRotation(glm::vec3(0.0f, 1.0f, 0.0f) * (float)glfwGetTime() * 100.0f);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
