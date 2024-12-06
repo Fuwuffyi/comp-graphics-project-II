@@ -237,10 +237,13 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClInclude Include="Window.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\materials\testing.material" />
-    <None Include="assets\shaders\sources\testing.frag.glsl" />
-    <None Include="assets\shaders\sources\testing.vert.glsl" />
-    <None Include="assets\shaders\testing.shader" />
+    <None Include="assets\materials\blinn_phong.material" />
+    <None Include="assets\materials\phong.material" />
+    <None Include="assets\shaders\blinn_phong.shader" />
+    <None Include="assets\shaders\phong.shader" />
+    <None Include="assets\shaders\sources\base.vert.glsl" />
+    <None Include="assets\shaders\sources\blinn_phong.frag.glsl" />
+    <None Include="assets\shaders\sources\phong.frag.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

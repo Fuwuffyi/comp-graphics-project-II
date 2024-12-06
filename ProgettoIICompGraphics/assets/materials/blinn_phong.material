@@ -1,0 +1,4 @@
+shader blinn_phong
+transparent 0
+lit 1
+p materialColor vec4 0.0 1.0 1.0 1.0

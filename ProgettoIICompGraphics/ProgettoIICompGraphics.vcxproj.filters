@@ -247,17 +247,26 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\shaders\sources\testing.frag.glsl">
-      <Filter>Resource Files\shaders\sources</Filter>
+    <None Include="assets\materials\blinn_phong.material">
+      <Filter>Resource Files\materials</Filter>
     </None>
-    <None Include="assets\shaders\sources\testing.vert.glsl">
-      <Filter>Resource Files\shaders\sources</Filter>
+    <None Include="assets\materials\phong.material">
+      <Filter>Resource Files\materials</Filter>
     </None>
-    <None Include="assets\shaders\testing.shader">
+    <None Include="assets\shaders\blinn_phong.shader">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="assets\materials\testing.material">
-      <Filter>Resource Files\materials</Filter>
+    <None Include="assets\shaders\phong.shader">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\sources\base.vert.glsl">
+      <Filter>Resource Files\shaders\sources</Filter>
+    </None>
+    <None Include="assets\shaders\sources\blinn_phong.frag.glsl">
+      <Filter>Resource Files\shaders\sources</Filter>
+    </None>
+    <None Include="assets\shaders\sources\phong.frag.glsl">
+      <Filter>Resource Files\shaders\sources</Filter>
     </None>
   </ItemGroup>
 </Project>

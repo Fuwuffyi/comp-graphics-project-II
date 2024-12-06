@@ -3,7 +3,6 @@
 #include "Mesh.hpp"
 #include "Transform.hpp"
 #include "Camera.hpp"
-#include "Shader.hpp"
 #include "Material.hpp"
 #include "ShaderLoader.hpp"
 #include "MaterialLoader.hpp"
@@ -107,17 +106,17 @@ int main() {
 	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.1f, 1000.0f);
 	// Testing mesh
 	const std::vector<Mesh *> meshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
-	Material* dragonMaterial = MaterialLoader::load("testing");
-	Shader* dragonShader = ShaderLoader::load("testing");
-	Transform dragonTrasnformA(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(1.0f));
-	Transform dragonTrasnformB(glm::vec3(0.0f, 0.0f, -0.25f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Material* dragonMaterialPhong = MaterialLoader::load("phong");
+	Material* dragonMaterialBlinn = MaterialLoader::load("blinn_phong");
+	Transform dragonTrasnformA(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonTrasnformB(glm::vec3(0.0f, 0.0f, -0.25f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(1.0f));
 	Transform dragonTrasnformC(glm::vec3(0.25f, 0.0f, 0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f));
 	Transform dragonTrasnformD(glm::vec3(-0.25f, 0.0f, 0.0f), glm::vec3(0.0f, 270.0f, 0.0f), glm::vec3(1.0f));
 	Transform dragonsTransform(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(6.0f));
-	MeshInstance instanceA(meshes[0], dragonMaterial, dragonTrasnformA);
-	MeshInstance instanceB(meshes[0], dragonMaterial, dragonTrasnformB);
-	MeshInstance instanceC(meshes[0], dragonMaterial, dragonTrasnformC);
-	MeshInstance instanceD(meshes[0], dragonMaterial, dragonTrasnformD);
+	MeshInstance instanceA(meshes[0], dragonMaterialBlinn, dragonTrasnformA);
+	MeshInstance instanceB(meshes[0], dragonMaterialPhong, dragonTrasnformB);
+	MeshInstance instanceC(meshes[0], dragonMaterialBlinn, dragonTrasnformC);
+	MeshInstance instanceD(meshes[0], dragonMaterialPhong, dragonTrasnformD);
 	ModelInstance instance(std::vector<MeshInstance>({ instanceA, instanceB, instanceC, instanceD }), dragonsTransform);
 	// Enable blending
 	glEnable(GL_BLEND);

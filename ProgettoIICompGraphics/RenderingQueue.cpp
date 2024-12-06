@@ -29,6 +29,7 @@ void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& view
 	// Render all objects
 	for (auto [meshPtr, materialPtr, model] : this->renderables) {
 		materialPtr->activate();
+		materialPtr->getShader()->setUniform("cameraPosition", viewPoint);
 		materialPtr->getShader()->setUniformMatrix("cameraMatrix", cameraMatrix);
 		materialPtr->getShader()->setUniformMatrix("objMatrix", model);
 		meshPtr->draw();
