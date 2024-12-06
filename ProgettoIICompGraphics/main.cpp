@@ -10,7 +10,7 @@
 #include "MeshInstance.hpp"
 #include "ModelInstance.hpp"
 #include "MeshLoader.hpp"
-#include "RenderingQueue.hpp"
+#include "Renderer.hpp"
 
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
@@ -119,8 +119,6 @@ int main() {
 	MeshInstance instanceC(meshes[0], dragonMaterial, dragonTrasnformC);
 	MeshInstance instanceD(meshes[0], dragonMaterial, dragonTrasnformD);
 	ModelInstance instance(std::vector<MeshInstance>({ instanceA, instanceB, instanceC, instanceD }), dragonsTransform);
-	RenderingQueue queue;
-	queue.addRenderable(&instance);
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -142,11 +140,12 @@ int main() {
 		cameraControls(cam, window, deltaTime);
 		// Dragons rotation stuff
 		instance.getMutableTransform().setRotation(glm::vec3(0.0f, 1.0f, 0.0f) * (float)glfwGetTime() * 100.0f);
+		Renderer::addToRenderingQueues(&instance);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
-		queue.render(cam.getCameraMatrix(), cam.getTransform().getPosition());
+		Renderer::renderAll(cam.getCameraMatrix(), cam.getTransform().getPosition());
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();

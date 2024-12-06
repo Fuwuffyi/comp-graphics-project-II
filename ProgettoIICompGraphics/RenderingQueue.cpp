@@ -13,19 +13,13 @@ RenderingQueue::RenderingQueue(const bool _closestFirst)
 	renderables()
 {}
 
-void RenderingQueue::addRenderable(IRenderable* renderable) {
-	this->renderables.emplace_back(renderable);
+void RenderingQueue::addRenderable(Mesh* mesh, Material* material, const glm::mat4& modelMatrix) {
+	this->renderables.emplace_back(std::make_tuple(mesh, material, modelMatrix));
 }
 
 void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& viewPoint) {
-	std::vector<std::tuple<Mesh*, Material*, glm::mat4>> allRenderingObjects;
-	// Get all rendering objects
-	for (IRenderable* renderable : this->renderables) {
-		auto drawables = renderable->getDrawables();
-		allRenderingObjects.insert(allRenderingObjects.end(), drawables.begin(), drawables.end());
-	}
 	// Sort objects for quick rendering
-	std::sort(allRenderingObjects.begin(), allRenderingObjects.end(), [this, &viewPoint](const auto& first, const auto& second) {
+	std::sort(this->renderables.begin(), this->renderables.end(), [this, &viewPoint](const auto& first, const auto& second) {
 		const glm::vec3 position1 = glm::vec3(std::get<2>(first)[3]);
 		const glm::vec3 position2 = glm::vec3(std::get<2>(second)[3]);
 		return this->closestFirst 
@@ -33,10 +27,14 @@ void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& view
 			: glm::distance(position1, viewPoint) > glm::distance(position2, viewPoint);
 	});
 	// Render all objects
-	for (auto [meshPtr, materialPtr, model] : allRenderingObjects) {
+	for (auto [meshPtr, materialPtr, model] : this->renderables) {
 		materialPtr->activate();
 		materialPtr->getShader()->setUniformMatrix("cameraMatrix", cameraMatrix);
 		materialPtr->getShader()->setUniformMatrix("objMatrix", model);
 		meshPtr->draw();
 	}
+}
+
+void RenderingQueue::clear() {
+	this->renderables.clear();
 }
