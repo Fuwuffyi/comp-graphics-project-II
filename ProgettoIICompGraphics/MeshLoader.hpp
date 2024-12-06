@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Mesh.hpp"
-
 #include <string>
 #include <vector>
 
+class Mesh;
+
 namespace MeshLoader {
-	std::vector<Mesh3D*> loadMesh(const std::string& fileName);
+	std::vector<Mesh *> loadMesh(const std::string& fileName);
 }

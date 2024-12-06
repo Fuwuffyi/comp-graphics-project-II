@@ -194,6 +194,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClCompile Include="MeshInstance.cpp" />
     <ClCompile Include="ModelInstance.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="RenderingQueue.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SimpleBuffer.cpp" />
@@ -223,6 +224,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClInclude Include="ModelInstance.hpp" />
     <ClInclude Include="Mouse.hpp" />
     <ClInclude Include="IRenderable.hpp" />
+    <ClInclude Include="RenderingQueue.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="ShaderLoader.hpp" />
     <ClInclude Include="SimpleBuffer.hpp" />

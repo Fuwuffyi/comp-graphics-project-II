@@ -4,19 +4,14 @@
 #include "VertexBuffer.hpp"
 #include "ElementBuffer.hpp"
 
-/**
- * Contains data on how to draw properly a mesh's data.
- * \tparam T The vertex type of the mesh (only implemented for Vertex2D and Vertex3D).
- */
-template <typename T>
 class Mesh {
 protected:
-	std::vector<T> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 public:
 	const uint32_t drawType;
 	const VertexArray vao;
-	const VertexBuffer<T> vbo;
+	const VertexBuffer vbo;
 	const ElementBuffer ebo;
 public:
 	// Erase copy constructors, as it would break opengl
@@ -30,7 +25,7 @@ public:
 	 * \param indices The indices to connect those vertices.
 	 * \param _drawType The type of OpenGL shape it will draw.
 	 */
-	Mesh(const std::vector<T>& vertices, const std::vector<uint32_t>& indices, const uint32_t _drawType);
+	Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, const uint32_t _drawType);
 
 	/**
 	 * Draws the object to the screen.
@@ -42,8 +37,5 @@ private:
 	 * Function to set the VAO vertices' attributes.
 	 *
 	 */
-	void setVertexArrayAttributes() const;
+	virtual void setVertexArrayAttributes() const;
 };
-
-using Mesh2D = Mesh<Vertex2D>;
-using Mesh3D = Mesh<Vertex3D>;

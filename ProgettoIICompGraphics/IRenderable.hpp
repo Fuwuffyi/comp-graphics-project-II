@@ -6,10 +6,9 @@
 class Transform;
 class Material;
 
-template <typename T>
 class Mesh;
 
-template <typename T>
 class IRenderable {
-	virtual std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>> getDrawables() = 0;
+public:
+	virtual std::vector<std::tuple<Mesh *, Material*, glm::mat4>> getDrawables() = 0;
 };

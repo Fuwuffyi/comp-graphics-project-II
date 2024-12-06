@@ -3,28 +3,21 @@
 #include "Transform.hpp"
 #include "Mesh.hpp"
 
-template <typename T>
-MeshInstance<T>::MeshInstance(Mesh<T>* _mesh, Material* _material, const Transform& _transform)
+MeshInstance::MeshInstance(Mesh * _mesh, Material* _material, const Transform& _transform)
 	:
 	mesh(_mesh),
 	material(_material),
 	transform(_transform)
 {}
 
-template <typename T>
-std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>> MeshInstance<T>::getDrawables() {
-	return std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>>({ std::make_tuple(this->mesh, this->material, this->transform.getTransformMatrix()) });
+std::vector<std::tuple<Mesh *, Material*, glm::mat4>> MeshInstance::getDrawables() {
+	return std::vector<std::tuple<Mesh *, Material*, glm::mat4>>({ std::make_tuple(this->mesh, this->material, this->transform.getTransformMatrix()) });
 };
 
-template <typename T>
-const Transform& MeshInstance<T>::getTransform() const {
+const Transform& MeshInstance::getTransform() const {
 	return this->transform;
 }
 
-template <typename T>
-Transform& MeshInstance<T>::getMutableTransform() {
+Transform& MeshInstance::getMutableTransform() {
 	return this->transform;
 }
-
-template class MeshInstance<Vertex2D>;
-template class MeshInstance<Vertex3D>;

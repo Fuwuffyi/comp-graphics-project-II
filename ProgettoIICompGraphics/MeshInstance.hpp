@@ -6,20 +6,16 @@
 struct Vertex2D;
 struct Vertex3D;
 
-template <typename T>
-class MeshInstance : public IRenderable<T> {
+class MeshInstance : public IRenderable {
 private:
-	Mesh<T>* mesh;
+	Mesh* mesh;
 	Material* material;
 	Transform transform;
 public:
-	MeshInstance(Mesh<T>* _mesh, Material* _material, const Transform& _transform);
+	MeshInstance(Mesh* _mesh, Material* _material, const Transform& _transform);
 
-	std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>> getDrawables() override;
+	std::vector<std::tuple<Mesh*, Material*, glm::mat4>> getDrawables() override;
 
 	const Transform& getTransform() const;
 	Transform& getMutableTransform();
 };
-
-using MeshInstance2D = MeshInstance<Vertex2D>;
-using MeshInstance3D = MeshInstance<Vertex3D>;

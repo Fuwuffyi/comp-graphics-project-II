@@ -1,6 +1,7 @@
 #include "MeshLoader.hpp"
 
 #include "Vertex.hpp"
+#include "Mesh.hpp"
 
 #include <glad/glad.h>
 #include <stdexcept>
@@ -10,16 +11,16 @@
 #include <assimp/postprocess.h>
 
 namespace MeshLoader {
-    static Mesh3D* processMesh(aiMesh* mesh, const aiScene* scene);
-    static void processNode(aiNode* node, const aiScene* scene, std::vector<Mesh3D*>& meshesOutput);
+    static Mesh* processMesh(aiMesh* mesh, const aiScene* scene);
+    static void processNode(aiNode* node, const aiScene* scene, std::vector<Mesh *>& meshesOutput);
 }
 
-Mesh3D* MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene) {
-    std::vector<Vertex3D> vertices;
+Mesh* MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene) {
+    std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
 
     for (uint32_t i = 0; i < mesh->mNumVertices; ++i) {
-        Vertex3D vertex;
+        Vertex vertex;
         vertex.position = glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
         vertex.normal = glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
         if (mesh->mTextureCoords[0]) {
@@ -36,10 +37,10 @@ Mesh3D* MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene) {
             indices.push_back(face.mIndices[j]);
         }
     }
-    return new Mesh3D(vertices, indices, GL_TRIANGLES);
+    return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-void MeshLoader::processNode(aiNode* node, const aiScene* scene, std::vector<Mesh3D *>& meshesOutput) {
+void MeshLoader::processNode(aiNode* node, const aiScene* scene, std::vector<Mesh *>& meshesOutput) {
     // process all the node's meshes (if any)
     for (uint32_t i = 0; i < node->mNumMeshes; ++i) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
@@ -51,8 +52,8 @@ void MeshLoader::processNode(aiNode* node, const aiScene* scene, std::vector<Mes
     }
 }
 
-std::vector<Mesh3D *> MeshLoader::loadMesh(const std::string& fileName) {
-	std::vector<Mesh3D *> meshes;
+std::vector<Mesh *> MeshLoader::loadMesh(const std::string& fileName) {
+	std::vector<Mesh *> meshes;
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeMeshes | aiProcess_GenSmoothNormals | aiProcess_Triangulate | aiProcess_FlipUVs);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {

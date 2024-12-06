@@ -10,6 +10,7 @@
 #include "MeshInstance.hpp"
 #include "ModelInstance.hpp"
 #include "MeshLoader.hpp"
+#include "RenderingQueue.hpp"
 
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
@@ -105,7 +106,7 @@ int main() {
 	// Testing camera
 	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.1f, 1000.0f);
 	// Testing mesh
-	const std::vector<Mesh3D *> meshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
+	const std::vector<Mesh *> meshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
 	Material* dragonMaterial = MaterialLoader::load("testing");
 	Shader* dragonShader = ShaderLoader::load("testing");
 	Transform dragonTrasnformA(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(1.0f));
@@ -113,11 +114,13 @@ int main() {
 	Transform dragonTrasnformC(glm::vec3(0.25f, 0.0f, 0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f));
 	Transform dragonTrasnformD(glm::vec3(-0.25f, 0.0f, 0.0f), glm::vec3(0.0f, 270.0f, 0.0f), glm::vec3(1.0f));
 	Transform dragonsTransform(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(6.0f));
-	MeshInstance3D instanceA(meshes[0], dragonMaterial, dragonTrasnformA);
-	MeshInstance3D instanceB(meshes[0], dragonMaterial, dragonTrasnformB);
-	MeshInstance3D instanceC(meshes[0], dragonMaterial, dragonTrasnformC);
-	MeshInstance3D instanceD(meshes[0], dragonMaterial, dragonTrasnformD);
-	ModelInstance3D instance(std::vector<MeshInstance3D>({ instanceA, instanceB, instanceC, instanceD }), dragonsTransform);
+	MeshInstance instanceA(meshes[0], dragonMaterial, dragonTrasnformA);
+	MeshInstance instanceB(meshes[0], dragonMaterial, dragonTrasnformB);
+	MeshInstance instanceC(meshes[0], dragonMaterial, dragonTrasnformC);
+	MeshInstance instanceD(meshes[0], dragonMaterial, dragonTrasnformD);
+	ModelInstance instance(std::vector<MeshInstance>({ instanceA, instanceB, instanceC, instanceD }), dragonsTransform);
+	RenderingQueue queue;
+	queue.addRenderable(&instance);
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -143,18 +146,12 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
-		auto drawables = instance.getDrawables();
-		for (auto [meshPtr, materialPtr, model] : drawables) {
-			materialPtr->activate();
-			dragonShader->setUniformMatrix("cameraMatrix", cam.getCameraMatrix());
-			dragonShader->setUniformMatrix("objMatrix", model);
-			meshPtr->draw();
-		}
+		queue.render(cam.getCameraMatrix(), cam.getTransform().getPosition());
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();
 	}
-	for (const Mesh3D* m : meshes) {
+	for (const Mesh* m : meshes) {
 		delete m;
 	}
 	MaterialLoader::unloadAll();
