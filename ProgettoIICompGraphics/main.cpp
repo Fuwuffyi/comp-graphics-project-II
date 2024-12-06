@@ -61,7 +61,6 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 	if (Mouse::button(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		const float newZoom = trackballZoom - Mouse::getScrollDy() * 100.0f * deltaTime;
 		trackballZoom = std::min(std::max(newZoom, epsilon), 10.0f);
-		std::cout << trackballZoom << std::endl;
 	} else {
 		const float newFov = cam.getFOV() - Mouse::getScrollDy() * 1000.0f * deltaTime;
 		cam.setFOV(std::min(std::max(newFov, epsilon), 180.0f - epsilon));
