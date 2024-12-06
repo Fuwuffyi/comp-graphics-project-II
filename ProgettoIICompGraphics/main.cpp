@@ -11,7 +11,83 @@
 #include "ModelInstance.hpp"
 #include "MeshLoader.hpp"
 
+#include "Keyboard.hpp"
+#include "Mouse.hpp"
+
 #include <glm/gtc/type_ptr.hpp>
+
+void cameraControls(Camera& cam, Window& window, const float deltaTime) {
+	// Setup movement
+	if (Keyboard::key(GLFW_KEY_W)) {
+		// Move forward
+		cam.getMutableTransform().setPosition(cam.getTransform().getPosition() + cam.getViewDirection() * 2.0f * deltaTime);
+	}
+	if (Keyboard::key(GLFW_KEY_S)) {
+		// Move back
+		cam.getMutableTransform().setPosition(cam.getTransform().getPosition() + cam.getViewDirection() * -2.0f * deltaTime);
+	}
+	if (Keyboard::key(GLFW_KEY_SPACE)) {
+		// Move up
+		cam.getMutableTransform().setPosition(cam.getTransform().getPosition() + cam.getUpVector() * 2.0f * deltaTime);
+	}
+	if (Keyboard::key(GLFW_KEY_LEFT_SHIFT)) {
+		// Move down
+		cam.getMutableTransform().setPosition(cam.getTransform().getPosition() + cam.getUpVector() * -2.0f * deltaTime);
+	}
+	if (Keyboard::key(GLFW_KEY_A)) {
+		// Move left
+		cam.getMutableTransform().setPosition(cam.getTransform().getPosition() + cam.getRightVector() * -2.0f * deltaTime);
+	}
+	if (Keyboard::key(GLFW_KEY_D)) {
+		// Move right
+		cam.getMutableTransform().setPosition(cam.getTransform().getPosition() + cam.getRightVector() * 2.0f * deltaTime);
+	}
+	// Set cursor hidden when holding left/middle mouse buttons
+	constexpr const float sensitivity = 0.1f;
+	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_LEFT) || Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
+		glfwSetInputMode(window.getWindowPtr(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+	} else if (Mouse::buttonWentUp(GLFW_MOUSE_BUTTON_LEFT) || Mouse::buttonWentUp(GLFW_MOUSE_BUTTON_MIDDLE)) {
+		glfwSetInputMode(window.getWindowPtr(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+	// Setup FPS style camera when holding left click
+	if (Mouse::button(GLFW_MOUSE_BUTTON_LEFT)) {
+		const float mouseDeltaX = Mouse::getDx();
+		const float mouseDeltaY = Mouse::getDy();
+		cam.getMutableTransform().setRotation(cam.getTransform().getRotation() + glm::vec3(mouseDeltaY, -mouseDeltaX, 0.0f) * sensitivity);
+	}
+	// Change FOV/Zoom based on scroll wheel
+	constexpr const float epsilon = 0.01f;
+	static float trackballZoom = 1.0f;
+	if (Mouse::button(GLFW_MOUSE_BUTTON_MIDDLE)) {
+		const float newZoom = trackballZoom - Mouse::getScrollDy() * 100.0f * deltaTime;
+		trackballZoom = std::min(std::max(newZoom, epsilon), 10.0f);
+		std::cout << trackballZoom << std::endl;
+	} else {
+		const float newFov = cam.getFOV() - Mouse::getScrollDy() * 1000.0f * deltaTime;
+		cam.setFOV(std::min(std::max(newFov, epsilon), 180.0f - epsilon));
+	}
+	// Setup trackball style camera when holding middle mouse button
+	glm::vec3 target;
+	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
+		target = cam.getTransform().getPosition() + cam.getViewDirection() * trackballZoom;
+	}
+	if (Mouse::button(GLFW_MOUSE_BUTTON_MIDDLE)) {
+		const float mouseDeltaX = Mouse::getDx();
+		const float mouseDeltaY = Mouse::getDy();
+		glm::vec3 position = cam.getTransform().getPosition();
+		glm::vec3 currentRotation = cam.getTransform().getRotation();
+		float yaw = currentRotation.y + mouseDeltaX * sensitivity;
+		float pitch = currentRotation.x + mouseDeltaY * sensitivity;
+		cam.getMutableTransform().setRotation(glm::vec3(pitch, yaw, currentRotation.z));
+		glm::vec3 direction = glm::normalize(glm::vec3(
+			cos(glm::radians(yaw)) * cos(glm::radians(pitch)),
+			sin(glm::radians(pitch)),
+			sin(glm::radians(yaw)) * cos(glm::radians(pitch))
+		));
+		position = target - direction * trackballZoom;
+		cam.getMutableTransform().setPosition(position);
+	}
+}
 
 int main() {
 	// Initialize glfw
@@ -63,7 +139,11 @@ int main() {
 		const double currTime = glfwGetTime();
 		const float deltaTime = static_cast<float>(currTime - prevTime);
 		prevTime = currTime;
+		// Set widnow title to FPS
 		window.setTitle(windowName + " - " + std::to_string(1.0f / deltaTime) + " FPS");
+		// Camera movement
+		cameraControls(cam, window, deltaTime);
+		// Dragons rotation stuff
 		instance.getMutableTransform().setRotation(glm::vec3(0.0f, 1.0f, 0.0f) * (float)glfwGetTime() * 100.0f);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);

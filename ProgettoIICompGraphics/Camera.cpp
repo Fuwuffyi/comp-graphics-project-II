@@ -27,6 +27,11 @@ const glm::vec3& Camera::getUpVector() {
 	return this->vectorUp;
 }
 
+const glm::vec3& Camera::getRightVector() {
+	const glm::vec3 viewDir = this->getViewDirection();
+	return glm::normalize(glm::cross(viewDir, this->vectorUp));
+}
+
 void Camera::updateViewMatrix() {
 	const glm::vec3 cameraPos = this->transform.getPosition();
 	const glm::vec3 viewDir = this->getViewDirection();
@@ -39,6 +44,16 @@ void Camera::updateProjectionMatrix() {
 
 void Camera::updateCameraMatrix() {
 	this->cameraMatrix = this->getProjectionMatrix() * this->getViewMatrix();
+}
+
+float Camera::getFOV() const {
+	return this->fov;
+}
+
+void Camera::setFOV(const float newFov) {
+	this->dirtyProjection = true;
+	this->dirtyCamera = true;
+	this->fov = newFov;
 }
 
 const glm::mat4& Camera::getViewMatrix() {

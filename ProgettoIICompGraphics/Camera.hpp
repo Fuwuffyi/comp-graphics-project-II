@@ -57,11 +57,32 @@ public:
 	const glm::vec3& getViewDirection();
 
 	/**
+	 * Getter for the camera's right vector.
+	 *
+	 * \return The camera's right vector.
+	 */
+	const glm::vec3& getRightVector();
+
+	/**
 	 * Getter for the camera's up vector.
 	 *
 	 * \return The camera's up vector.
 	 */
 	const glm::vec3& getUpVector();
+
+	/**
+	 * Getter for the camera's field of view.
+	 *
+	 * \return The camera's field of view.
+	 */
+	float getFOV() const;
+
+	/**
+	 * Setter for the camera's field of view.
+	 *
+	 * \param newFov The camera's new field of view.
+	 */
+	void setFOV(const float newFov);
 
 	/**
 	 * Getter for the camera's view matrix.
