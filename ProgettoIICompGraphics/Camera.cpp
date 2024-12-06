@@ -18,10 +18,18 @@ Camera::Camera(const Transform& _transform, const glm::vec3& vUp, const float _f
 	far(_far)
 {}
 
+const glm::vec3& Camera::getViewDirection() {
+	const glm::mat4 rotationMatrix = this->transform.getRotationMatrix();
+	return glm::normalize(glm::vec3(rotationMatrix * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f)));
+}
+
+const glm::vec3& Camera::getUpVector() {
+	return this->vectorUp;
+}
+
 void Camera::updateViewMatrix() {
 	const glm::vec3 cameraPos = this->transform.getPosition();
-	const glm::mat4 rotationMatrix = this->transform.getRotationMatrix();
-	const glm::vec3 viewDir = glm::normalize(glm::vec3(rotationMatrix * glm::vec4(0.0f, 0.0f, -1.0f, 0.0f)));
+	const glm::vec3 viewDir = this->getViewDirection();
 	this->viewMatrix = glm::lookAt(cameraPos, cameraPos + viewDir, this->vectorUp);
 }
 
@@ -58,5 +66,11 @@ const glm::mat4& Camera::getCameraMatrix() {
 }
 
 const Transform& Camera::getTransform() const {
+	return this->transform;
+}
+
+Transform& Camera::getMutableTransform() {
+	this->dirtyView = true;
+	this->dirtyCamera = true;
 	return this->transform;
 }

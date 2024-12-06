@@ -50,6 +50,20 @@ public:
 	Camera(const Transform& _transform, const glm::vec3& vUp, const float _fov, const float _aspectRatio, const float _near, const float _far);
 
 	/**
+	 * Getter for the camera's view direction.
+	 *
+	 * \return The camera's view direction.
+	 */
+	const glm::vec3& getViewDirection();
+
+	/**
+	 * Getter for the camera's up vector.
+	 *
+	 * \return The camera's up vector.
+	 */
+	const glm::vec3& getUpVector();
+
+	/**
 	 * Getter for the camera's view matrix.
 	 *
 	 * \return The camera's view matrix.
@@ -76,4 +90,11 @@ public:
 	 * \return The camera's transform reference.
 	 */
 	const Transform& getTransform() const;
+
+	/**
+	 * Getter for the camera's mutable trasform.
+	 *
+	 * \return The camera's mutable transform reference.
+	 */
+	Transform& getMutableTransform();
 };
