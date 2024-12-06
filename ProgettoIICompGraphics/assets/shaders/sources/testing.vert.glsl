@@ -7,6 +7,10 @@ layout(location = 2) in vec2 aUv;
 uniform mat4 objMatrix;
 uniform mat4 cameraMatrix;
 
+out vec3 normal;
+
 void main() {
     gl_Position = cameraMatrix * objMatrix * vec4(aPos, 1.0);
+    mat3 normalMatrix = transpose(inverse(mat3(objMatrix)));
+    normal = normalize(normalMatrix * aNormal);
 }
