@@ -2,6 +2,7 @@
 
 #include "ShaderLoader.hpp"
 #include "Material.hpp"
+#include "Shader.hpp"
 
 #include <unordered_map>
 #include <stdexcept>
@@ -147,6 +148,7 @@ void MaterialLoader::unload(const std::string& materialName) {
 		return;
 	}
 	if (--it->second.first == 0u) {
+		ShaderLoader::unload(it->second.second.getShader()->getName());
 		loadedMaterials.erase(materialName);
 	}
 }

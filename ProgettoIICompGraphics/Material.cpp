@@ -21,6 +21,10 @@ Material::~Material() {
 	this->shader = nullptr;
 }
 
+Shader* Material::getShader() const {
+	return this->shader;
+}
+
 void Material::activate() const {
 	if (!this->shader) {
 		return;

@@ -47,6 +47,13 @@ public:
 	 */
 	~Material();
 
+	/*
+	* Gets tue shader pointer.
+	* 
+	* \return The material's shader pointer.
+	*/
+	Shader* getShader() const;
+
 	/**
 	 * Checks if the material can be transparent.
 	 *
