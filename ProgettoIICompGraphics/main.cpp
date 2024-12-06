@@ -118,6 +118,7 @@ int main() {
 	MeshInstance instanceC(meshes[0], dragonMaterialBlinn, dragonTrasnformC);
 	MeshInstance instanceD(meshes[0], dragonMaterialPhong, dragonTrasnformD);
 	ModelInstance instance(std::vector<MeshInstance>({ instanceA, instanceB, instanceC, instanceD }), dragonsTransform);
+	Renderer::addToRenderingQueues(&instance);
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -139,7 +140,6 @@ int main() {
 		cameraControls(cam, window, deltaTime);
 		// Dragons rotation stuff
 		instance.getMutableTransform().setRotation(glm::vec3(0.0f, 1.0f, 0.0f) * (float)glfwGetTime() * 100.0f);
-		Renderer::addToRenderingQueues(&instance);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
