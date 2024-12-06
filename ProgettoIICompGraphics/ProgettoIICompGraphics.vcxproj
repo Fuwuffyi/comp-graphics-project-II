@@ -85,10 +85,11 @@
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;zlibstaticd.lib;assimp-vc143-mtd.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>git submodule update --init --recursive
-cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)\external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
+      <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
+git submodule update --init --recursive
+cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
 cmake --build $(SolutionDir)external\glfw --config $(Configuration)
-cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)\external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
+cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
 cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -111,10 +112,11 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;zlibstatic.lib;assimp-vc143-mt.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>git submodule update --init --recursive
-cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)\external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
+      <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
+git submodule update --init --recursive
+cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
 cmake --build $(SolutionDir)external\glfw --config $(Configuration)
-cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)\external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
+cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
 cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -135,10 +137,11 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;zlibstaticd.lib;assimp-vc143-mtd.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>git submodule update --init --recursive
-cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)\external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
+      <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
+git submodule update --init --recursive
+cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
 cmake --build $(SolutionDir)external\glfw --config $(Configuration)
-cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)\external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
+cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
 cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -163,10 +166,11 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)\external\glfw\src\Release;$(SolutionDir)\external\assimp\lib\Release;$(SolutionDir)\external\assimp\contrib\zlib\Release</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>git submodule update --init --recursive
-cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)\external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
+      <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
+git submodule update --init --recursive
+cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
 cmake --build $(SolutionDir)external\glfw --config $(Configuration)
-cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)\external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
+cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
 cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
