@@ -2,9 +2,9 @@
 
 out vec4 fragColor;
 
-uniform vec4 materialColor;
-
 in vec3 normal;
+
+uniform vec4 materialColor;
 
 void main() {
 	fragColor = materialColor * vec4(normal, 1.0);

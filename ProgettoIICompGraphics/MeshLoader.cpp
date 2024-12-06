@@ -54,7 +54,7 @@ void MeshLoader::processNode(aiNode* node, const aiScene* scene, std::vector<Mes
 std::vector<Mesh3D *> MeshLoader::loadMesh(const std::string& fileName) {
 	std::vector<Mesh3D *> meshes;
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeMeshes | aiProcess_GenNormals | aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeMeshes | aiProcess_GenSmoothNormals | aiProcess_Triangulate | aiProcess_FlipUVs);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		throw std::runtime_error("Failed to open mesh file: " + fileName);
 	}
