@@ -71,21 +71,16 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		target = cam.getTransform().getPosition() + cam.getViewDirection() * trackballZoom;
 	}
+	// TODO: Fix trackball movement
 	if (Mouse::button(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		const float mouseDeltaX = Mouse::getDx();
 		const float mouseDeltaY = Mouse::getDy();
-		glm::vec3 position = cam.getTransform().getPosition();
-		glm::vec3 currentRotation = cam.getTransform().getRotation();
-		float yaw = currentRotation.y + mouseDeltaX * sensitivity;
-		float pitch = currentRotation.x + mouseDeltaY * sensitivity;
+		const glm::vec3 currentRotation = cam.getTransform().getRotation();
+		const float yaw = currentRotation.y + mouseDeltaX * sensitivity;
+		const float pitch = currentRotation.x + mouseDeltaY * sensitivity;
 		cam.getMutableTransform().setRotation(glm::vec3(pitch, yaw, currentRotation.z));
-		glm::vec3 direction = glm::normalize(glm::vec3(
-			cos(glm::radians(yaw)) * cos(glm::radians(pitch)),
-			sin(glm::radians(pitch)),
-			sin(glm::radians(yaw)) * cos(glm::radians(pitch))
-		));
-		position = target - direction * trackballZoom;
-		cam.getMutableTransform().setPosition(position);
+		const glm::vec3 newPosition = target - cam.getViewDirection() * trackballZoom;
+		cam.getMutableTransform().setPosition(newPosition);
 	}
 }
 
