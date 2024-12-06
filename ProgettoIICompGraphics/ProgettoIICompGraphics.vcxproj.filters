@@ -194,9 +194,6 @@
     <ClInclude Include="MeshInstance.hpp">
       <Filter>Header Files\renderables</Filter>
     </ClInclude>
-    <ClInclude Include="ModelInstance.hpp">
-      <Filter>Header Files\renderables</Filter>
-    </ClInclude>
     <ClInclude Include="MeshLoader.hpp">
       <Filter>Header Files\loaders</Filter>
     </ClInclude>
@@ -220,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="Window.hpp">
       <Filter>Header Files\io</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelInstance.hpp">
+      <Filter>Header Files\renderables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

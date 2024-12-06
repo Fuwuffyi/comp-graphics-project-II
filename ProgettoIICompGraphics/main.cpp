@@ -8,6 +8,7 @@
 #include "ShaderLoader.hpp"
 #include "MaterialLoader.hpp"
 #include "MeshInstance.hpp"
+#include "ModelInstance.hpp"
 #include "MeshLoader.hpp"
 
 #include <glm/gtc/type_ptr.hpp>
@@ -37,8 +38,16 @@ int main() {
 	const std::vector<Mesh3D *> meshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
 	Material* dragonMaterial = MaterialLoader::load("testing");
 	Shader* dragonShader = ShaderLoader::load("testing");
-	Transform dragonTrasnform(glm::vec3(0.0f, -1.5f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(10.0f));
-	MeshInstance3D instance(meshes[0], dragonMaterial, dragonTrasnform);
+	Transform dragonTrasnformA(glm::vec3(0.0f, 0.0f, 0.5f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonTrasnformB(glm::vec3(0.0f, 0.0f, -0.5f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonTrasnformC(glm::vec3(0.5f, 0.0f, 0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonTrasnformD(glm::vec3(-0.5f, 0.0f, 0.0f), glm::vec3(0.0f, 270.0f, 0.0f), glm::vec3(1.0f));
+	Transform dragonsTransform(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(6.0f));
+	MeshInstance3D instanceA(meshes[0], dragonMaterial, dragonTrasnformA);
+	MeshInstance3D instanceB(meshes[0], dragonMaterial, dragonTrasnformB);
+	MeshInstance3D instanceC(meshes[0], dragonMaterial, dragonTrasnformC);
+	MeshInstance3D instanceD(meshes[0], dragonMaterial, dragonTrasnformD);
+	ModelInstance3D instance(std::vector<MeshInstance3D>({ instanceA, instanceB, instanceC, instanceD }), dragonsTransform);
 	// Enable blending
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -55,6 +64,7 @@ int main() {
 		const float deltaTime = static_cast<float>(currTime - prevTime);
 		prevTime = currTime;
 		window.setTitle(windowName + " - " + std::to_string(1.0f / deltaTime) + " FPS");
+		instance.getMutableTransform().setRotation(glm::vec3(0.0f, 1.0f, 0.0f) * (float)glfwGetTime() * 300.0f);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

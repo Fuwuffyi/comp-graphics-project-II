@@ -1,4 +1,4 @@
 shader testing
 transparent 0
 lit 0
-p materialColor vec4 1.0 0.0 1.0 1.0
+p materialColor vec4 1.0 1.0 1.0 1.0

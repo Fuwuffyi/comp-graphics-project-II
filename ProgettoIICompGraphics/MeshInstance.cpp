@@ -16,5 +16,15 @@ std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>> MeshInstance<T>::getDraw
 	return std::vector<std::tuple<Mesh<T>*, Material*, glm::mat4>>({ std::make_tuple(this->mesh, this->material, this->transform.getTransformMatrix()) });
 };
 
+template <typename T>
+const Transform& MeshInstance<T>::getTransform() const {
+	return this->transform;
+}
+
+template <typename T>
+Transform& MeshInstance<T>::getMutableTransform() {
+	return this->transform;
+}
+
 template class MeshInstance<Vertex2D>;
 template class MeshInstance<Vertex3D>;

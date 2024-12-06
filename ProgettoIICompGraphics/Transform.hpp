@@ -33,6 +33,11 @@ public:
 	const glm::mat4& getRotationMatrix();
 	const glm::mat4& getScaleMatrix();
 	const glm::mat4& getTransformMatrix();
+
+	// Operator overload to make transforms affect eachother
+	Transform operator+(Transform const& rhs) const;
+	Transform& operator+=(Transform const& rhs);
+
 protected:
 	void updatePositionMatrix();
 	void updateRotationMatrix();
