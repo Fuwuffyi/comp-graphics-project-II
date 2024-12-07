@@ -87,7 +87,7 @@ Texture* TextureLoader::loadCubemap(const std::string& cubemapDirectory, const u
 	);
 	// Load faces of cubemap
 	for (uint32_t i = 0; i < 6; ++i) {
-		auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + cubemapDirectory + std::to_string(i) + ".jpg");
+		auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + cubemapDirectory + "/" + std::to_string(i) + ".jpg");
 		loadedCubemaps.at(cubemapDirectory).second.uploadData(imageWidth, imageHeight, data, i);
 		stbi_image_free(data);
 	}

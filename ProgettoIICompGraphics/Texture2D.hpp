@@ -8,6 +8,7 @@ class Texture2D : public Texture {
 public:
 	const int32_t internalFormat;
 	const int32_t externalFormat;
+	const int32_t bindingPoint;
 public:
 	Texture2D(const Texture2D&) = delete;
 	Texture2D& operator=(const Texture2D&) = delete;

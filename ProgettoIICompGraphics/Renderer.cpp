@@ -8,6 +8,9 @@
 #include "IRenderable.hpp"
 #include "RenderingQueue.hpp"
 
+#include "Texture.hpp"
+#include "TextureLoader.hpp"
+
 namespace Renderer {
 	static RenderingQueue litQueue;
 	static RenderingQueue litTransparentQueue(false);
@@ -73,6 +76,11 @@ void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMat
 	sendDataToQueues();
 	// Draw skybox
 	if (cubemapMaterial && cubemapMesh) {
+		// !!!!!! TEMPORARY CODE !!!!!!
+		static Texture* tex = nullptr;
+		if (!tex) {
+			tex = TextureLoader::loadCubemap("storforsen", 0);
+		}
 		// Disable depth mask for cubemap and culling
 		glDisable(GL_CULL_FACE);
 		glDepthMask(GL_FALSE);
@@ -80,6 +88,8 @@ void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMat
 		cubemapMaterial->activate();
 		cubemapMaterial->getShader()->setUniformMatrix("projectionMatrix", projectionMatrix);
 		cubemapMaterial->getShader()->setUniformMatrix("viewMatrix", viewMatrix);
+		tex->bind();
+		cubemapMaterial->getShader()->setUniform("skybox", tex->bindingPoint);
 		cubemapMesh->draw();
 		// Re-enable other stuff for rendering
 		glEnable(GL_CULL_FACE);

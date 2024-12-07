@@ -1,17 +1,21 @@
 #include "Texture.hpp"
 
+#include <stdexcept>
+
 uint32_t Texture::genTextureId(const int32_t textureType) {
 	uint32_t texture;
 	glGenTextures(1, &texture);
 	return texture;
 }
 
-Texture::Texture(const int32_t _textureType, const uint32_t _bindingPoint)
+Texture::Texture(const int32_t _textureType, const int32_t _bindingPoint)
 	:
 	textureId(Texture::genTextureId(_textureType)),
 	textureType(_textureType),
 	bindingPoint(_bindingPoint)
-{}
+{
+	this->activate();
+}
 
 Texture::~Texture() {
 	glDeleteTextures(1, &this->textureId);
@@ -27,11 +31,10 @@ void Texture::setParameters(const std::vector<std::pair<int32_t, int32_t>>& para
 	}
 }
 
-void Texture::bind() const {
+void Texture::activate() const {
 	glActiveTexture(GL_TEXTURE0 + this->bindingPoint);
-	glBindTexture(this->textureType, this->textureId);
 }
 
-void Texture::unbind() const {
-	glBindTexture(this->textureType, 0);
+void Texture::bind() const {
+	glBindTexture(this->textureType, this->textureId);
 }

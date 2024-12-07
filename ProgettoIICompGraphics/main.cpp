@@ -3,14 +3,16 @@
 #include "Transform.hpp"
 #include "Camera.hpp"
 #include "Material.hpp"
-#include "ShaderLoader.hpp"
-#include "MaterialLoader.hpp"
 #include "MeshInstance.hpp"
 #include "ModelInstance.hpp"
 #include "MeshLoader.hpp"
 #include "Renderer.hpp"
 #include "Mesh.hpp"
 #include "Primitives.hpp"
+
+#include "ShaderLoader.hpp"
+#include "MaterialLoader.hpp"
+#include "TextureLoader.hpp"
 
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
@@ -192,5 +194,6 @@ int main() {
 	}
 	MaterialLoader::unloadAll();
 	ShaderLoader::unloadAll();
+	TextureLoader::unloadAll();
 	return EXIT_SUCCESS;
 }
