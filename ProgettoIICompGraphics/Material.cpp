@@ -23,6 +23,10 @@ Shader* Material::getShader() const {
 	return this->shader.get();
 }
 
+std::unordered_map<std::string, Material::MaterialValueType>& Material::getMutableProperties() {
+	return this->values;
+}
+
 void Material::activate() const {
 	if (!this->shader) {
 		return;

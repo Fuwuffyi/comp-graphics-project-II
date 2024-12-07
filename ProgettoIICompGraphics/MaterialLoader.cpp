@@ -6,6 +6,7 @@
 #include "Shader.hpp"
 
 #include <unordered_map>
+#include <filesystem>
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
@@ -120,7 +121,7 @@ std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetF
 		return nullptr;
 	}
 	// If already loaded, return reference of it
-	if (loadedMaterials.find(materialAssetFileName) != loadedMaterials.end()) {
+	if (isLoaded(materialAssetFileName)) {
 		return loadedMaterials.at(materialAssetFileName);
 	}
 	std::cout << "Loaded Material: " << materialAssetFileName << std::endl;
@@ -133,4 +134,18 @@ std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetF
 
 void MaterialLoader::unloadAll() {
 	loadedMaterials.clear();
+}
+
+bool MaterialLoader::isLoaded(const std::string& materialAssetFileName) {
+	return loadedMaterials.find(materialAssetFileName) != loadedMaterials.end();
+}
+
+std::vector<std::string> MaterialLoader::getAllFileNames() {
+	std::vector<std::string> names;
+	for (const auto& entry : std::filesystem::directory_iterator(MATERIAL_ASSET_DIR)) {
+		if (std::filesystem::is_regular_file(entry)) {
+			names.emplace_back(entry.path().stem().string());
+		}
+	}
+	return names;
 }

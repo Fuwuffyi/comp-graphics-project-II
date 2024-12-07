@@ -48,11 +48,18 @@ public:
 	~Material();
 
 	/*
-	* Gets tue shader pointer.
+	* Gets the shader pointer.
 	* 
 	* \return The material's shader pointer.
 	*/
 	Shader* getShader() const;
+
+	/*
+	* Gets the material's properties.
+	*
+	* \return The material's properties.
+	*/
+	std::unordered_map<std::string, MaterialValueType>& getMutableProperties();
 
 	/**
 	 * Activates the material's shader and its properties.

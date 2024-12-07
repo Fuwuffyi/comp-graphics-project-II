@@ -3,6 +3,7 @@
 #include "Shader.hpp"
 
 #include <unordered_map>
+#include <filesystem>
 #include <stdexcept>
 #include <iostream>
 #include <sstream>
@@ -88,7 +89,7 @@ std::shared_ptr<Shader> ShaderLoader::load(const std::string& shaderAssetFileNam
 		return nullptr;
 	}
 	// If shader already loaded, return ref
-	if (loadedShaders.find(shaderAssetFileName) != loadedShaders.end()) {
+	if (isLoaded(shaderAssetFileName)) {
 		return loadedShaders.at(shaderAssetFileName);
 	}
 	std::cout << "Loaded Shader: " << shaderAssetFileName << std::endl;
@@ -101,4 +102,18 @@ std::shared_ptr<Shader> ShaderLoader::load(const std::string& shaderAssetFileNam
 
 void ShaderLoader::unloadAll() {
 	loadedShaders.clear();
+}
+
+bool ShaderLoader::isLoaded(const std::string& shaderAssetFileName) {
+	return loadedShaders.find(shaderAssetFileName) != loadedShaders.end();
+}
+
+std::vector<std::string> ShaderLoader::getAllFileNames() {
+	std::vector<std::string> names;
+	for (const auto& entry : std::filesystem::directory_iterator(SHADER_ASSET_DIR)) {
+		if (std::filesystem::is_regular_file(entry)) {
+			names.emplace_back(entry.path().stem().string());
+		}
+	}
+	return names;
 }

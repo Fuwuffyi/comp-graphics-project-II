@@ -5,6 +5,11 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <glfw/glfw3.h>
 
+#include "Material.hpp"
+#include "MaterialLoader.hpp"
+#include "ShaderLoader.hpp"
+#include "TextureLoader.hpp"
+
 GUI::GUI(GLFWwindow* window) {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -43,28 +48,69 @@ void GUI::drawSelection(MeshInstance* selectedObject) const {
 
 void GUI::drawResources() const {
 	ImGui::Begin("Resources", nullptr);
-	// TODO: fill up with stuff
 	if (ImGui::CollapsingHeader("Materials")) {
-		for (int32_t i = 0; i < 10; ++i) {
-			if (ImGui::TreeNode("Material")) {
-				ImGui::Text("Dummy data");
+		for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
+			ImGui::Separator();
+			if (ImGui::TreeNode((materialName + ".material").c_str())) {
+				if (MaterialLoader::isLoaded(materialName)) {
+					for (auto& [uniform, value] : MaterialLoader::load(materialName).get()->getMutableProperties()) {
+						auto visitor = [&](auto& val) {
+							using T = std::decay_t<decltype(val)>;
+							GUI::drawMaterialProperties(uniform, val);
+						};
+						std::visit(visitor, value);
+					}
+				} else {
+					if (ImGui::Button("Load Material")) {
+						MaterialLoader::load(materialName);
+					}
+				}
 				ImGui::TreePop();
 			}
 		}
 	}
 	if (ImGui::CollapsingHeader("Shaders")) {
-		for (int32_t i = 0; i < 10; ++i) {
-			if (ImGui::TreeNode("Shader")) {
-				ImGui::Text("Dummy data");
-				ImGui::TreePop();
+		for (const std::string& shaderName : ShaderLoader::getAllFileNames()) {
+			ImGui::Separator();
+			if (ShaderLoader::isLoaded(shaderName)) {
+				ImGui::Text(shaderName.c_str());
+			} else {
+				if (ImGui::TreeNode(shaderName.c_str())) {
+					if (ImGui::Button("Load Cubemap")) {
+						ShaderLoader::load(shaderName);
+					}
+					ImGui::TreePop();
+				}
 			}
 		}
 	}
 	if (ImGui::CollapsingHeader("Textures")) {
-		for (int32_t i = 0; i < 10; ++i) {
-			if (ImGui::TreeNode("Texture")) {
-				ImGui::Text("Dummy data");
-				ImGui::TreePop();
+		for (const std::string& textureName : TextureLoader::getAllTextureNames()) {
+			ImGui::Separator();
+			if (TextureLoader::isLoaded(textureName)) {
+				ImGui::Text(textureName.c_str());
+			} else {
+				if (ImGui::TreeNode(textureName.c_str())) {
+					if (ImGui::Button("Load Cubemap")) {
+						TextureLoader::load(textureName);
+					}
+					ImGui::TreePop();
+				}
+			}
+		}
+	}
+	if (ImGui::CollapsingHeader("Cubemaps")) {
+		for (const std::string& cubemapName : TextureLoader::getAllCubemapNames()) {
+			ImGui::Separator();
+			if (TextureLoader::isLoaded(cubemapName)) {
+				ImGui::Text(cubemapName.c_str());
+			} else {
+				if (ImGui::TreeNode(cubemapName.c_str())) {
+					if (ImGui::Button("Load Cubemap")) {
+						TextureLoader::loadCubemap(cubemapName);
+					}
+					ImGui::TreePop();
+				}
 			}
 		}
 	}
@@ -74,4 +120,52 @@ void GUI::drawResources() const {
 void GUI::endRendering() const {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+}
+
+void GUI::drawMaterialProperties(const std::string& name, float& vector) {
+	ImGui::InputFloat(name.c_str(), &vector);
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::vec2& vector) {
+	ImGui::InputFloat2(name.c_str(), &vector.x);
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::vec3& vector) {
+	ImGui::InputFloat3(name.c_str(), &vector.x);
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::vec4& vector) {
+	ImGui::InputFloat4(name.c_str(), &vector.x);
+}
+
+void GUI::drawMaterialProperties(const std::string& name, int32_t& vector) {
+	ImGui::InputInt(name.c_str(), &vector);
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::ivec2& vector) {
+	ImGui::InputInt2(name.c_str(), &vector.x);
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::ivec3& vector) {
+	ImGui::InputInt3(name.c_str(), &vector.x);
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::ivec4& vector) {
+	ImGui::InputInt4(name.c_str(), &vector.x);
+}
+
+void GUI::drawMaterialProperties(const std::string& name, uint32_t& vector) {
+	ImGui::InputInt(name.c_str(), reinterpret_cast<int32_t *>(& vector));
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::uvec2& vector) {
+	ImGui::InputInt2(name.c_str(), reinterpret_cast<int32_t*>(&vector.x));
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::uvec3& vector) {
+	ImGui::InputInt3(name.c_str(), reinterpret_cast<int32_t*>(&vector.x));
+}
+
+void GUI::drawMaterialProperties(const std::string& name, glm::uvec4& vector) {
+	ImGui::InputInt4(name.c_str(), reinterpret_cast<int32_t*>(&vector.x));
 }

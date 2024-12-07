@@ -6,6 +6,7 @@
 
 #include <unordered_map>
 #include <stb_image.h>
+#include <filesystem>
 #include <stdexcept>
 #include <iostream>
 
@@ -82,4 +83,28 @@ std::shared_ptr<Texture> TextureLoader::loadCubemap(const std::string& cubemapDi
 void TextureLoader::unloadAll() {
 	loadedTextures.clear();
 	loadedCubemaps.clear();
+}
+
+bool TextureLoader::isLoaded(const std::string& textureName) {
+	return (loadedTextures.find(textureName) != loadedTextures.end()) || (loadedCubemaps.find(textureName) != loadedCubemaps.end());
+}
+
+std::vector<std::string> TextureLoader::getAllTextureNames() {
+	std::vector<std::string> names;
+	for (const auto& entry : std::filesystem::directory_iterator(TEXTURE_ASSET_DIR)) {
+		if (std::filesystem::is_regular_file(entry)) {
+			names.emplace_back(entry.path().filename().string());
+		}
+	}
+	return names;
+}
+
+std::vector<std::string> TextureLoader::getAllCubemapNames() {
+	std::vector<std::string> names;
+	for (const auto& entry : std::filesystem::directory_iterator(TEXTURE_ASSET_DIR)) {
+		if (std::filesystem::is_directory(entry)) {
+			names.emplace_back(entry.path().filename().string());
+		}
+	}
+	return names;
 }
