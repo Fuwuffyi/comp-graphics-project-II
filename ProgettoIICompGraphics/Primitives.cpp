@@ -6,20 +6,18 @@
 #include <glad/glad.h>
 #include <glm/gtc/constants.hpp>
 
-Mesh* Primitives::generatePlane(const glm::vec2& dimensions, const uint32_t resolution) {
+Mesh* Primitives::generatePlane(const uint32_t resolution) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
-    const float halfWidth = dimensions.x / 2.0f;
-    const float halfHeight = dimensions.y / 2.0f;
-    const float dx = dimensions.x / resolution;
-    const float dy = dimensions.y / resolution;
+    const float dx = 1.0f / resolution;
+    const float dy = 1.0f / resolution;
     // Generate vertices
     for (uint32_t y = 0; y <= resolution; ++y) {
         for (uint32_t x = 0; x <= resolution; ++x) {
             const glm::vec3 position(
-                -halfWidth + x * dx,
+                -0.5f + x * dx,
                 0.0f,
-                -halfHeight + y * dy
+                -0.5f + y * dy
             );
             const glm::vec3 normal(0.0f, 1.0f, 0.0f);
             const glm::vec2 uv(float(x) / resolution, float(y) / resolution);
@@ -44,24 +42,23 @@ Mesh* Primitives::generatePlane(const glm::vec2& dimensions, const uint32_t reso
     return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateRect(const glm::vec3& dimensions, const uint32_t resolution) {
+Mesh* Primitives::generateCube(const uint32_t resolution) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
     // TODO: Implement (FLAT SHADED)
 	return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generatePyramid(const glm::vec3& dimensions, const uint32_t resolution) {
+Mesh* Primitives::generatePyramid(const uint32_t resolution) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 	// TODO: Implement (FLAT SHADED)
 	return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateSphere(const glm::vec3& dimensions, const uint32_t resolution) {
+Mesh* Primitives::generateSphere(const uint32_t resolution) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
-    const glm::vec3 radii = dimensions * 0.5f;
     for (uint32_t lat = 0; lat <= resolution; ++lat) {
         const float theta = glm::pi<float>() * lat / resolution;
         const float sinTheta = sin(theta);
@@ -71,7 +68,7 @@ Mesh* Primitives::generateSphere(const glm::vec3& dimensions, const uint32_t res
             const float sinPhi = sin(phi);
             const float cosPhi = cos(phi);
             const glm::vec3 normal = glm::vec3(cosPhi * sinTheta, cosTheta, sinPhi * sinTheta);
-            const glm::vec3 position = normal * radii;
+            const glm::vec3 position = normal;
             const glm::vec2 uv(float(lon) / resolution, float(lat) / resolution);
             vertices.emplace_back(Vertex { position, normal, uv });
         }
@@ -91,21 +88,21 @@ Mesh* Primitives::generateSphere(const glm::vec3& dimensions, const uint32_t res
     return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateCylinder(const glm::vec3& dimensions, const uint32_t resolution) {
+Mesh* Primitives::generateCylinder(const float bottomRadius, const float topRadius, const uint32_t resolution) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 	// TODO: Implement (FLAT SHADED ON BOTTOM AND TOP, SMOOTH SHADED ON HORIZONTAL?)
 	return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateCone(const glm::vec3& dimensions, const uint32_t resolution) {
+Mesh* Primitives::generateCone(const float radius, const uint32_t resolution) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
     // TODO: Implement (FLAT SHADED ON BOTTOM, SMOOTH SHADED ELSEWISE?)
 	return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateThorus() {
+Mesh* Primitives::generateThorus(const float innerRadius, const float circleRadius, const uint32_t resolution) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
     // TODO: Implement (SMOOTH SHADED)

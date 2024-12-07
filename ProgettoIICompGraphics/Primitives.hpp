@@ -5,11 +5,11 @@
 class Mesh;
 
 namespace Primitives {
-	Mesh* generatePlane(const glm::vec2& dimensions = glm::vec2(1.0f), const uint32_t resolution = 1);
-	Mesh* generateRect(const glm::vec3& dimensions = glm::vec3(1.0f), const uint32_t resolution = 1);
-	Mesh* generatePyramid(const glm::vec3& dimensions = glm::vec3(1.0f), const uint32_t resolution = 1);
-	Mesh* generateSphere(const glm::vec3& dimensions = glm::vec3(1.0f), const uint32_t resolution = 3);
-	Mesh* generateCylinder(const glm::vec3& dimensions = glm::vec3(1.0f), const uint32_t resolution = 3);
-	Mesh* generateCone(const glm::vec3& dimensions = glm::vec3(1.0f), const uint32_t resolution = 3);
-	Mesh* generateThorus();
+	Mesh* generatePlane(const uint32_t resolution = 1);
+	Mesh* generateCube(const uint32_t resolution = 1);
+	Mesh* generatePyramid(const uint32_t resolution = 1);
+	Mesh* generateSphere(const uint32_t resolution = 3);
+	Mesh* generateCylinder(const float bottomRadius, const float topRadius, const uint32_t resolution = 3);
+	Mesh* generateCone(const float radius, const uint32_t resolution = 3);
+	Mesh* generateThorus(const float innerRadius = 1.0f, const float circleRadius = 0.25f, const uint32_t resolution = 5);
 }

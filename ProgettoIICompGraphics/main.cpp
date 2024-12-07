@@ -113,31 +113,31 @@ int main() {
 	Material* materialPhong = MaterialLoader::load("phong");
 	Material* materialBlinn = MaterialLoader::load("blinn_phong");
 	// Test out primitives
-	Mesh* planePrimitive = Primitives::generatePlane(glm::vec2(1.0f, 0.5f), 5);
+	Mesh* planePrimitive = Primitives::generatePlane(5);
 	Transform planeTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	MeshInstance planeInstance(planePrimitive, materialBlinn, planeTransform);
 
-	Mesh* rectPrimitive = Primitives::generateRect(glm::vec3(0.6f, 0.4f, 0.5f), 5);
-	Transform rectTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Mesh* rectPrimitive = Primitives::generateCube(25);
+	Transform rectTransform(glm::vec3(0.0f, 0.2f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	MeshInstance rectInstance(rectPrimitive, materialPhong, rectTransform);
 
-	Mesh* pyramidPrimitive = Primitives::generatePyramid(glm::vec3(0.3f, 0.6f, 0.7f), 5);
+	Mesh* pyramidPrimitive = Primitives::generatePyramid(5);
 	Transform pyramidTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	MeshInstance pyramidInstance(pyramidPrimitive, materialBlinn, pyramidTransform);
 
-	Mesh* spherePrimitive = Primitives::generateSphere(glm::vec3(1.0f), 15);
+	Mesh* spherePrimitive = Primitives::generateSphere(15);
 	Transform sphereTransform(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f));
 	MeshInstance sphereInstance(spherePrimitive, materialPhong, sphereTransform);
 
-	Mesh* cylinderPrimitive = Primitives::generateCylinder(glm::vec3(0.9f, 0.7f, 0.6f), 5);
+	Mesh* cylinderPrimitive = Primitives::generateCylinder(1.0f, 0.7f, 20);
 	Transform cylinderTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	MeshInstance cylinderInstance(cylinderPrimitive, materialBlinn, cylinderTransform);
 
-	Mesh* conePrimitive = Primitives::generateCone(glm::vec3(0.3f, 0.6f, 0.3f), 5);
+	Mesh* conePrimitive = Primitives::generateCone(25);
 	Transform coneTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	MeshInstance coneInstance(conePrimitive, materialPhong, coneTransform);
 
-	Mesh* thorusPrimitive = Primitives::generateThorus();
+	Mesh* thorusPrimitive = Primitives::generateThorus(2.0f, 0.5f, 20);
 	Transform thorusTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
 	MeshInstance thorusInstance(thorusPrimitive, materialBlinn, thorusTransform);
 	// Load the dragon
