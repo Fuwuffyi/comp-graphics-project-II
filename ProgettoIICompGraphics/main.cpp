@@ -114,39 +114,39 @@ int main() {
 	Material* materialBlinn = MaterialLoader::load("blinn_phong");
 	// Test out primitives
 	Mesh* planePrimitive = Primitives::generatePlane(5);
-	Transform planeTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Transform planeTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
 	MeshInstance planeInstance(planePrimitive, materialBlinn, planeTransform);
 
-	Mesh* rectPrimitive = Primitives::generateCube(25);
-	Transform rectTransform(glm::vec3(0.0f, 0.2f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-	MeshInstance rectInstance(rectPrimitive, materialPhong, rectTransform);
+	Mesh* cubePrimitive = Primitives::generateCube(25);
+	Transform cubeTransform(glm::vec3(0.0f, 0.2f, 1.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
+	MeshInstance cubeInstance(cubePrimitive, materialPhong, cubeTransform);
 
 	Mesh* pyramidPrimitive = Primitives::generatePyramid(5);
-	Transform pyramidTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Transform pyramidTransform(glm::vec3(0.0f, 0.2f, -1.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	MeshInstance pyramidInstance(pyramidPrimitive, materialBlinn, pyramidTransform);
 
 	Mesh* spherePrimitive = Primitives::generateSphere(15);
-	Transform sphereTransform(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f));
+	Transform sphereTransform(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	MeshInstance sphereInstance(spherePrimitive, materialPhong, sphereTransform);
 
 	Mesh* cylinderPrimitive = Primitives::generateCylinder(1.0f, 0.7f, 20);
-	Transform cylinderTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Transform cylinderTransform(glm::vec3(1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	MeshInstance cylinderInstance(cylinderPrimitive, materialBlinn, cylinderTransform);
 
 	Mesh* conePrimitive = Primitives::generateCone(25);
-	Transform coneTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Transform coneTransform(glm::vec3(-1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	MeshInstance coneInstance(conePrimitive, materialPhong, coneTransform);
 
-	Mesh* thorusPrimitive = Primitives::generateThorus(2.0f, 0.5f, 20);
-	Transform thorusTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	Mesh* thorusPrimitive = Primitives::generateThorus(3.0f, 0.2f, 20);
+	Transform thorusTransform(glm::vec3(2.0f, 0.2f, 2.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	MeshInstance thorusInstance(thorusPrimitive, materialBlinn, thorusTransform);
 	// Load the dragon
 	const std::vector<Mesh *> dragonMeshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
-	Transform dragonTrasnform(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f));
+	Transform dragonTrasnform(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f), glm::vec3(2.0f));
 	MeshInstance dragonInstance(dragonMeshes[0], materialPhong, dragonTrasnform);
 	// Add objects to rendering queue
 	Renderer::addToRenderingQueues(&planeInstance);
-	Renderer::addToRenderingQueues(&rectInstance);
+	Renderer::addToRenderingQueues(&cubeInstance);
 	Renderer::addToRenderingQueues(&pyramidInstance);
 	Renderer::addToRenderingQueues(&sphereInstance);
 	Renderer::addToRenderingQueues(&cylinderInstance);
@@ -176,7 +176,7 @@ int main() {
 		glfwPollEvents();
 	}
 	delete planePrimitive;
-	delete rectPrimitive;
+	delete cubePrimitive;
 	delete pyramidPrimitive;
 	delete spherePrimitive;
 	delete cylinderPrimitive;
