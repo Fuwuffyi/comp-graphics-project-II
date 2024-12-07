@@ -50,7 +50,7 @@ std::shared_ptr<Texture> TextureLoader::load(const std::string& textureName, con
 	if (loadedTextures.find(textureName) != loadedTextures.end()) {
 		return loadedTextures.at(textureName);
 	}
-	auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + textureName);
+	auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + textureName, true);
 	loadedTextures.emplace(textureName, std::make_shared<Texture2D>(inFormat, outFormat));
 	loadedTextures.at(textureName)->uploadData(imageWidth, imageHeight, data);
 	stbi_image_free(data);

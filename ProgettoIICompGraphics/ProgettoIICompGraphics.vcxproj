@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,7 +101,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +126,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -153,7 +153,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>

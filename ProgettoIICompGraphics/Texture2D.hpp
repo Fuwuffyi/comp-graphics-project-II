@@ -29,5 +29,5 @@ public:
 	 * \param data The data's reference pointer.
 	 * \param genMipMaps Flag to generate mipmaps.
 	 */
-	void uploadData(const uint32_t width, const uint32_t height, void* data, const bool genMipMaps = true) const;
+	void uploadData(const int32_t width, const int32_t height, const uint8_t* data, const bool genMipMaps = true) const;
 };
