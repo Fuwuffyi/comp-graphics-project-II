@@ -167,7 +167,7 @@ int main() {
 		cam.setAspectRatio(static_cast<float>(window.getDimensions().x) / static_cast<float>(window.getDimensions().y));
 		cameraControls(cam, window, deltaTime);
 		// Clear buffers
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
 		Renderer::renderAll(cam.getCameraMatrix(), cam.getTransform().getPosition());

@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\imgui\;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,7 +101,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,7 +126,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\imgui\;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -153,7 +153,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -200,6 +200,9 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SimpleBuffer.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Texture2D.cpp" />
+    <ClCompile Include="TextureCubemap.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="VertexArray.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
@@ -232,6 +235,9 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="ShaderLoader.hpp" />
     <ClInclude Include="SimpleBuffer.hpp" />
+    <ClInclude Include="Texture.hpp" />
+    <ClInclude Include="Texture2D.hpp" />
+    <ClInclude Include="TextureCubemap.hpp" />
     <ClInclude Include="Transform.hpp" />
     <ClInclude Include="Vertex.hpp" />
     <ClInclude Include="VertexArray.hpp" />

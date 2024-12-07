@@ -54,14 +54,14 @@ public:
 	 *
 	 * \return The camera's view direction.
 	 */
-	const glm::vec3& getViewDirection();
+	glm::vec3 getViewDirection();
 
 	/**
 	 * Getter for the camera's right vector.
 	 *
 	 * \return The camera's right vector.
 	 */
-	const glm::vec3& getRightVector();
+	glm::vec3 getRightVector();
 
 	/**
 	 * Getter for the camera's up vector.

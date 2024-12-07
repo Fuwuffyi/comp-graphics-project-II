@@ -1,0 +1,37 @@
+#include "Texture.hpp"
+
+uint32_t Texture::genTextureId(const int32_t textureType) {
+	uint32_t texture;
+	glGenTextures(1, &texture);
+	return texture;
+}
+
+Texture::Texture(const int32_t _textureType, const uint32_t _bindingPoint)
+	:
+	textureId(Texture::genTextureId(_textureType)),
+	textureType(_textureType),
+	bindingPoint(_bindingPoint)
+{}
+
+Texture::~Texture() {
+	glDeleteTextures(1, &this->textureId);
+}
+
+void Texture::setParameter(const int32_t type, const int32_t value) const {
+	glTexParameteri(this->textureType, type, value);
+}
+
+void Texture::setParameters(const std::vector<std::pair<int32_t, int32_t>>& parameters) const {
+	for (const auto& [type, value] : parameters) {
+		this->setParameter(type, value);
+	}
+}
+
+void Texture::bind() const {
+	glActiveTexture(GL_TEXTURE0 + this->bindingPoint);
+	glBindTexture(this->textureType, this->textureId);
+}
+
+void Texture::unbind() const {
+	glBindTexture(this->textureType, 0);
+}

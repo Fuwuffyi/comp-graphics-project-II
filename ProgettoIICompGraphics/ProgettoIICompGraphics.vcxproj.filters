@@ -73,6 +73,12 @@
     <Filter Include="Source Files\material">
       <UniqueIdentifier>{747a7242-ba88-4098-92cd-2352102014fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\texture">
+      <UniqueIdentifier>{bdaf6f0e-2174-465d-830b-173cc88e7d8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\texture">
+      <UniqueIdentifier>{9081f69c-a252-48fa-8a18-c3709ac7d477}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -161,6 +167,15 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\material</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
+      <Filter>Source Files\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureCubemap.cpp">
+      <Filter>Source Files\texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -256,6 +271,15 @@
     </ClInclude>
     <ClInclude Include="Material.hpp">
       <Filter>Header Files\material</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.hpp">
+      <Filter>Header Files\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.hpp">
+      <Filter>Header Files\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureCubemap.hpp">
+      <Filter>Header Files\texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
