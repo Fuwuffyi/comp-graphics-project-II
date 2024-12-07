@@ -1,6 +1,7 @@
 #pragma once
 
 struct GLFWwindow;
+class MeshInstance;
 
 class GUI {
 public:
@@ -9,5 +10,7 @@ public:
 
 	bool clickedOnUi() const;
 	void newFrame() const;
-	void render() const;
+	void drawSelection(MeshInstance* selectedObject) const;
+	void drawResources() const;
+	void endRendering() const;
 };

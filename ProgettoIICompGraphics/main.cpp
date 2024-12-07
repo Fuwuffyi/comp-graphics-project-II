@@ -181,7 +181,9 @@ int main() {
 		// Test draw
 		Renderer::renderAll(cam.getCameraMatrix(), cam.getViewMatrix(), cam.getProjectionMatrix(), cam.getTransform().getPosition());
 		// Draw gui
-		gui.render();
+		gui.drawSelection(nullptr);
+		gui.drawResources();
+		gui.endRendering();
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();

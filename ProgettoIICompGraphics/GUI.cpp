@@ -32,11 +32,46 @@ void GUI::newFrame() const {
 	ImGui::NewFrame();
 }
 
-void GUI::render() const {
-	ImGui::Begin("Materials", nullptr);
-	// TODO: read all material properties????
+void GUI::drawSelection(MeshInstance* selectedObject) const {
+	if (!selectedObject) {
+		return;
+	}
+	ImGui::Begin("Selected Item", nullptr);
+	// TODO: make object changable using dropdown menus
 	ImGui::End();
-	// Finish rendering
+}
+
+void GUI::drawResources() const {
+	ImGui::Begin("Resources", nullptr);
+	// TODO: fill up with stuff
+	if (ImGui::CollapsingHeader("Materials")) {
+		for (int32_t i = 0; i < 10; ++i) {
+			if (ImGui::TreeNode("Material")) {
+				ImGui::Text("Dummy data");
+				ImGui::TreePop();
+			}
+		}
+	}
+	if (ImGui::CollapsingHeader("Shaders")) {
+		for (int32_t i = 0; i < 10; ++i) {
+			if (ImGui::TreeNode("Shader")) {
+				ImGui::Text("Dummy data");
+				ImGui::TreePop();
+			}
+		}
+	}
+	if (ImGui::CollapsingHeader("Textures")) {
+		for (int32_t i = 0; i < 10; ++i) {
+			if (ImGui::TreeNode("Texture")) {
+				ImGui::Text("Dummy data");
+				ImGui::TreePop();
+			}
+		}
+	}
+	ImGui::End();
+}
+
+void GUI::endRendering() const {
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
