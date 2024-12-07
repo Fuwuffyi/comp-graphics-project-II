@@ -24,5 +24,5 @@ void main() {
     float specAmount = pow(max(dot(normal, halfVec), 0.0), 8.0);
     float specularValue = specAmount * specular;
 
-    fragColor = vec4(materialColor.xyz * (lightColor * (ambient + diffuse + specularValue)), 0.5);
+    fragColor = vec4(materialColor.xyz * (lightColor * (ambient + diffuse + specularValue)), 1.0);
 }

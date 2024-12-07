@@ -1,4 +1,4 @@
 vertex base.vert.glsl
 fragment blinn_phong.frag.glsl
-transparent 1
+transparent 0
 lit 1
