@@ -94,17 +94,15 @@ Shader* ShaderLoader::load(const std::string& shaderAssetFileName) {
 	// Read shader file
 	auto [vertShaderFile, fragShaderFile, litFlag, transparentFlag] = readShaderAssetFile(shaderAssetFileName + SHADER_ASSET_FILE_EXTENSION);
 	// Load it
-	if (loadedShaders.find(shaderAssetFileName) == loadedShaders.end()) {
-		loadedShaders.emplace(
+	loadedShaders.emplace(
+		std::piecewise_construct,
+		std::forward_as_tuple(shaderAssetFileName),
+		std::forward_as_tuple(
 			std::piecewise_construct,
-			std::forward_as_tuple(shaderAssetFileName),
-			std::forward_as_tuple(
-				std::piecewise_construct,
-				std::forward_as_tuple(0u),
-				std::forward_as_tuple(shaderAssetFileName, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile), litFlag, transparentFlag)
-			)
-		);
-	}
+			std::forward_as_tuple(0u),
+			std::forward_as_tuple(shaderAssetFileName, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile), litFlag, transparentFlag)
+		)
+	);
 	return &loadedShaders.at(shaderAssetFileName).second;
 }
 

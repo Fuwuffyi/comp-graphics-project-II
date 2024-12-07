@@ -61,9 +61,6 @@
     <Filter Include="Source Files\renderer">
       <UniqueIdentifier>{f8f54bd2-00d2-4024-b126-1a4afd01fb14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\mesh">
-      <UniqueIdentifier>{0c4cdbd8-57e5-4ded-9dc9-6ac97c6640dd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\mesh">
       <UniqueIdentifier>{7b745007-2cd1-4175-9843-1c589a145a7e}</UniqueIdentifier>
     </Filter>
@@ -73,11 +70,14 @@
     <Filter Include="Source Files\material">
       <UniqueIdentifier>{747a7242-ba88-4098-92cd-2352102014fc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\texture">
-      <UniqueIdentifier>{bdaf6f0e-2174-465d-830b-173cc88e7d8c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\texture">
       <UniqueIdentifier>{9081f69c-a252-48fa-8a18-c3709ac7d477}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\mesh">
+      <UniqueIdentifier>{0c4cdbd8-57e5-4ded-9dc9-6ac97c6640dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\texture">
+      <UniqueIdentifier>{bdaf6f0e-2174-465d-830b-173cc88e7d8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +175,12 @@
       <Filter>Source Files\texture</Filter>
     </ClCompile>
     <ClCompile Include="TextureCubemap.cpp">
+      <Filter>Source Files\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="StbImage.cpp">
       <Filter>Source Files\texture</Filter>
     </ClCompile>
   </ItemGroup>
@@ -280,6 +286,9 @@
     </ClInclude>
     <ClInclude Include="TextureCubemap.hpp">
       <Filter>Header Files\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.hpp">
+      <Filter>Header Files\loaders</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
