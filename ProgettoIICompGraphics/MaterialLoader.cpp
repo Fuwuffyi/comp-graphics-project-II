@@ -7,6 +7,7 @@
 
 #include <unordered_map>
 #include <stdexcept>
+#include <iostream>
 #include <sstream>
 #include <fstream>
 
@@ -122,6 +123,7 @@ std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetF
 	if (loadedMaterials.find(materialAssetFileName) != loadedMaterials.end()) {
 		return loadedMaterials.at(materialAssetFileName);
 	}
+	std::cout << "Loaded Material: " << materialAssetFileName << std::endl;
 	// Read the file
 	auto [shaderName, propertyMap, textureMap] = readMaterialAssetFile(materialAssetFileName + MATERIAL_ASSET_FILE_EXTENSION);
 	// Load the material

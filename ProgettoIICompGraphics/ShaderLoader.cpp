@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <stdexcept>
+#include <iostream>
 #include <sstream>
 #include <fstream>
 
@@ -90,6 +91,7 @@ std::shared_ptr<Shader> ShaderLoader::load(const std::string& shaderAssetFileNam
 	if (loadedShaders.find(shaderAssetFileName) != loadedShaders.end()) {
 		return loadedShaders.at(shaderAssetFileName);
 	}
+	std::cout << "Loaded Shader: " << shaderAssetFileName << std::endl;
 	// Read shader file
 	auto [vertShaderFile, fragShaderFile, litFlag, transparentFlag] = readShaderAssetFile(shaderAssetFileName + SHADER_ASSET_FILE_EXTENSION);
 	// Load it

@@ -4,9 +4,10 @@
 #include "Texture2D.hpp"
 #include "TextureCubemap.hpp"
 
-#include <stb_image.h>
 #include <unordered_map>
+#include <stb_image.h>
 #include <stdexcept>
+#include <iostream>
 
 namespace TextureLoader {
 	static std::unordered_map<std::string, std::shared_ptr<Texture2D>> loadedTextures;
@@ -50,6 +51,7 @@ std::shared_ptr<Texture> TextureLoader::load(const std::string& textureName, con
 	if (loadedTextures.find(textureName) != loadedTextures.end()) {
 		return loadedTextures.at(textureName);
 	}
+	std::cout << "Loaded Texture2D: " << textureName << std::endl;
 	auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + textureName, true);
 	loadedTextures.emplace(textureName, std::make_shared<Texture2D>(inFormat, outFormat));
 	loadedTextures.at(textureName)->uploadData(imageWidth, imageHeight, data);
@@ -66,6 +68,7 @@ std::shared_ptr<Texture> TextureLoader::loadCubemap(const std::string& cubemapDi
 	if (loadedCubemaps.find(cubemapDirectory) != loadedCubemaps.end()) {
 		return loadedCubemaps.at(cubemapDirectory);
 	}
+	std::cout << "Loaded Cubemap: " << cubemapDirectory << std::endl;
 	loadedCubemaps.emplace(cubemapDirectory, std::make_shared<TextureCubemap>());
 	// Load faces of cubemap
 	for (uint32_t i = 0; i < 6; ++i) {
