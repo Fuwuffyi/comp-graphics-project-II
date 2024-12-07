@@ -24,7 +24,6 @@ public:
 	Shader(const Shader&) = delete;
 	Shader& operator=(const Shader&) = delete;
 
-	const std::string name;
 	const uint32_t id;
 	const bool litFlag;
 	const bool transparentFlag;
@@ -38,7 +37,7 @@ public:
 	 * \param _litFlag The fragment shader's code.
 	 * \param _transparentFlag The fragment shader's code.
 	 */
-	Shader(const std::string& _name, const std::string& vertexSource, const std::string& fragmentSource, const bool _litFlag = false, const bool _transparentFlag = false);
+	Shader(const std::string& vertexSource, const std::string& fragmentSource, const bool _litFlag = false, const bool _transparentFlag = false);
 
 	/**
 	 * Deallocates the GPU memory for this shader program.
@@ -59,13 +58,6 @@ public:
 	 * \return The uniform's location within the shader, -1 if it does not exist.
 	 */
 	int32_t getUniformLocation(const std::string& uniform) const;
-
-	/**
-	 * Getter for the shader's name.
-	 * 
-	 * \return The shader's name.
-	 */
-	const std::string& getName() const;
 
 	/**
 	 * Sets a uniform on the shader (provided the shader is active, and the uniform exists).
