@@ -85,6 +85,13 @@ public:
 	void setFOV(const float newFov);
 
 	/**
+	 * Setter for the camera's aspect ratio.
+	 * 
+	 * \param newRatio The camera's new aspect ratio.
+	 */
+	void setAspectRatio(const float newRatio);
+
+	/**
 	 * Getter for the camera's view matrix.
 	 *
 	 * \return The camera's view matrix.

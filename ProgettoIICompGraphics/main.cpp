@@ -1,6 +1,5 @@
 #include "Window.hpp"
 #include "Vertex.hpp"
-#include "Mesh.hpp"
 #include "Transform.hpp"
 #include "Camera.hpp"
 #include "Material.hpp"
@@ -10,6 +9,8 @@
 #include "ModelInstance.hpp"
 #include "MeshLoader.hpp"
 #include "Renderer.hpp"
+#include "Mesh.hpp"
+#include "Primitives.hpp"
 
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
@@ -41,6 +42,10 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 	if (Keyboard::key(GLFW_KEY_D)) {
 		// Move right
 		cam.getMutableTransform().setPosition(cam.getTransform().getPosition() + cam.getRightVector() * 2.0f * deltaTime);
+	}
+	// Toggle wireframe on right alt
+	if (Keyboard::keyWentDown(GLFW_KEY_RIGHT_ALT)) {
+		Renderer::toggleWireframe();
 	}
 	// Set cursor hidden when holding left/middle mouse buttons
 	constexpr const float sensitivity = 0.1f;
@@ -99,26 +104,55 @@ int main() {
 	// Add double buffering
 	glfwWindowHint(GLFW_DOUBLEBUFFER, GLFW_TRUE);
 	// Create the window
-	const std::string windowName = "unnamed window";
+	const std::string windowName = "Opengl 3D project";
 	Window window(windowName, glm::uvec2(900, 900));
 	window.setWindowActive();
-	// Testing camera
-	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.1f, 1000.0f);
-	// Testing mesh
-	const std::vector<Mesh *> meshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
-	Material* dragonMaterialPhong = MaterialLoader::load("phong");
-	Material* dragonMaterialBlinn = MaterialLoader::load("blinn_phong");
-	Transform dragonTrasnformA(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
-	Transform dragonTrasnformB(glm::vec3(0.0f, 0.0f, -0.25f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(1.0f));
-	Transform dragonTrasnformC(glm::vec3(0.25f, 0.0f, 0.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f));
-	Transform dragonTrasnformD(glm::vec3(-0.25f, 0.0f, 0.0f), glm::vec3(0.0f, 270.0f, 0.0f), glm::vec3(1.0f));
-	Transform dragonsTransform(glm::vec3(0.0f, 0.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(6.0f));
-	MeshInstance instanceA(meshes[0], dragonMaterialBlinn, dragonTrasnformA);
-	MeshInstance instanceB(meshes[0], dragonMaterialPhong, dragonTrasnformB);
-	MeshInstance instanceC(meshes[0], dragonMaterialBlinn, dragonTrasnformC);
-	MeshInstance instanceD(meshes[0], dragonMaterialPhong, dragonTrasnformD);
-	ModelInstance instance(std::vector<MeshInstance>({ instanceA, instanceB, instanceC, instanceD }), dragonsTransform);
-	Renderer::addToRenderingQueues(&instance);
+	// Create a camera
+	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.01f, 100.0f);
+	// Load some materials
+	Material* materialPhong = MaterialLoader::load("phong");
+	Material* materialBlinn = MaterialLoader::load("blinn_phong");
+	// Test out primitives
+	Mesh* planePrimitive = Primitives::generatePlane(glm::vec2(1.0f, 0.5f), 5);
+	Transform planeTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	MeshInstance planeInstance(planePrimitive, materialBlinn, planeTransform);
+
+	Mesh* rectPrimitive = Primitives::generateRect(glm::vec3(0.6f, 0.4f, 0.5f), 5);
+	Transform rectTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	MeshInstance rectInstance(rectPrimitive, materialPhong, rectTransform);
+
+	Mesh* pyramidPrimitive = Primitives::generatePyramid(glm::vec3(0.3f, 0.6f, 0.7f), 5);
+	Transform pyramidTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	MeshInstance pyramidInstance(pyramidPrimitive, materialBlinn, pyramidTransform);
+
+	Mesh* spherePrimitive = Primitives::generateSphere(glm::vec3(1.0f), 15);
+	Transform sphereTransform(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f));
+	MeshInstance sphereInstance(spherePrimitive, materialPhong, sphereTransform);
+
+	Mesh* cylinderPrimitive = Primitives::generateCylinder(glm::vec3(0.9f, 0.7f, 0.6f), 5);
+	Transform cylinderTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	MeshInstance cylinderInstance(cylinderPrimitive, materialBlinn, cylinderTransform);
+
+	Mesh* conePrimitive = Primitives::generateCone(glm::vec3(0.3f, 0.6f, 0.3f), 5);
+	Transform coneTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	MeshInstance coneInstance(conePrimitive, materialPhong, coneTransform);
+
+	Mesh* thorusPrimitive = Primitives::generateThorus();
+	Transform thorusTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f));
+	MeshInstance thorusInstance(thorusPrimitive, materialBlinn, thorusTransform);
+	// Load the dragon
+	const std::vector<Mesh *> dragonMeshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
+	Transform dragonTrasnform(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0f));
+	MeshInstance dragonInstance(dragonMeshes[0], materialPhong, dragonTrasnform);
+	// Add objects to rendering queue
+	Renderer::addToRenderingQueues(&planeInstance);
+	Renderer::addToRenderingQueues(&rectInstance);
+	Renderer::addToRenderingQueues(&pyramidInstance);
+	Renderer::addToRenderingQueues(&sphereInstance);
+	Renderer::addToRenderingQueues(&cylinderInstance);
+	Renderer::addToRenderingQueues(&coneInstance);
+	Renderer::addToRenderingQueues(&thorusInstance);
+	Renderer::addToRenderingQueues(&dragonInstance);
 	Renderer::setupOpengl();
 	// Start the draw loop
 	double prevTime = glfwGetTime();
@@ -130,9 +164,8 @@ int main() {
 		// Set widnow title to FPS
 		window.setTitle(windowName + " - " + std::to_string(1.0f / deltaTime) + " FPS");
 		// Camera movement
+		cam.setAspectRatio(static_cast<float>(window.getDimensions().x) / static_cast<float>(window.getDimensions().y));
 		cameraControls(cam, window, deltaTime);
-		// Dragons rotation stuff
-		instance.getMutableTransform().setRotation(glm::vec3(0.0f, 1.0f, 0.0f) * (float)glfwGetTime() * 100.0f);
 		// Clear buffers
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -142,7 +175,14 @@ int main() {
 		window.swapBuffers();
 		glfwPollEvents();
 	}
-	for (const Mesh* m : meshes) {
+	delete planePrimitive;
+	delete rectPrimitive;
+	delete pyramidPrimitive;
+	delete spherePrimitive;
+	delete cylinderPrimitive;
+	delete conePrimitive;
+	delete thorusPrimitive;
+	for (const Mesh* m : dragonMeshes) {
 		delete m;
 	}
 	MaterialLoader::unloadAll();

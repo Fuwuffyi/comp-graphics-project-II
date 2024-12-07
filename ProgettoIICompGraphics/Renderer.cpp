@@ -53,6 +53,12 @@ void Renderer::setupOpengl() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
+void Renderer::toggleWireframe() {
+	static bool wireframe = false;
+	wireframe = !wireframe;
+	glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
+}
+
 void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::vec3& viewPoint) {
 	// Send renderables to queues
 	sendDataToQueues();

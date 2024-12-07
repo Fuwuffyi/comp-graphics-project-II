@@ -56,6 +56,14 @@ void Camera::setFOV(const float newFov) {
 	this->fov = newFov;
 }
 
+void Camera::setAspectRatio(const float newRatio) {
+	if (newRatio != this->aspectRatio) {
+		this->dirtyProjection = true;
+		this->dirtyCamera = true;
+		this->aspectRatio = newRatio;
+	}
+}
+
 const glm::mat4& Camera::getViewMatrix() {
 	if (this->dirtyView) {
 		this->updateViewMatrix();

@@ -61,11 +61,11 @@
     <Filter Include="Source Files\renderer">
       <UniqueIdentifier>{f8f54bd2-00d2-4024-b126-1a4afd01fb14}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\mesh">
-      <UniqueIdentifier>{7b745007-2cd1-4175-9843-1c589a145a7e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\mesh">
       <UniqueIdentifier>{0c4cdbd8-57e5-4ded-9dc9-6ac97c6640dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\mesh">
+      <UniqueIdentifier>{7b745007-2cd1-4175-9843-1c589a145a7e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Primitives.cpp">
+      <Filter>Source Files\mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -244,6 +247,9 @@
     </ClInclude>
     <ClInclude Include="Renderer.hpp">
       <Filter>Header Files\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Primitives.hpp">
+      <Filter>Header Files\mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
