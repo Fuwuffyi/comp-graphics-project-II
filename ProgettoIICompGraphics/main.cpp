@@ -119,14 +119,7 @@ int main() {
 	MeshInstance instanceD(meshes[0], dragonMaterialPhong, dragonTrasnformD);
 	ModelInstance instance(std::vector<MeshInstance>({ instanceA, instanceB, instanceC, instanceD }), dragonsTransform);
 	Renderer::addToRenderingQueues(&instance);
-	// Enable blending
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// Enable depth testing
-	glEnable(GL_DEPTH_TEST);
-	// Cull back faces (!!! ONLY COUNTER CLOCKWISE FACES ARE RENDERED !!!)
-	glEnable(GL_CULL_FACE);
-	glFrontFace(GL_CCW);
+	Renderer::setupOpengl();
 	// Start the draw loop
 	double prevTime = glfwGetTime();
 	while (!window.shouldClose()) {
@@ -141,7 +134,7 @@ int main() {
 		// Dragons rotation stuff
 		instance.getMutableTransform().setRotation(glm::vec3(0.0f, 1.0f, 0.0f) * (float)glfwGetTime() * 100.0f);
 		// Clear buffers
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
 		Renderer::renderAll(cam.getCameraMatrix(), cam.getTransform().getPosition());

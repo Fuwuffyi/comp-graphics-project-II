@@ -1,4 +1,2 @@
 shader phong
-transparent 0
-lit 1
 p materialColor vec4 1.0 1.0 0.0 1.0

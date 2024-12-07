@@ -4,12 +4,10 @@
 
 #include <stdexcept>
 
-Material::Material(const std::string& _name, Shader* _shader, const std::unordered_map<std::string, Material::MaterialValueType>& values, const bool _lit, const bool _transparent)
+Material::Material(const std::string& _name, Shader* _shader, const std::unordered_map<std::string, Material::MaterialValueType>& values)
 	:
 	shader(_shader),
 	materialValues(values),
-	lit(_lit),
-	trasnparent(_transparent),
 	name(_name)
 {
 	if (this->shader == nullptr) {
@@ -39,12 +37,4 @@ void Material::activate() const {
 		};
 		std::visit(visitor, value);
 	}
-}
-
-bool Material::isTransparent() const {
-	return this->trasnparent;
-}
-
-bool Material::isLit() const {
-	return this->lit;
 }

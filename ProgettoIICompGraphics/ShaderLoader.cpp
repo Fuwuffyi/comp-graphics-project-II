@@ -16,9 +16,11 @@ namespace ShaderLoader {
 
 	static constexpr const char* VERTEX_KEY = "vertex";
 	static constexpr const char* FRAGMENT_KEY = "fragment";
+	static constexpr const char* LIT_KEY = "lit";
+	static constexpr const char* TRANSPARENT_KEY = "transparent";
 
 	static std::string readShaderSource(const std::string& shaderFile);
-	static std::tuple<std::string, std::string> readShaderAssetFile(const std::string& shaderAssetFile);
+	static std::tuple<std::string, std::string, bool, bool> readShaderAssetFile(const std::string& shaderAssetFile);
 }
 
 std::string ShaderLoader::readShaderSource(const std::string& shaderFile) {
@@ -39,14 +41,14 @@ std::string ShaderLoader::readShaderSource(const std::string& shaderFile) {
 	return contents;
 }
 
-std::tuple<std::string, std::string> ShaderLoader::readShaderAssetFile(const std::string& shaderAssetFile) {
+std::tuple<std::string, std::string, bool, bool> ShaderLoader::readShaderAssetFile(const std::string& shaderAssetFile) {
 	// Open shader asset file
 	std::ifstream assetFile(SHADER_ASSET_DIR + shaderAssetFile);
 	if (!assetFile.is_open()) {
 		throw std::runtime_error("Failed to open shader asset file: " + shaderAssetFile);
 	}
 	// Prepare variables to output
-	std::string line, vertShaderFile, fragShaderFile;
+	std::string line, vertShaderFile, fragShaderFile, litValue, transparentValue;
 	while (std::getline(assetFile, line)) {
 		std::istringstream iss(line);
 		std::string key, value;
@@ -55,6 +57,10 @@ std::tuple<std::string, std::string> ShaderLoader::readShaderAssetFile(const std
 			vertShaderFile = SHADER_SOURCE_DIR + value;
 		} else if (key == FRAGMENT_KEY) {
 			fragShaderFile = SHADER_SOURCE_DIR + value;
+		} else if (key == LIT_KEY) {
+			litValue = value;
+		} else if (key == TRANSPARENT_KEY) {
+			transparentValue = value;
 		}
 	}
 	assetFile.close();
@@ -65,8 +71,14 @@ std::tuple<std::string, std::string> ShaderLoader::readShaderAssetFile(const std
 	if (fragShaderFile.empty()) {
 		throw std::runtime_error("Missing fragment shader file in shader asset: " + shaderAssetFile);
 	}
+	if (litValue.empty()) {
+		throw std::runtime_error("Missing lit flag file in shader asset: " + shaderAssetFile);
+	}
+	if (transparentValue.empty()) {
+		throw std::runtime_error("Missing transparent flag file in shader asset: " + shaderAssetFile);
+	}
 	// Return the values
-	return { vertShaderFile, fragShaderFile };
+	return { vertShaderFile, fragShaderFile, static_cast<bool>(std::stoi(litValue)), static_cast<bool>(std::stoi(transparentValue)) };
 }
 
 Shader* ShaderLoader::load(const std::string& shaderAssetFileName) {
@@ -80,7 +92,7 @@ Shader* ShaderLoader::load(const std::string& shaderAssetFileName) {
 		return &loadedShaders.at(shaderAssetFileName).second;
 	}
 	// Read shader file
-	auto [vertShaderFile, fragShaderFile] = readShaderAssetFile(shaderAssetFileName + SHADER_ASSET_FILE_EXTENSION);
+	auto [vertShaderFile, fragShaderFile, litFlag, transparentFlag] = readShaderAssetFile(shaderAssetFileName + SHADER_ASSET_FILE_EXTENSION);
 	// Load it
 	if (loadedShaders.find(shaderAssetFileName) == loadedShaders.end()) {
 		loadedShaders.emplace(
@@ -89,7 +101,7 @@ Shader* ShaderLoader::load(const std::string& shaderAssetFileName) {
 			std::forward_as_tuple(
 				std::piecewise_construct,
 				std::forward_as_tuple(0u),
-				std::forward_as_tuple(shaderAssetFileName, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile))
+				std::forward_as_tuple(shaderAssetFileName, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile), litFlag, transparentFlag)
 			)
 		);
 	}

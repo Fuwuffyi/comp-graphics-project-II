@@ -26,15 +26,19 @@ public:
 
 	const std::string name;
 	const uint32_t id;
+	const bool litFlag;
+	const bool transparentFlag;
 
 	/**
 	 * Creates a new shader program from a fragment and vertex shader.
 	 *
 	 * \param The shader's name.
 	 * \param vertexSource The vertex shader's code.
-	 * \param fragmentSile The fragment shader's code.
+	 * \param fragmentSource The fragment shader's code.
+	 * \param _litFlag The fragment shader's code.
+	 * \param _transparentFlag The fragment shader's code.
 	 */
-	Shader(const std::string& _name, const std::string& vertexSource, const std::string& fragmentSile);
+	Shader(const std::string& _name, const std::string& vertexSource, const std::string& fragmentSource, const bool _litFlag = false, const bool _transparentFlag = false);
 
 	/**
 	 * Deallocates the GPU memory for this shader program.

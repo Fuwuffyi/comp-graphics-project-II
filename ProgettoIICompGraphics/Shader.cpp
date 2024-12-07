@@ -24,11 +24,13 @@ void Shader::checkErrors(const std::string& shaderType, const uint32_t shaderId)
 	}
 }
 
-Shader::Shader(const std::string& _name, const std::string& vertexSource, const std::string& fragmentSource)
+Shader::Shader(const std::string& _name, const std::string& vertexSource, const std::string& fragmentSource, const bool _litFlag, const bool _transparentFlag)
 	:
 	uniformLocations(),
 	name(_name),
-	id(glCreateProgram())
+	id(glCreateProgram()),
+	litFlag(_litFlag),
+	transparentFlag(_transparentFlag)
 {
 	const char* vertSource = vertexSource.c_str();
 	const char* fragSource = fragmentSource.c_str();

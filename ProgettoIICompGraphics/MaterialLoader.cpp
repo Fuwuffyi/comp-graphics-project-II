@@ -16,11 +16,9 @@ namespace MaterialLoader {
 	static constexpr const char* MATERIAL_ASSET_FILE_EXTENSION = ".material";
 
 	static constexpr const char* SHADER_KEY = "shader";
-	static constexpr const char* TRANSPARENT_KEY = "transparent";
 	static constexpr const char* PROPERTY_KEY = "p";
-	static constexpr const char* LIT_KEY = "lit";
 
-	static std::tuple<std::string, bool, bool, std::unordered_map<std::string, Material::MaterialValueType>> readMaterialAssetFile(const std::string& materialAssetFile);
+	static std::pair<std::string, std::unordered_map<std::string, Material::MaterialValueType>> readMaterialAssetFile(const std::string& materialAssetFile);
 	static Material::MaterialValueType parseMaterialValue(const std::string& value, const std::string& type);
 }
 
@@ -67,7 +65,7 @@ Material::MaterialValueType MaterialLoader::parseMaterialValue(const std::string
 	throw std::invalid_argument("Unknown material property type: " + type);
 }
 
-std::tuple<std::string, bool, bool, std::unordered_map<std::string, Material::MaterialValueType>> MaterialLoader::readMaterialAssetFile(const std::string& materialAssetFile) {
+std::pair<std::string, std::unordered_map<std::string, Material::MaterialValueType>> MaterialLoader::readMaterialAssetFile(const std::string& materialAssetFile) {
 	// Open shader asset file
 	std::ifstream assetFile(MATERIAL_ASSET_DIR + materialAssetFile);
 	if (!assetFile.is_open()) {
@@ -75,7 +73,7 @@ std::tuple<std::string, bool, bool, std::unordered_map<std::string, Material::Ma
 	}
 	// Prepare variables to output
 	std::unordered_map<std::string, Material::MaterialValueType> materialProperties;
-	std::string line, shaderText, transparentText, litText;
+	std::string line, shaderText;
 	while (std::getline(assetFile, line)) {
 		// Read all lines
 		std::istringstream iss(line);
@@ -87,16 +85,11 @@ std::tuple<std::string, bool, bool, std::unordered_map<std::string, Material::Ma
 			iss >> propertyName >> type;
 			std::getline(iss, value);
 			materialProperties[propertyName] = parseMaterialValue(value, type);
-		}
-		else {
+		} else {
 			iss >> value;
 			// Check the indices
 			if (key == SHADER_KEY) {
 				shaderText = value;
-			} else if (key == TRANSPARENT_KEY) {
-				transparentText = value;
-			} else if (key == LIT_KEY) {
-				litText = value;
 			}
 		}
 	}
@@ -105,14 +98,8 @@ std::tuple<std::string, bool, bool, std::unordered_map<std::string, Material::Ma
 	if (shaderText.empty()) {
 		throw std::runtime_error("Missing shader in material asset: " + materialAssetFile);
 	}
-	if (transparentText.empty()) {
-		throw std::runtime_error("Missing transparency flag in material asset: " + materialAssetFile);
-	}
-	if (litText.empty()) {
-		throw std::runtime_error("Missing lit flag in material asset: " + materialAssetFile);
-	}
 	// Return the values
-	return { shaderText, static_cast<bool>(std::stoi(transparentText)), static_cast<bool>(std::stoi(litText)), materialProperties };
+	return { shaderText, materialProperties };
 }
 
 Material* MaterialLoader::load(const std::string& materialAssetFileName) {
@@ -126,7 +113,7 @@ Material* MaterialLoader::load(const std::string& materialAssetFileName) {
 		return &loadedMaterials.at(materialAssetFileName).second;
 	}
 	// Read the file
-	auto [shaderName, transparent, lit, propertyMap] = readMaterialAssetFile(materialAssetFileName + MATERIAL_ASSET_FILE_EXTENSION);
+	auto [shaderName, propertyMap] = readMaterialAssetFile(materialAssetFileName + MATERIAL_ASSET_FILE_EXTENSION);
 	// Load the shader
 	Shader* shader = ShaderLoader::load(shaderName);
 	// Load the material
@@ -136,7 +123,7 @@ Material* MaterialLoader::load(const std::string& materialAssetFileName) {
 		std::forward_as_tuple(
 			std::piecewise_construct,
 			std::forward_as_tuple(0u),
-			std::forward_as_tuple(materialAssetFileName, shader, propertyMap, lit, transparent)
+			std::forward_as_tuple(materialAssetFileName, shader, propertyMap)
 		)
 	);
 	return &loadedMaterials.at(materialAssetFileName).second;

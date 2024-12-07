@@ -17,4 +17,5 @@ public:
 	void addRenderable(Mesh* mesh, Material* material, const glm::mat4& modelMatrix);
 	void render(const glm::mat4& cameraMatrix, const glm::vec3& viewPoint);
 	void clear();
+	std::size_t size() const;
 };

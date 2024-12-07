@@ -24,8 +24,6 @@ public:
 private:
 	Shader* shader;
 	std::unordered_map<std::string, MaterialValueType> materialValues;
-	bool trasnparent;
-	bool lit;
 
 public:
 	const std::string name;
@@ -36,10 +34,8 @@ public:
 	 * \param _name The material's name.
 	 * \param _shader A shader pointer to be used to render the material.
 	 * \param values The properties of the material.
-	 * \param _lit Checks if a material will be affected by lighting.
-	 * \param _transparent Checks if a material will be transparent.
 	 */
-	Material(const std::string& _name, Shader* _shader, const std::unordered_map<std::string, MaterialValueType>& values, const bool _lit = false, const bool _transparent = false);
+	Material(const std::string& _name, Shader* _shader, const std::unordered_map<std::string, MaterialValueType>& values);
 
 	/**
 	 * Destructor for the material class.
@@ -53,20 +49,6 @@ public:
 	* \return The material's shader pointer.
 	*/
 	Shader* getShader() const;
-
-	/**
-	 * Checks if the material can be transparent.
-	 *
-	 * \return True if it is transparent.
-	 */
-	bool isTransparent() const;
-
-	/**
-	 * Checks if the material is affected by lighting.
-	 * 
-	 * \return True if it is affected by lights.
-	 */
-	bool isLit() const;
 
 	/**
 	 * Activates the material's shader and its properties.
