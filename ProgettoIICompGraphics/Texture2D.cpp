@@ -1,9 +1,8 @@
 #include "Texture2D.hpp"
 
-Texture2D::Texture2D(const uint32_t _bindingPoint, const int32_t _internalFormat, const int32_t _externalFormat, const int32_t cubemapType)
+Texture2D::Texture2D(const int32_t _internalFormat, const int32_t _externalFormat, const int32_t cubemapType)
 	:
-	Texture(cubemapType, _bindingPoint),
-	bindingPoint(_bindingPoint),
+	Texture(cubemapType),
 	internalFormat(_internalFormat),
 	externalFormat(_externalFormat)
 {}

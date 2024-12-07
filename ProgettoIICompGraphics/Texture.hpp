@@ -10,7 +10,6 @@ private:
 public:
 	const uint32_t textureId;
 	const int32_t textureType;
-	const int32_t bindingPoint;
 public:
 	Texture(const Texture&) = delete;
 	Texture& operator=(const Texture&) = delete;
@@ -19,9 +18,8 @@ public:
 	 * Creates a texture object.
 	 * 
 	 * \param _textureType The OpenGL type of the texture to store.
-	 * \param _bindingPoint The texture uniform the texture binds to.
 	 */
-	Texture(const int32_t _textureType, const int32_t _bindingPoint);
+	Texture(const int32_t _textureType);
 
 	/**
 	 * Deletes the texture's GPU allocated memory.
@@ -49,8 +47,9 @@ public:
 	/** 
 	 * Sets texture to binding point.
 	 * 
+	 * \param bindingPoint The point to set the texture to for shaders.
 	 */
-	void activate() const;
+	void activate(const int32_t bindingPoint) const;
 
 	/**
 	 * Binds a texture to OpenGL to edit.

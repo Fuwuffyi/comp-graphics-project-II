@@ -8,13 +8,12 @@ uint32_t Texture::genTextureId(const int32_t textureType) {
 	return texture;
 }
 
-Texture::Texture(const int32_t _textureType, const int32_t _bindingPoint)
+Texture::Texture(const int32_t _textureType)
 	:
 	textureId(Texture::genTextureId(_textureType)),
-	textureType(_textureType),
-	bindingPoint(_bindingPoint)
+	textureType(_textureType)
 {
-	this->activate();
+	this->bind();
 }
 
 Texture::~Texture() {
@@ -31,8 +30,8 @@ void Texture::setParameters(const std::vector<std::pair<int32_t, int32_t>>& para
 	}
 }
 
-void Texture::activate() const {
-	glActiveTexture(GL_TEXTURE0 + this->bindingPoint);
+void Texture::activate(const int32_t bindingPoint) const {
+	glActiveTexture(GL_TEXTURE0 + bindingPoint);
 }
 
 void Texture::bind() const {

@@ -41,7 +41,7 @@ std::tuple<int32_t, int32_t, int32_t, int32_t, uint8_t*> TextureLoader::loadText
 	return std::make_tuple(widthImage, heightImage, inFormat, outFormat, bytes);
 }
 
-std::shared_ptr<Texture> TextureLoader::load(const std::string& textureName, const uint32_t binding, const bool flipImage) {
+std::shared_ptr<Texture> TextureLoader::load(const std::string& textureName, const bool flipImage) {
 	// Return null pointer if empty
 	if (textureName.empty()) {
 		return nullptr;
@@ -51,13 +51,13 @@ std::shared_ptr<Texture> TextureLoader::load(const std::string& textureName, con
 		return loadedTextures.at(textureName);
 	}
 	auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + textureName);
-	loadedTextures.emplace(textureName, std::make_shared<Texture2D>(binding, inFormat, outFormat));
+	loadedTextures.emplace(textureName, std::make_shared<Texture2D>(inFormat, outFormat));
 	loadedTextures.at(textureName)->uploadData(imageWidth, imageHeight, data);
 	stbi_image_free(data);
 	return loadedTextures.at(textureName);
 }
 
-std::shared_ptr<Texture> TextureLoader::loadCubemap(const std::string& cubemapDirectory, const uint32_t binding) {
+std::shared_ptr<Texture> TextureLoader::loadCubemap(const std::string& cubemapDirectory) {
 	// Return null pointer if empty
 	if (cubemapDirectory.empty()) {
 		return nullptr;
@@ -66,7 +66,7 @@ std::shared_ptr<Texture> TextureLoader::loadCubemap(const std::string& cubemapDi
 	if (loadedCubemaps.find(cubemapDirectory) != loadedCubemaps.end()) {
 		return loadedCubemaps.at(cubemapDirectory);
 	}
-	loadedCubemaps.emplace(cubemapDirectory, std::make_shared<TextureCubemap>(binding));
+	loadedCubemaps.emplace(cubemapDirectory, std::make_shared<TextureCubemap>());
 	// Load faces of cubemap
 	for (uint32_t i = 0; i < 6; ++i) {
 		auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + cubemapDirectory + "/" + std::to_string(i) + ".jpg");

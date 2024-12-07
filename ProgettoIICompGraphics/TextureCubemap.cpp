@@ -2,16 +2,16 @@
 
 #include <stdexcept>
 
-TextureCubemap::TextureCubemap(const int32_t _bindingPoint)
+TextureCubemap::TextureCubemap()
 	:
-	Texture(GL_TEXTURE_CUBE_MAP, _bindingPoint),
+	Texture(GL_TEXTURE_CUBE_MAP),
 	cubemapTextures{
-			Texture2D { 0, GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_POSITIVE_X },
-			Texture2D { 1, GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_NEGATIVE_X },
-			Texture2D { 2, GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_POSITIVE_Y },
-			Texture2D { 3, GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y },
-			Texture2D { 4, GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_POSITIVE_Z },
-			Texture2D { 5, GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z },
+			Texture2D { GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_POSITIVE_X },
+			Texture2D { GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_NEGATIVE_X },
+			Texture2D { GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_POSITIVE_Y },
+			Texture2D { GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y },
+			Texture2D { GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_POSITIVE_Z },
+			Texture2D { GL_RGB, GL_RGB, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z },
 		}
 {
 	this->setParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR);

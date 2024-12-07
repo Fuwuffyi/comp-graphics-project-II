@@ -15,9 +15,8 @@ public:
 	/**
 	 * Creates an empty cubemap.
 	 *
-	 * \param _bindingPoint The binding point of the texture for shaders.
 	 */
-	TextureCubemap(const int32_t _bindingPoint);
+	TextureCubemap();
 
 	/**
 	 * Uploads texture data from the GPU.

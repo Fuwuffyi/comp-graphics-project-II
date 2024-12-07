@@ -1,6 +1,7 @@
 #include "Material.hpp"
 
 #include "Shader.hpp"
+#include "Texture.hpp"
 
 #include <stdexcept>
 
@@ -27,7 +28,9 @@ void Material::activate() const {
 	if (!this->shader) {
 		return;
 	}
+	// Activate the shader
 	this->shader->activate();
+	// Setup all shader uniform properties
 	for (const std::pair<std::string, Material::MaterialValueType>& keyValuePair : this->materialValues) {
 		const std::string& uniformName = keyValuePair.first;
 		const MaterialValueType& value = keyValuePair.second;

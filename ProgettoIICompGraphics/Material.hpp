@@ -6,6 +6,8 @@
 #include <string>
 #include <memory>
 
+class Texture;
+
 /**
  * Forward declaration for the shader class.
  */
