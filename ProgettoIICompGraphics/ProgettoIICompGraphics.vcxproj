@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -87,6 +87,11 @@
     <PreBuildEvent>
       <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
 git submodule update --init --recursive
+copy $(SolutionDir)external\imgui\backends\imgui_impl_glfw.h $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3.h $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_glfw.cpp $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3.cpp $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3_loader.h $(SolutionDir)external\imgui
 cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
 cmake --build $(SolutionDir)external\glfw --config $(Configuration)
 cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
@@ -101,7 +106,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,6 +119,11 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <PreBuildEvent>
       <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
 git submodule update --init --recursive
+copy $(SolutionDir)external\imgui\backends\imgui_impl_glfw.h $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3.h $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_glfw.cpp $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3.cpp $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3_loader.h $(SolutionDir)external\imgui
 cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
 cmake --build $(SolutionDir)external\glfw --config $(Configuration)
 cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
@@ -126,7 +136,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\stb;$(SolutionDir)external\imgui;$(SolutionDir)external\assimp\include;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -139,6 +149,11 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <PreBuildEvent>
       <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
 git submodule update --init --recursive
+copy $(SolutionDir)external\imgui\backends\imgui_impl_glfw.h $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3.h $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_glfw.cpp $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3.cpp $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3_loader.h $(SolutionDir)external\imgui
 cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
 cmake --build $(SolutionDir)external\glfw --config $(Configuration)
 cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
@@ -153,7 +168,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include;$(SolutionDir)external;$(SolutionDir)external\glm;$(SolutionDir)external\glfw\include;$(SolutionDir)external\stb;$(SolutionDir)external\assimp\include;$(SolutionDir)external\imgui\;$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
@@ -168,6 +183,11 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <PreBuildEvent>
       <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
 git submodule update --init --recursive
+copy $(SolutionDir)external\imgui\backends\imgui_impl_glfw.h $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3.h $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_glfw.cpp $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3.cpp $(SolutionDir)external\imgui
+copy $(SolutionDir)external\imgui\backends\imgui_impl_opengl3_loader.h $(SolutionDir)external\imgui
 cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
 cmake --build $(SolutionDir)external\glfw --config $(Configuration)
 cmake -S  $(SolutionDir)external\assimp\ -B $(SolutionDir)external\assimp -G "Visual Studio 17 2022" -DASSIMP_BUILD_TESTS=OFF -DASSIMP_INSTALL=OFF -DASSIMP_NO_EXPORT=ON -DBUILD_SHARED_LIBS=OFF
@@ -182,6 +202,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClCompile Include="..\external\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\external\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\external\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="GUI.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ElementBuffer.cpp" />
@@ -220,6 +241,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClInclude Include="..\external\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\external\imgui\imstb_textedit.h" />
     <ClInclude Include="..\external\imgui\imstb_truetype.h" />
+    <ClInclude Include="GUI.hpp" />
     <ClInclude Include="MeshLoader.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="ElementBuffer.hpp" />

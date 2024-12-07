@@ -9,6 +9,7 @@
 #include "Renderer.hpp"
 #include "Mesh.hpp"
 #include "Primitives.hpp"
+#include "GUI.hpp"
 
 #include "ShaderLoader.hpp"
 #include "MaterialLoader.hpp"
@@ -73,7 +74,7 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 		cam.setFOV(std::min(std::max(newFov, epsilon), 180.0f - epsilon));
 	}
 	// Setup trackball style camera when holding middle mouse button
-	glm::vec3 target;
+	static glm::vec3 target;
 	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		target = cam.getTransform().getPosition() + cam.getViewDirection() * trackballZoom;
 	}
@@ -143,6 +144,9 @@ int main() {
 	const std::vector<Mesh *> dragonMeshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
 	Transform dragonTrasnform(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f), glm::vec3(2.0f));
 	MeshInstance dragonInstance(dragonMeshes[0], MaterialLoader::load("phong"), dragonTrasnform);
+	// Setup cubemap
+	Mesh* cubemapMesh = Primitives::generateCube(1);
+	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));
 	// Add objects to rendering queue
 	Renderer::addToRenderingQueues(&planeInstance);
 	Renderer::addToRenderingQueues(&cubeInstance);
@@ -153,9 +157,8 @@ int main() {
 	Renderer::addToRenderingQueues(&thorusInstance);
 	Renderer::addToRenderingQueues(&dragonInstance);
 	Renderer::setupOpengl();
-	// Setup cubemap
-	Mesh* cubemapMesh = Primitives::generateCube(1);
-	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));
+	// Setup GUI
+	GUI gui(window.getWindowPtr());
 	// Start the draw loop
 	double prevTime = glfwGetTime();
 	while (!window.shouldClose()) {
@@ -167,12 +170,18 @@ int main() {
 		window.setTitle(windowName + " - " + std::to_string(1.0f / deltaTime) + " FPS");
 		// Camera movement
 		cam.setAspectRatio(static_cast<float>(window.getDimensions().x) / static_cast<float>(window.getDimensions().y));
-		cameraControls(cam, window, deltaTime);
+		if (!gui.clickedOnUi()) {
+			cameraControls(cam, window, deltaTime);
+		}
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// Get new GUI Frame
+		gui.newFrame();
 		// Test draw
 		Renderer::renderAll(cam.getCameraMatrix(), cam.getViewMatrix(), cam.getProjectionMatrix(), cam.getTransform().getPosition());
+		// Draw gui
+		gui.render();
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();
