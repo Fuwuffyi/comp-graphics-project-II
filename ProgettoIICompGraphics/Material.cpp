@@ -5,10 +5,10 @@
 
 #include <stdexcept>
 
-Material::Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& values)
+Material::Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures)
 	:
 	shader(_shader),
-	materialValues(values),
+	values(_values),
 	name(_name)
 {
 	if (this->shader == nullptr) {
@@ -31,13 +31,17 @@ void Material::activate() const {
 	// Activate the shader
 	this->shader->activate();
 	// Setup all shader uniform properties
-	for (const std::pair<std::string, Material::MaterialValueType>& keyValuePair : this->materialValues) {
-		const std::string& uniformName = keyValuePair.first;
-		const MaterialValueType& value = keyValuePair.second;
-		const auto visitor = [&uniformName, this](const auto& val) {
+	for (const auto& [uniform, value] : this->values) {
+		const auto visitor = [&uniform, this](const auto& val) {
 			using T = std::decay_t<decltype(val)>;
-			this->shader->setUniform(uniformName, val);
+			this->shader->setUniform(uniform, val);
 		};
 		std::visit(visitor, value);
+	}
+	// Setup all shader uniform properties
+	for (const auto& [uniform, texturePtr] : this->textures) {
+		static int32_t bindingPoint = 0;
+		texturePtr->activate(bindingPoint);
+		this->shader->setUniform(uniform, bindingPoint++);
 	}
 }

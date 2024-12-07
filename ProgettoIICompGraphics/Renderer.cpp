@@ -77,11 +77,6 @@ void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMat
 	sendDataToQueues();
 	// Draw skybox
 	if (cubemapMaterial && cubemapMesh) {
-		// !!!!!! TEMPORARY CODE !!!!!!
-		static std::shared_ptr<Texture> tex = nullptr;
-		if (!tex) {
-			tex = TextureLoader::loadCubemap("storforsen");
-		}
 		// Disable depth mask for cubemap and culling
 		glDisable(GL_CULL_FACE);
 		glDepthMask(GL_FALSE);
@@ -89,8 +84,6 @@ void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMat
 		cubemapMaterial->activate();
 		cubemapMaterial->getShader()->setUniformMatrix("projectionMatrix", projectionMatrix);
 		cubemapMaterial->getShader()->setUniformMatrix("viewMatrix", viewMatrix);
-		tex->activate(0);
-		cubemapMaterial->getShader()->setUniform("skybox", 0);
 		cubemapMesh->draw();
 		// Re-enable other stuff for rendering
 		glEnable(GL_CULL_FACE);

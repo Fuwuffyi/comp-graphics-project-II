@@ -26,7 +26,8 @@ public:
 
 private:
 	std::shared_ptr<Shader> shader;
-	std::unordered_map<std::string, MaterialValueType> materialValues;
+	std::unordered_map<std::string, MaterialValueType> values;
+	std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
 
 public:
 	const std::string name;
@@ -37,8 +38,9 @@ public:
 	 * \param _name The material's name.
 	 * \param _shader A shader pointer to be used to render the material.
 	 * \param values The properties of the material.
+	 * \param textures The material's loaded textures.
 	 */
-	Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& values);
+	Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures);
 
 	/**
 	 * Destructor for the material class.

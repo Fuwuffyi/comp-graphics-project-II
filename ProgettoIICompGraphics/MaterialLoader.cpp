@@ -1,5 +1,6 @@
 #include "MaterialLoader.hpp"
 
+#include "TextureLoader.hpp"
 #include "ShaderLoader.hpp"
 #include "Material.hpp"
 #include "Shader.hpp"
@@ -17,8 +18,9 @@ namespace MaterialLoader {
 
 	static constexpr const char* SHADER_KEY = "shader";
 	static constexpr const char* PROPERTY_KEY = "p";
+	static constexpr const char* TEXTURE_PROPERTY_KEY = "t";
 
-	static std::pair<std::string, std::unordered_map<std::string, Material::MaterialValueType>> readMaterialAssetFile(const std::string& materialAssetFile);
+	static std::tuple < std::string, std::unordered_map<std::string, Material::MaterialValueType>, std::unordered_map<std::string, std::shared_ptr<Texture>>> readMaterialAssetFile(const std::string& materialAssetFile);
 	static Material::MaterialValueType parseMaterialValue(const std::string& value, const std::string& type);
 }
 
@@ -65,7 +67,7 @@ Material::MaterialValueType MaterialLoader::parseMaterialValue(const std::string
 	throw std::invalid_argument("Unknown material property type: " + type);
 }
 
-std::pair<std::string, std::unordered_map<std::string, Material::MaterialValueType>> MaterialLoader::readMaterialAssetFile(const std::string& materialAssetFile) {
+std::tuple<std::string, std::unordered_map<std::string, Material::MaterialValueType>, std::unordered_map<std::string, std::shared_ptr<Texture>>> MaterialLoader::readMaterialAssetFile(const std::string& materialAssetFile) {
 	// Open shader asset file
 	std::ifstream assetFile(MATERIAL_ASSET_DIR + materialAssetFile);
 	if (!assetFile.is_open()) {
@@ -73,6 +75,7 @@ std::pair<std::string, std::unordered_map<std::string, Material::MaterialValueTy
 	}
 	// Prepare variables to output
 	std::unordered_map<std::string, Material::MaterialValueType> materialProperties;
+	std::unordered_map<std::string, std::shared_ptr<Texture>> materialTextures;
 	std::string line, shaderText;
 	while (std::getline(assetFile, line)) {
 		// Read all lines
@@ -85,6 +88,14 @@ std::pair<std::string, std::unordered_map<std::string, Material::MaterialValueTy
 			iss >> propertyName >> type;
 			std::getline(iss, value);
 			materialProperties[propertyName] = parseMaterialValue(value, type);
+		} else if (key == TEXTURE_PROPERTY_KEY) {
+			std::string propertyName, type;
+			iss >> propertyName >> type >> value;
+			if (type == "cubemap") {
+				materialTextures[propertyName] = TextureLoader::loadCubemap(value);
+			} else if (type == "texture2D") {
+				materialTextures[propertyName] = TextureLoader::load(value);
+			}
 		} else {
 			iss >> value;
 			// Check the indices
@@ -99,7 +110,7 @@ std::pair<std::string, std::unordered_map<std::string, Material::MaterialValueTy
 		throw std::runtime_error("Missing shader in material asset: " + materialAssetFile);
 	}
 	// Return the values
-	return { shaderText, materialProperties };
+	return { shaderText, materialProperties, materialTextures };
 }
 
 std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetFileName) {
@@ -112,9 +123,9 @@ std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetF
 		return loadedMaterials.at(materialAssetFileName);
 	}
 	// Read the file
-	auto [shaderName, propertyMap] = readMaterialAssetFile(materialAssetFileName + MATERIAL_ASSET_FILE_EXTENSION);
+	auto [shaderName, propertyMap, textureMap] = readMaterialAssetFile(materialAssetFileName + MATERIAL_ASSET_FILE_EXTENSION);
 	// Load the material
-	loadedMaterials.emplace(materialAssetFileName, std::make_shared<Material>(materialAssetFileName, ShaderLoader::load(shaderName), propertyMap));
+	loadedMaterials.emplace(materialAssetFileName, std::make_shared<Material>(materialAssetFileName, ShaderLoader::load(shaderName), propertyMap, textureMap));
 	return loadedMaterials.at(materialAssetFileName);
 }
 
