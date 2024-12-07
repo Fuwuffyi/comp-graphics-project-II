@@ -2,6 +2,7 @@
 
 #include <glad/glad.h>
 
+#include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Material.hpp"
 #include "IRenderable.hpp"
@@ -13,6 +14,9 @@ namespace Renderer {
 	static RenderingQueue unlitQueue;
 	static RenderingQueue unlitTransparentQueue(false);
 	static std::vector<IRenderable *> renderables;
+
+	static Material* cubemapMaterial = nullptr;
+	static Mesh* cubemapMesh = nullptr;
 
 	static void sendDataToQueues();
 }
@@ -42,6 +46,11 @@ void Renderer::sendDataToQueues() {
 	}
 }
 
+void Renderer::setCubemap(Mesh* mesh, Material* material) {
+	cubemapMaterial = material;
+	cubemapMesh = mesh;
+}
+
 void Renderer::setupOpengl() {
 	// Set depth testing function
 	glEnable(GL_DEPTH_TEST);
@@ -59,9 +68,23 @@ void Renderer::toggleWireframe() {
 	glPolygonMode(GL_FRONT_AND_BACK, wireframe ? GL_LINE : GL_FILL);
 }
 
-void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::vec3& viewPoint) {
+void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::vec3& viewPoint) {
 	// Send renderables to queues
 	sendDataToQueues();
+	// Draw skybox
+	if (cubemapMaterial && cubemapMesh) {
+		// Disable depth mask for cubemap and culling
+		glDisable(GL_CULL_FACE);
+		glDepthMask(GL_FALSE);
+		// Draw cubemap using material
+		cubemapMaterial->activate();
+		cubemapMaterial->getShader()->setUniformMatrix("projectionMatrix", projectionMatrix);
+		cubemapMaterial->getShader()->setUniformMatrix("viewMatrix", viewMatrix);
+		cubemapMesh->draw();
+		// Re-enable other stuff for rendering
+		glEnable(GL_CULL_FACE);
+		glDepthMask(GL_TRUE);
+	}
 	// Render opaque objects
 	litQueue.render(cameraMatrix, viewPoint);
 	litQueue.clear();

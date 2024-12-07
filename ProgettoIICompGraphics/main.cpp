@@ -154,6 +154,10 @@ int main() {
 	Renderer::addToRenderingQueues(&thorusInstance);
 	Renderer::addToRenderingQueues(&dragonInstance);
 	Renderer::setupOpengl();
+	// Setup cubemap
+	Mesh* cubemapMesh = Primitives::generateCube(1);
+	Material* cubemapMaterial = MaterialLoader::load("cubemap");
+	Renderer::setCubemap(cubemapMesh, cubemapMaterial);
 	// Start the draw loop
 	double prevTime = glfwGetTime();
 	while (!window.shouldClose()) {
@@ -167,10 +171,10 @@ int main() {
 		cam.setAspectRatio(static_cast<float>(window.getDimensions().x) / static_cast<float>(window.getDimensions().y));
 		cameraControls(cam, window, deltaTime);
 		// Clear buffers
-		glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Test draw
-		Renderer::renderAll(cam.getCameraMatrix(), cam.getTransform().getPosition());
+		Renderer::renderAll(cam.getCameraMatrix(), cam.getViewMatrix(), cam.getProjectionMatrix(), cam.getTransform().getPosition());
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();
@@ -182,6 +186,7 @@ int main() {
 	delete cylinderPrimitive;
 	delete conePrimitive;
 	delete thorusPrimitive;
+	delete cubemapMesh;
 	for (const Mesh* m : dragonMeshes) {
 		delete m;
 	}

@@ -249,11 +249,15 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\materials\blinn_phong.material" />
+    <None Include="assets\materials\cubemap.material" />
     <None Include="assets\materials\phong.material" />
     <None Include="assets\shaders\blinn_phong.shader" />
+    <None Include="assets\shaders\cubemap.shader" />
     <None Include="assets\shaders\phong.shader" />
     <None Include="assets\shaders\sources\base.vert.glsl" />
     <None Include="assets\shaders\sources\blinn_phong.frag.glsl" />
+    <None Include="assets\shaders\sources\cubemap.frag.glsl" />
+    <None Include="assets\shaders\sources\cubemap.vert.glsl" />
     <None Include="assets\shaders\sources\phong.frag.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
