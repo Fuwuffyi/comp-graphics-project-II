@@ -8,7 +8,7 @@
 #include <fstream>
 
 namespace ShaderLoader {
-	static std::unordered_map<std::string, std::pair<uint32_t, Shader>> loadedShaders;
+	static std::unordered_map<std::string, std::shared_ptr<Shader>> loadedShaders;
 
 	static constexpr const char* SHADER_ASSET_DIR = "assets/shaders/";
 	static constexpr const char* SHADER_ASSET_FILE_EXTENSION = ".shader";
@@ -81,39 +81,20 @@ std::tuple<std::string, std::string, bool, bool> ShaderLoader::readShaderAssetFi
 	return { vertShaderFile, fragShaderFile, static_cast<bool>(std::stoi(litValue)), static_cast<bool>(std::stoi(transparentValue)) };
 }
 
-Shader* ShaderLoader::load(const std::string& shaderAssetFileName) {
+std::shared_ptr<Shader> ShaderLoader::load(const std::string& shaderAssetFileName) {
 	// Return null pointer if empty
 	if (shaderAssetFileName.empty()) {
 		return nullptr;
 	}
 	// If shader already loaded, return ref
 	if (loadedShaders.find(shaderAssetFileName) != loadedShaders.end()) {
-		++loadedShaders.at(shaderAssetFileName).first;
-		return &loadedShaders.at(shaderAssetFileName).second;
+		return loadedShaders.at(shaderAssetFileName);
 	}
 	// Read shader file
 	auto [vertShaderFile, fragShaderFile, litFlag, transparentFlag] = readShaderAssetFile(shaderAssetFileName + SHADER_ASSET_FILE_EXTENSION);
 	// Load it
-	loadedShaders.emplace(
-		std::piecewise_construct,
-		std::forward_as_tuple(shaderAssetFileName),
-		std::forward_as_tuple(
-			std::piecewise_construct,
-			std::forward_as_tuple(0u),
-			std::forward_as_tuple(shaderAssetFileName, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile), litFlag, transparentFlag)
-		)
-	);
-	return &loadedShaders.at(shaderAssetFileName).second;
-}
-
-void ShaderLoader::unload(const std::string& shaderName) {
-	auto it = loadedShaders.find(shaderName);
-	if (it == loadedShaders.end()) {
-		return;
-	}
-	if (--it->second.first == 0u) {
-		loadedShaders.erase(shaderName);
-	}
+	loadedShaders.emplace(shaderAssetFileName, std::make_shared<Shader>(shaderAssetFileName, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile), litFlag, transparentFlag));
+	return loadedShaders.at(shaderAssetFileName);
 }
 
 void ShaderLoader::unloadAll() {

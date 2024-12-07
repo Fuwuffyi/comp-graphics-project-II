@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-Material::Material(const std::string& _name, Shader* _shader, const std::unordered_map<std::string, Material::MaterialValueType>& values)
+Material::Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& values)
 	:
 	shader(_shader),
 	materialValues(values),
@@ -20,7 +20,7 @@ Material::~Material() {
 }
 
 Shader* Material::getShader() const {
-	return this->shader;
+	return this->shader.get();
 }
 
 void Material::activate() const {

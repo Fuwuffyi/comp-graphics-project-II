@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <memory>
 
 class IRenderable;
 class Mesh;
@@ -12,5 +13,5 @@ namespace Renderer {
 	void setupOpengl();
 	void renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::vec3& viewPoint);
 
-	void setCubemap(Mesh* mesh, Material* material);
+	void setCubemap(Mesh* mesh, const std::shared_ptr<Material>& material);
 };

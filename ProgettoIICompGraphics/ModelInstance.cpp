@@ -6,10 +6,10 @@ ModelInstance::ModelInstance(const std::vector<MeshInstance>& _meshInstances, co
 	transform(_transform)
 {}
 
-std::vector<std::tuple<Mesh*, Material*, glm::mat4>> ModelInstance::getDrawables() {
+std::vector<std::tuple<Mesh*, Material *, glm::mat4>> ModelInstance::getDrawables() {
 	std::vector<std::tuple<Mesh*, Material*, glm::mat4>> drawables;
 	for (MeshInstance& instance : this->meshInstances) {
-		std::vector<std::tuple<Mesh*, Material*, glm::mat4>> instanceDrawables = instance.getDrawables();
+		std::vector<std::tuple<Mesh*, Material *, glm::mat4>> instanceDrawables = instance.getDrawables();
 		for (auto& [meshPtr, materialPtr, modelMatrix] : instanceDrawables) {
 			modelMatrix = this->transform.getTransformMatrix() * instance.getMutableTransform().getTransformMatrix();
 		}

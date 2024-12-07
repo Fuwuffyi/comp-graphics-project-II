@@ -111,41 +111,38 @@ int main() {
 	window.setWindowActive();
 	// Create a camera
 	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.01f, 100.0f);
-	// Load some materials
-	Material* materialPhong = MaterialLoader::load("phong");
-	Material* materialBlinn = MaterialLoader::load("blinn_phong");
 	// Test out primitives
 	Mesh* planePrimitive = Primitives::generatePlane(5);
 	Transform planeTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
-	MeshInstance planeInstance(planePrimitive, materialBlinn, planeTransform);
+	MeshInstance planeInstance(planePrimitive, MaterialLoader::load("blinn_phong"), planeTransform);
 
 	Mesh* cubePrimitive = Primitives::generateCube(25);
 	Transform cubeTransform(glm::vec3(0.0f, 0.2f, 1.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
-	MeshInstance cubeInstance(cubePrimitive, materialPhong, cubeTransform);
+	MeshInstance cubeInstance(cubePrimitive, MaterialLoader::load("phong"), cubeTransform);
 
 	Mesh* pyramidPrimitive = Primitives::generatePyramid(5);
 	Transform pyramidTransform(glm::vec3(0.0f, 0.2f, -1.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance pyramidInstance(pyramidPrimitive, materialBlinn, pyramidTransform);
+	MeshInstance pyramidInstance(pyramidPrimitive, MaterialLoader::load("blinn_phong"), pyramidTransform);
 
 	Mesh* spherePrimitive = Primitives::generateSphere(15);
 	Transform sphereTransform(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance sphereInstance(spherePrimitive, materialPhong, sphereTransform);
+	MeshInstance sphereInstance(spherePrimitive, MaterialLoader::load("phong"), sphereTransform);
 
 	Mesh* cylinderPrimitive = Primitives::generateCylinder(1.0f, 0.7f, 20);
 	Transform cylinderTransform(glm::vec3(1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance cylinderInstance(cylinderPrimitive, materialBlinn, cylinderTransform);
+	MeshInstance cylinderInstance(cylinderPrimitive, MaterialLoader::load("blinn_phong"), cylinderTransform);
 
 	Mesh* conePrimitive = Primitives::generateCone(25);
 	Transform coneTransform(glm::vec3(-1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance coneInstance(conePrimitive, materialPhong, coneTransform);
+	MeshInstance coneInstance(conePrimitive, MaterialLoader::load("phong"), coneTransform);
 
 	Mesh* thorusPrimitive = Primitives::generateThorus(3.0f, 0.2f, 20);
 	Transform thorusTransform(glm::vec3(2.0f, 0.2f, 2.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance thorusInstance(thorusPrimitive, materialBlinn, thorusTransform);
+	MeshInstance thorusInstance(thorusPrimitive, MaterialLoader::load("blinn_phong"), thorusTransform);
 	// Load the dragon
 	const std::vector<Mesh *> dragonMeshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
 	Transform dragonTrasnform(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f), glm::vec3(2.0f));
-	MeshInstance dragonInstance(dragonMeshes[0], materialPhong, dragonTrasnform);
+	MeshInstance dragonInstance(dragonMeshes[0], MaterialLoader::load("phong"), dragonTrasnform);
 	// Add objects to rendering queue
 	Renderer::addToRenderingQueues(&planeInstance);
 	Renderer::addToRenderingQueues(&cubeInstance);
@@ -158,8 +155,7 @@ int main() {
 	Renderer::setupOpengl();
 	// Setup cubemap
 	Mesh* cubemapMesh = Primitives::generateCube(1);
-	Material* cubemapMaterial = MaterialLoader::load("cubemap");
-	Renderer::setCubemap(cubemapMesh, cubemapMaterial);
+	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));
 	// Start the draw loop
 	double prevTime = glfwGetTime();
 	while (!window.shouldClose()) {

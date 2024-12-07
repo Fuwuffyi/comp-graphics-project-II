@@ -12,7 +12,7 @@ private:
 public:
 	ModelInstance(const std::vector<MeshInstance>& _meshInstances, const Transform& _transform);
 
-	std::vector<std::tuple<Mesh *, Material*, glm::mat4>> getDrawables() override;
+	std::vector<std::tuple<Mesh *, Material *, glm::mat4>> getDrawables() override;
 
 	const Transform& getTransform() const;
 	Transform& getMutableTransform();

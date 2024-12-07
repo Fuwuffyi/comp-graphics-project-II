@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <variant>
 #include <string>
+#include <memory>
 
 /**
  * Forward declaration for the shader class.
@@ -22,7 +23,7 @@ public:
 	>;
 
 private:
-	Shader* shader;
+	std::shared_ptr<Shader> shader;
 	std::unordered_map<std::string, MaterialValueType> materialValues;
 
 public:
@@ -35,7 +36,7 @@ public:
 	 * \param _shader A shader pointer to be used to render the material.
 	 * \param values The properties of the material.
 	 */
-	Material(const std::string& _name, Shader* _shader, const std::unordered_map<std::string, MaterialValueType>& values);
+	Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& values);
 
 	/**
 	 * Destructor for the material class.

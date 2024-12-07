@@ -18,7 +18,7 @@ namespace Renderer {
 	static RenderingQueue unlitTransparentQueue(false);
 	static std::vector<IRenderable *> renderables;
 
-	static Material* cubemapMaterial = nullptr;
+	static std::shared_ptr<Material> cubemapMaterial = nullptr;
 	static Mesh* cubemapMesh = nullptr;
 
 	static void sendDataToQueues();
@@ -30,16 +30,17 @@ void Renderer::addToRenderingQueues(IRenderable* renderable) {
 
 void Renderer::sendDataToQueues() {
 	for (IRenderable* renderable : renderables) {
-		std::vector<std::tuple<Mesh*, Material*, glm::mat4>> drawables = renderable->getDrawables();
+		std::vector<std::tuple<Mesh*, Material *, glm::mat4>> drawables = renderable->getDrawables();
 		for (auto [meshPtr, materialPtr, model] : drawables) {
-			if (materialPtr->getShader()->litFlag) {
-				if (materialPtr->getShader()->transparentFlag) {
+			const Shader* materialShader = materialPtr->getShader();
+			if (materialShader->litFlag) {
+				if (materialShader->transparentFlag) {
 					litTransparentQueue.addRenderable(meshPtr, materialPtr, model);
 				} else {
 					litQueue.addRenderable(meshPtr, materialPtr, model);
 				}
 			} else {
-				if (materialPtr->getShader()->transparentFlag) {
+				if (materialShader->transparentFlag) {
 					unlitTransparentQueue.addRenderable(meshPtr, materialPtr, model);
 				} else {
 					unlitQueue.addRenderable(meshPtr, materialPtr, model);
@@ -49,7 +50,7 @@ void Renderer::sendDataToQueues() {
 	}
 }
 
-void Renderer::setCubemap(Mesh* mesh, Material* material) {
+void Renderer::setCubemap(Mesh* mesh, const std::shared_ptr<Material>& material) {
 	cubemapMaterial = material;
 	cubemapMesh = mesh;
 }
@@ -77,7 +78,7 @@ void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMat
 	// Draw skybox
 	if (cubemapMaterial && cubemapMesh) {
 		// !!!!!! TEMPORARY CODE !!!!!!
-		static Texture* tex = nullptr;
+		static std::shared_ptr<Texture> tex = nullptr;
 		if (!tex) {
 			tex = TextureLoader::loadCubemap("storforsen", 0);
 		}

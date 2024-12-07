@@ -9,7 +9,7 @@ uniform vec4 materialColor;
 uniform vec3 cameraPosition;
 
 // Eventually to use SSBO or uniforms
-vec3 lightColor = vec3(1.0, 0.3, 0.3);
+vec3 lightColor = vec3(1.0);
 vec3 lightPos = vec3(0.0, 0.25, 2.0);
 float ambient = 0.2;
 float specular = 0.5;

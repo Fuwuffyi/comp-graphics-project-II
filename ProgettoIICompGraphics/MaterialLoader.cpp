@@ -10,7 +10,7 @@
 #include <fstream>
 
 namespace MaterialLoader {
-	static std::unordered_map<std::string, std::pair<uint32_t, Material>> loadedMaterials;
+	static std::unordered_map<std::string, std::shared_ptr<Material>> loadedMaterials;
 
 	static constexpr const char* MATERIAL_ASSET_DIR = "assets/materials/";
 	static constexpr const char* MATERIAL_ASSET_FILE_EXTENSION = ".material";
@@ -102,42 +102,20 @@ std::pair<std::string, std::unordered_map<std::string, Material::MaterialValueTy
 	return { shaderText, materialProperties };
 }
 
-Material* MaterialLoader::load(const std::string& materialAssetFileName) {
+std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetFileName) {
 	// If no material, return a null pointer
 	if (materialAssetFileName.empty()) {
 		return nullptr;
 	}
 	// If already loaded, return reference of it
 	if (loadedMaterials.find(materialAssetFileName) != loadedMaterials.end()) {
-		++loadedMaterials.at(materialAssetFileName).first;
-		return &loadedMaterials.at(materialAssetFileName).second;
+		return loadedMaterials.at(materialAssetFileName);
 	}
 	// Read the file
 	auto [shaderName, propertyMap] = readMaterialAssetFile(materialAssetFileName + MATERIAL_ASSET_FILE_EXTENSION);
-	// Load the shader
-	Shader* shader = ShaderLoader::load(shaderName);
 	// Load the material
-	loadedMaterials.emplace(
-		std::piecewise_construct,
-		std::forward_as_tuple(materialAssetFileName),
-		std::forward_as_tuple(
-			std::piecewise_construct,
-			std::forward_as_tuple(0u),
-			std::forward_as_tuple(materialAssetFileName, shader, propertyMap)
-		)
-	);
-	return &loadedMaterials.at(materialAssetFileName).second;
-}
-
-void MaterialLoader::unload(const std::string& materialName) {
-	auto it = loadedMaterials.find(materialName);
-	if (it == loadedMaterials.end()) {
-		return;
-	}
-	if (--it->second.first == 0u) {
-		ShaderLoader::unload(it->second.second.getShader()->getName());
-		loadedMaterials.erase(materialName);
-	}
+	loadedMaterials.emplace(materialAssetFileName, std::make_shared<Material>(materialAssetFileName, ShaderLoader::load(shaderName), propertyMap));
+	return loadedMaterials.at(materialAssetFileName);
 }
 
 void MaterialLoader::unloadAll() {

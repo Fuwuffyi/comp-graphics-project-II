@@ -1,11 +1,11 @@
 #pragma once
 
 #include <string>
+#include <memory>
 
 class Shader;
 
 namespace ShaderLoader {
-	Shader* load(const std::string& shaderAssetFileName);
-	void unload(const std::string& shaderName);
+	std::shared_ptr<Shader> load(const std::string& shaderAssetFileName);
 	void unloadAll();
 }

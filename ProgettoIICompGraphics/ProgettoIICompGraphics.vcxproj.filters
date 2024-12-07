@@ -37,9 +37,6 @@
     <Filter Include="Source Files\loaders">
       <UniqueIdentifier>{88597e10-b6e8-473d-ba90-6b644ddcf633}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\renderables">
-      <UniqueIdentifier>{e9e0a6e5-01b8-474d-b02f-95fdfd7e5856}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\renderables">
       <UniqueIdentifier>{a4f1ff98-ad72-4850-b42b-38f5ab78706e}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,9 @@
     </Filter>
     <Filter Include="Header Files\texture">
       <UniqueIdentifier>{bdaf6f0e-2174-465d-830b-173cc88e7d8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\renderables">
+      <UniqueIdentifier>{e9e0a6e5-01b8-474d-b02f-95fdfd7e5856}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
