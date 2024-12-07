@@ -67,15 +67,18 @@
     <Filter Include="Source Files\mesh">
       <UniqueIdentifier>{7b745007-2cd1-4175-9843-1c589a145a7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\material">
+      <UniqueIdentifier>{9a13e649-064f-4568-86ab-1d4b05148acd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\material">
+      <UniqueIdentifier>{747a7242-ba88-4098-92cd-2352102014fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
@@ -104,9 +107,6 @@
     </ClCompile>
     <ClCompile Include="..\external\imgui\imgui_demo.cpp">
       <Filter>Source Files\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ShaderLoader.cpp">
       <Filter>Source Files\loaders</Filter>
@@ -156,11 +156,14 @@
     <ClCompile Include="Primitives.cpp">
       <Filter>Source Files\mesh</Filter>
     </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\material</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\material</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Shader.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -193,9 +196,6 @@
     </ClInclude>
     <ClInclude Include="..\external\imgui\backends\imgui_impl_opengl3_loader.h">
       <Filter>Header Files\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MaterialLoader.hpp">
       <Filter>Header Files\loaders</Filter>
@@ -250,6 +250,12 @@
     </ClInclude>
     <ClInclude Include="Primitives.hpp">
       <Filter>Header Files\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Header Files\material</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.hpp">
+      <Filter>Header Files\material</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
