@@ -230,11 +230,8 @@ Mesh* Primitives::generateCylinder(const float bottomRadius, const float topRadi
     return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateCone(const float radius, const uint32_t resolution) {
-	std::vector<Vertex> vertices;
-	std::vector<uint32_t> indices;
-    // TODO: Implement (FLAT SHADED ON BOTTOM, SMOOTH SHADED ELSEWISE?)
-	return new Mesh(vertices, indices, GL_TRIANGLES);
+Mesh* Primitives::generateCone(const float radius, const float length, const int slices, const int stacks) {
+	return Primitives::generateCylinder(radius, 0.0f, length, slices, stacks);
 }
 
 Mesh* Primitives::generateThorus(const float innerRadius, const float circleRadius, const uint32_t resolution) {

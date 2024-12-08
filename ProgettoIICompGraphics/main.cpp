@@ -144,8 +144,8 @@ int main() {
 	Transform cylinderTransform(glm::vec3(1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	MeshInstance cylinderInstance(cylinderPrimitive, MaterialLoader::load("blinn_phong"), cylinderTransform);
 
-	Mesh* conePrimitive = Primitives::generateCone(25);
-	Transform coneTransform(glm::vec3(-1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
+	Mesh* conePrimitive = Primitives::generateCone(1.0f, 1.0f, 25, 25);
+	Transform coneTransform(glm::vec3(-1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.2f));
 	MeshInstance coneInstance(conePrimitive, MaterialLoader::load("phong"), coneTransform);
 
 	Mesh* thorusPrimitive = Primitives::generateThorus(3.0f, 0.2f, 20);
