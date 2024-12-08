@@ -27,8 +27,7 @@ GUI::~GUI() {
 }
 
 bool GUI::clickedOnUi() const {
-	const ImGuiIO& io = ImGui::GetIO();
-	return io.WantCaptureMouse || io.WantCaptureKeyboard;
+	return ImGui::GetIO().WantCaptureMouse;
 }
 
 void GUI::newFrame() const {
@@ -49,8 +48,12 @@ void GUI::drawSelection(MeshInstance* selectedObject) const {
 
 void GUI::drawLightsEditor() const {
 	static const char* items[4] = { "NONE", "DIRECTIONAL", "POINT", "SPOT" };
-	ImGui::Begin("Lights editor", nullptr);
+	// Create the window
+	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Once);
+	ImGui::Begin("Lights editor", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_AlwaysVerticalScrollbar);
+	// Read the lights
 	LightSystem::Lights& lights = LightSystem::getAllLights();
+	// Show lights in imgui
 	for (size_t i = 0; i < LightSystem::MAX_LIGHTS; ++i) {
 		if (ImGui::TreeNode(("Light " + std::to_string(i)).c_str())) {
 			LightSystem::Light& light = lights.lights[i];
@@ -125,7 +128,7 @@ void GUI::drawLightsEditor() const {
 }
 
 void GUI::drawResources() const {
-	ImGui::Begin("Resources", nullptr);
+	ImGui::Begin("Resources", nullptr, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 	if (ImGui::CollapsingHeader("Materials")) {
 		for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
 			ImGui::Separator();

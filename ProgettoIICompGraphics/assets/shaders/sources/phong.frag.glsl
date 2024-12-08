@@ -74,7 +74,9 @@ vec3 pointLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	vec3 lightDir = normalize(light.position - fragPos);
 	float distance = length(light.position - fragPos);
 	// Check if the fragment is outside the light's range
-	if (distance > light.range) return vec3(0.0);
+	if (distance > light.range) {
+		return vec3(0.0);
+	}
 	// Attenuation based on distance
 	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 	// Clamp attenuation to avoid exceeding range
@@ -96,7 +98,9 @@ vec3 spotLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	vec3 lightDir = normalize(light.position - fragPos);
 	float distance = length(light.position - fragPos);
 	// Check if the fragment is outside the light's range
-	if (distance > light.range) return vec3(0.0);
+	if (distance > light.range) {
+		return vec3(0.0);
+	}
 	// Attenuation based on distance
 	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 	attenuation = max(attenuation, 0.0);
