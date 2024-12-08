@@ -29,14 +29,14 @@ BoundingBox BoundingBox::transform(const glm::mat4& transformationMatrix) const 
 	const glm::vec4 transformed5 = transformationMatrix * glm::vec4(this->maxValues.x, this->minValues.y, this->maxValues.z, 1.0f);
 	const glm::vec4 transformed6 = transformationMatrix * glm::vec4(this->minValues.x, this->maxValues.y, this->maxValues.z, 1.0f);
 	const glm::vec4 transformed7 = transformationMatrix * glm::vec4(this->maxValues.x, this->maxValues.y, this->maxValues.z, 1.0f);
-	verts[0] = Vertex{ glm::vec3(transformed0.x, transformed0.y, transformed0.z), glm::vec3(0.0f), glm::vec2(0.0f) };
-	verts[1] = Vertex{ glm::vec3(transformed1.x, transformed1.y, transformed1.z), glm::vec3(0.0f), glm::vec2(0.0f) };
-	verts[2] = Vertex{ glm::vec3(transformed2.x, transformed2.y, transformed2.z), glm::vec3(0.0f), glm::vec2(0.0f) };
-	verts[3] = Vertex{ glm::vec3(transformed3.x, transformed3.y, transformed3.z), glm::vec3(0.0f), glm::vec2(0.0f) };
-	verts[4] = Vertex{ glm::vec3(transformed4.x, transformed4.y, transformed4.z), glm::vec3(0.0f), glm::vec2(0.0f) };
-	verts[5] = Vertex{ glm::vec3(transformed5.x, transformed5.y, transformed5.z), glm::vec3(0.0f), glm::vec2(0.0f) };
-	verts[6] = Vertex{ glm::vec3(transformed6.x, transformed6.y, transformed6.z), glm::vec3(0.0f), glm::vec2(0.0f) };
-	verts[7] = Vertex{ glm::vec3(transformed7.x, transformed7.y, transformed7.z), glm::vec3(0.0f), glm::vec2(0.0f) };
+	verts[0] = Vertex{ transformed0, glm::vec3(0.0f), glm::vec2(0.0f) };
+	verts[1] = Vertex{ transformed1, glm::vec3(0.0f), glm::vec2(0.0f) };
+	verts[2] = Vertex{ transformed2, glm::vec3(0.0f), glm::vec2(0.0f) };
+	verts[3] = Vertex{ transformed3, glm::vec3(0.0f), glm::vec2(0.0f) };
+	verts[4] = Vertex{ transformed4, glm::vec3(0.0f), glm::vec2(0.0f) };
+	verts[5] = Vertex{ transformed5, glm::vec3(0.0f), glm::vec2(0.0f) };
+	verts[6] = Vertex{ transformed6, glm::vec3(0.0f), glm::vec2(0.0f) };
+	verts[7] = Vertex{ transformed7, glm::vec3(0.0f), glm::vec2(0.0f) };
 	// Generate a new bounding box based on those vertices
 	return BoundingBox(verts);
 }
