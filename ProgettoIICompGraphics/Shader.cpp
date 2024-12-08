@@ -1,9 +1,7 @@
 #include "Shader.hpp"
 
-#include <glm/gtc/type_ptr.hpp>
-
 #include <glad/glad.h>
-
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 void Shader::checkErrors(const std::string& shaderType, const uint32_t shaderId) const {

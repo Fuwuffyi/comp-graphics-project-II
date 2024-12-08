@@ -2,7 +2,6 @@
 
 #include <cstdint>
 #include <vector>
-#include <glad/glad.h>
 
 class Texture {
 private:
@@ -11,6 +10,7 @@ public:
 	const uint32_t textureId;
 	const int32_t textureType;
 public:
+	// Erase copy constructors, as it would break opengl
 	Texture(const Texture&) = delete;
 	Texture& operator=(const Texture&) = delete;
 
@@ -32,7 +32,7 @@ public:
 	 * Make sure the texture is bound first.
 	 * 
 	 * \param type The parameter's type (e.g.: GL_TEXTURE_MIN_FILTER).
-	 * \param type The parameter's value (e.g.: GL_LINEAR).
+	 * \param value The parameter's value (e.g.: GL_LINEAR).
 	 */
 	void setParameter(const int32_t type, const int32_t value) const;
 

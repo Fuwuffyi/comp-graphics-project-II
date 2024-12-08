@@ -1,14 +1,14 @@
 #pragma once
 
-#include <array>
-
 #include "Texture2D.hpp"
+#include <array>
 
 class TextureCubemap : public Texture {
 private:
 	// The various cubemap texture faces
 	std::array<Texture2D, 6> cubemapTextures;
 public:
+	// Erase copy constructors, as it would break opengl
 	TextureCubemap(const TextureCubemap&) = delete;
 	TextureCubemap& operator=(const TextureCubemap&) = delete;
 

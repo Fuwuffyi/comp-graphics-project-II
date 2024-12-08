@@ -1,24 +1,21 @@
-#include "Window.hpp"
-#include "Vertex.hpp"
-#include "Transform.hpp"
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
 #include "Camera.hpp"
-#include "Material.hpp"
-#include "MeshInstance.hpp"
-#include "ModelInstance.hpp"
-#include "MeshLoader.hpp"
-#include "Renderer.hpp"
-#include "Mesh.hpp"
-#include "Primitives.hpp"
 #include "GUI.hpp"
-
-#include "ShaderLoader.hpp"
-#include "MaterialLoader.hpp"
-#include "TextureLoader.hpp"
-
 #include "Keyboard.hpp"
+#include "MaterialLoader.hpp"
+#include "Mesh.hpp"
+#include "MeshInstance.hpp"
+#include "MeshLoader.hpp"
 #include "Mouse.hpp"
-
-#include <glm/gtc/type_ptr.hpp>
+#include "Primitives.hpp"
+#include "Renderer.hpp"
+#include "ShaderLoader.hpp"
+#include "TextureLoader.hpp"
+#include "Transform.hpp"
+#include "Window.hpp"
+#include <iostream>
 
 void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 	const std::vector<IRenderable *>& renderables = Renderer::getAllRenderables();

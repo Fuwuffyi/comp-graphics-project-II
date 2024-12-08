@@ -1,7 +1,7 @@
 #include "MeshInstance.hpp"
 
-#include "Transform.hpp"
 #include "Mesh.hpp"
+#include "Transform.hpp"
 
 MeshInstance::MeshInstance(Mesh* _mesh, const std::shared_ptr<Material>& _material, const Transform& _transform)
 	:

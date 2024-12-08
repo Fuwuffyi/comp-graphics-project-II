@@ -1,7 +1,6 @@
 #include "VertexBuffer.hpp"
 
 #include "Vertex.hpp"
-
 #include <glad/glad.h>
 
 VertexBuffer::VertexBuffer(const std::vector<Vertex>& vertices, const bool dynamic)

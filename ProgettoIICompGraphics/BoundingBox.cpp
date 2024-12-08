@@ -1,8 +1,6 @@
 #include "BoundingBox.hpp"
 
 #include "Vertex.hpp"
-
-#include <cmath>
 #include <limits>
 
 static constexpr float EPSILON = 0.01f;

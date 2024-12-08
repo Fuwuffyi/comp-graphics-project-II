@@ -1,16 +1,15 @@
 #include "MaterialLoader.hpp"
 
-#include "TextureLoader.hpp"
-#include "ShaderLoader.hpp"
 #include "Material.hpp"
 #include "Shader.hpp"
-
-#include <unordered_map>
+#include "ShaderLoader.hpp"
+#include "TextureLoader.hpp"
 #include <filesystem>
-#include <stdexcept>
+#include <fstream>
 #include <iostream>
 #include <sstream>
-#include <fstream>
+#include <stdexcept>
+#include <unordered_map>
 
 namespace MaterialLoader {
 	static std::unordered_map<std::string, std::shared_ptr<Material>> loadedMaterials;

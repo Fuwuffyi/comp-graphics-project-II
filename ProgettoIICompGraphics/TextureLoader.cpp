@@ -3,12 +3,11 @@
 #include "Texture.hpp"
 #include "Texture2D.hpp"
 #include "TextureCubemap.hpp"
-
-#include <unordered_map>
-#include <stb_image.h>
 #include <filesystem>
-#include <stdexcept>
 #include <iostream>
+#include <stb_image.h>
+#include <stdexcept>
+#include <unordered_map>
 
 namespace TextureLoader {
 	static std::unordered_map<std::string, std::shared_ptr<Texture2D>> loadedTextures;

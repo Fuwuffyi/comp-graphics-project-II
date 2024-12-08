@@ -2,7 +2,6 @@
 
 #include "Shader.hpp"
 #include "Texture.hpp"
-
 #include <stdexcept>
 
 Material::Material(const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures)

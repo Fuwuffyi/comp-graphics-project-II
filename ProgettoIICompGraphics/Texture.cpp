@@ -1,5 +1,6 @@
 #include "Texture.hpp"
 
+#include <glad/glad.h>
 #include <stdexcept>
 
 uint32_t Texture::genTextureId(const int32_t textureType) {

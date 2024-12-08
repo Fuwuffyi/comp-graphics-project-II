@@ -1,15 +1,11 @@
 #include "Renderer.hpp"
 
-#include <glad/glad.h>
-
-#include "Mesh.hpp"
-#include "Shader.hpp"
-#include "Material.hpp"
 #include "IRenderable.hpp"
+#include "Material.hpp"
+#include "Mesh.hpp"
 #include "RenderingQueue.hpp"
-
-#include "Texture.hpp"
-#include "TextureLoader.hpp"
+#include "Shader.hpp"
+#include <glad/glad.h>
 
 namespace Renderer {
 	static RenderingQueue litQueue;
@@ -51,8 +47,12 @@ void Renderer::sendDataToQueues() {
 }
 
 void Renderer::setCubemap(Mesh* mesh, const std::shared_ptr<Material>& material) {
-	cubemapMaterial = material;
-	cubemapMesh = mesh;
+	if (mesh) {
+		cubemapMesh = mesh;
+	}
+	if (material) {
+		cubemapMaterial = material;
+	}
 }
 
 const std::vector<IRenderable*>& Renderer::getAllRenderables() {

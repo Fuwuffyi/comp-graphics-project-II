@@ -2,7 +2,6 @@
 
 #include "Mesh.hpp"
 #include "Vertex.hpp"
-
 #include <glad/glad.h>
 #include <glm/gtc/constants.hpp>
 

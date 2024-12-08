@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
 #include <cstdint>
-#include <unordered_map>
 #include <glm/glm.hpp>
+#include <string>
+#include <unordered_map>
 
 /**
  * Class holding information of a shader.

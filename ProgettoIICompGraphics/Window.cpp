@@ -2,6 +2,7 @@
 
 #include "Keyboard.hpp"
 #include "Mouse.hpp"
+#include <iostream>
 
 void Window::framebufferSizeCallback(GLFWwindow* window, const int32_t newWidth, const int32_t newHeight) {
 	// Set window's object data on resize

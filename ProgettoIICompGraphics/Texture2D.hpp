@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Texture.hpp"
-
+#include <glad/glad.h>
 #include <string>
 
 class Texture2D : public Texture {
@@ -9,6 +9,7 @@ public:
 	const int32_t internalFormat;
 	const int32_t externalFormat;
 public:
+	// Erase copy constructors, as it would break opengl
 	Texture2D(const Texture2D&) = delete;
 	Texture2D& operator=(const Texture2D&) = delete;
 

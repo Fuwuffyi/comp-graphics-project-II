@@ -1,11 +1,14 @@
 #pragma once
 
-#include <unordered_map>
 #include <glm/glm.hpp>
-#include <variant>
-#include <string>
 #include <memory>
+#include <string>
+#include <unordered_map>
+#include <variant>
 
+/**
+ * Forward declaration of the texture class.
+ */
 class Texture;
 
 /**

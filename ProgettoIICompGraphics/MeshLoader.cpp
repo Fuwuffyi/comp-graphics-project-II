@@ -1,14 +1,12 @@
 #include "MeshLoader.hpp"
 
-#include "Vertex.hpp"
 #include "Mesh.hpp"
-
+#include "Vertex.hpp"
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+#include <assimp/scene.h>
 #include <glad/glad.h>
 #include <stdexcept>
-
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
 
 namespace MeshLoader {
     static Mesh* processMesh(aiMesh* mesh, const aiScene* scene);

@@ -1,13 +1,12 @@
 #include "ShaderLoader.hpp"
 
 #include "Shader.hpp"
-
-#include <unordered_map>
 #include <filesystem>
-#include <stdexcept>
+#include <fstream>
 #include <iostream>
 #include <sstream>
-#include <fstream>
+#include <stdexcept>
+#include <unordered_map>
 
 namespace ShaderLoader {
 	static std::unordered_map<std::string, std::shared_ptr<Shader>> loadedShaders;

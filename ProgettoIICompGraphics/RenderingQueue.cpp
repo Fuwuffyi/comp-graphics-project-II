@@ -1,10 +1,8 @@
 #include "RenderingQueue.hpp"
 
-#include "IRenderable.hpp"
 #include "Material.hpp"
-#include "Shader.hpp"
 #include "Mesh.hpp"
-
+#include "Shader.hpp"
 #include <algorithm>
 
 RenderingQueue::RenderingQueue(const bool _closestFirst)
@@ -40,8 +38,4 @@ void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& view
 
 void RenderingQueue::clear() {
 	this->renderables.clear();
-}
-
-std::size_t RenderingQueue::size() const {
-	return this->renderables.size();
 }

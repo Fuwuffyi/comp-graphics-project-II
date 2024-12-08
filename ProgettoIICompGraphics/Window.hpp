@@ -1,11 +1,15 @@
 #pragma once
 
-#include <iostream>
 #include <cstdint>
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <string>
+
+/**
+ * Forward declaration of the glfw window pointer.
+ */
+struct GLFWwindow;
 
 /**
  * Class that rapresents a glfw window.

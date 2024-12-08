@@ -1,7 +1,6 @@
 #include "Mesh.hpp"
 
 #include "Vertex.hpp"
-
 #include <glad/glad.h>
 
 Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, const uint32_t _drawType)
