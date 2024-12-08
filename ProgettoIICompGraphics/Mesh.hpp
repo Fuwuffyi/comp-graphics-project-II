@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BoundingBox.hpp"
 #include "VertexArray.hpp"
 #include "VertexBuffer.hpp"
 #include "ElementBuffer.hpp"
@@ -13,6 +14,7 @@ public:
 	const VertexArray vao;
 	const VertexBuffer vbo;
 	const ElementBuffer ebo;
+	const BoundingBox aabb;
 public:
 	// Erase copy constructors, as it would break opengl
 	Mesh(const Mesh&) = delete;
