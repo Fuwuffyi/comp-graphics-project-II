@@ -183,6 +183,9 @@
     <ClCompile Include="StbImage.cpp">
       <Filter>Source Files\texture</Filter>
     </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.hpp">
@@ -289,6 +292,9 @@
     </ClInclude>
     <ClInclude Include="TextureLoader.hpp">
       <Filter>Header Files\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
