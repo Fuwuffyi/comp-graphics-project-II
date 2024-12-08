@@ -10,10 +10,11 @@ public:
 	/**
 	 * Constructor of a model instance.
 	 *
+	 * \param _name The object's name.
 	 * \param _meshInstances The mesh instances that make up this model.
 	 * \param _transform The parent's tranfsorm.
 	 */
-	ModelInstance(const std::vector<MeshInstance>& _meshInstances, const Transform& _transform);
+	ModelInstance(const std::string& _name, const std::vector<MeshInstance>& _meshInstances, const Transform& _transform);
 
 	/**
 	 * Gets all the objects that need to be rendered to the screen.

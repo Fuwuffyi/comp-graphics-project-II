@@ -3,8 +3,9 @@
 #include "Mesh.hpp"
 #include "Transform.hpp"
 
-MeshInstance::MeshInstance(Mesh* _mesh, const std::shared_ptr<Material>& _material, const Transform& _transform)
+MeshInstance::MeshInstance(const std::string& _name, Mesh* _mesh, const std::shared_ptr<Material>& _material, const Transform& _transform)
 	:
+	IRenderable(_name),
 	mesh(_mesh),
 	material(_material),
 	transform(_transform),

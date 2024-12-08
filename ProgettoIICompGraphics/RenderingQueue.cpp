@@ -1,12 +1,11 @@
 #include "RenderingQueue.hpp"
 
+#include "LightSystem.hpp"
 #include "Material.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include <algorithm>
-
 #include <glad/glad.h>
-#include "LightSystem.hpp"
 
 RenderingQueue::RenderingQueue(const bool _closestFirst)
 	:

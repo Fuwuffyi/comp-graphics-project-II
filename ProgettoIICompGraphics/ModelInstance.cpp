@@ -2,8 +2,9 @@
 
 #include "Mesh.hpp"
 
-ModelInstance::ModelInstance(const std::vector<MeshInstance>& _meshInstances, const Transform& _transform)
+ModelInstance::ModelInstance(const std::string& _name, const std::vector<MeshInstance>& _meshInstances, const Transform& _transform)
 	:
+	IRenderable(_name),
 	meshInstances(_meshInstances),
 	transform(_transform)
 {}

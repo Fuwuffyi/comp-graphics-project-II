@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <string>
 #include <vector>
 
 /**
@@ -20,6 +21,15 @@ class Mesh;
 
 class IRenderable {
 public:
+	const std::string name;
+public:
+	/**
+	 * Constructor for a renderable.
+	 * 
+	 * \param name The name of the renderable
+	 */
+	IRenderable(const std::string& _name);
+
 	/**
 	 * Gets all the objects that need to be rendered to the screen.
 	 * 

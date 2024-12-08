@@ -30,11 +30,12 @@ public:
 	/**
 	 * Constructor of a mesh instance.
 	 * 
+	 * \param _name The object's name.
 	 * \param _mesh The mesh of the instance.
 	 * \param _material The material to draw the instance with.
 	 * \param _transform The current object's tranfsorm.
 	 */
-	MeshInstance(Mesh* _mesh, const std::shared_ptr<Material>& _material, const Transform& _transform);
+	MeshInstance(const std::string& _name, Mesh* _mesh, const std::shared_ptr<Material>& _material, const Transform& _transform);
 
 	/**
 	 * Gets all the objects that need to be rendered to the screen.
