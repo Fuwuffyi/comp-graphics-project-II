@@ -60,8 +60,8 @@ vec3 directionalLight(Light light, vec3 normal, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = light.diffuse * diff;
 	// Specular
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
+	vec3 halfVec = normalize(viewDir + lightDir);
+	float spec = pow(max(dot(normal, halfVec), 0.0), 8.0);
 	vec3 specular = light.specular * spec;
 	// Return values
 	return (ambient + diffuse + specular);
@@ -82,8 +82,8 @@ vec3 pointLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = light.diffuse * diff;
 	// Specular
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
+	vec3 halfVec = normalize(viewDir + lightDir);
+	float spec = pow(max(dot(normal, halfVec), 0.0), 8.0);
 	vec3 specular = light.specular * spec;
 	// Return values
 	return attenuation * (ambient + diffuse + specular);
@@ -107,8 +107,8 @@ vec3 spotLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = light.diffuse * diff;
 	// Specular
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
+	vec3 halfVec = normalize(viewDir + lightDir);
+	float spec = pow(max(dot(normal, halfVec), 0.0), 8.0);
 	vec3 specular = light.specular * spec;
 	// Return values
 	return attenuation * intensity * (ambient + diffuse + specular);
