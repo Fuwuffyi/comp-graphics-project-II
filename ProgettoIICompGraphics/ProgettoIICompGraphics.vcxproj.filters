@@ -192,6 +192,9 @@
     <ClCompile Include="UniformBuffer.cpp">
       <Filter>Source Files\buffers</Filter>
     </ClCompile>
+    <ClCompile Include="LightSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.hpp">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="UniformBuffer.hpp">
       <Filter>Header Files\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSystem.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

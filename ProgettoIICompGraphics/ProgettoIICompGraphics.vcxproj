@@ -192,6 +192,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClCompile Include="..\external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="LightSystem.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ElementBuffer.cpp" />
@@ -233,6 +234,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClInclude Include="..\external\imgui\imstb_truetype.h" />
     <ClInclude Include="BoundingBox.hpp" />
     <ClInclude Include="GUI.hpp" />
+    <ClInclude Include="LightSystem.hpp" />
     <ClInclude Include="MeshLoader.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="ElementBuffer.hpp" />

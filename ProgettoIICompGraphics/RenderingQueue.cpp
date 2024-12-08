@@ -5,6 +5,9 @@
 #include "Shader.hpp"
 #include <algorithm>
 
+#include <glad/glad.h>
+#include "LightSystem.hpp"
+
 RenderingQueue::RenderingQueue(const bool _closestFirst)
 	:
 	closestFirst(_closestFirst),
@@ -29,6 +32,11 @@ void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& view
 	// Render all objects
 	for (auto [meshPtr, materialPtr, model] : this->renderables) {
 		materialPtr->activate();
+		// Activate lighting
+		LightSystem::enableAt(0);
+		const uint32_t blockIndex = glGetUniformBlockIndex(materialPtr->getShader()->id, "lightBuffer");
+		glUniformBlockBinding(materialPtr->getShader()->id, blockIndex, 0);
+		// Continue rendering normally
 		materialPtr->getShader()->setUniform("cameraPosition", viewPoint);
 		materialPtr->getShader()->setUniformMatrix("cameraMatrix", cameraMatrix);
 		materialPtr->getShader()->setUniformMatrix("objMatrix", model);

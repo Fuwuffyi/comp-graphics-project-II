@@ -4,6 +4,7 @@
 #include "Camera.hpp"
 #include "GUI.hpp"
 #include "Keyboard.hpp"
+#include "LightSystem.hpp"
 #include "MaterialLoader.hpp"
 #include "Mesh.hpp"
 #include "MeshInstance.hpp"
@@ -153,6 +154,8 @@ int main() {
 	const std::vector<Mesh *> dragonMeshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
 	Transform dragonTrasnform(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f), glm::vec3(2.0f));
 	MeshInstance dragonInstance(dragonMeshes[0], MaterialLoader::load("phong"), dragonTrasnform);
+	// Initialize light System
+	LightSystem::initialize();
 	// Setup cubemap
 	Mesh* cubemapMesh = Primitives::generateCube(1);
 	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));
