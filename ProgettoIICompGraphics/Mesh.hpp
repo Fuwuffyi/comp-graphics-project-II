@@ -30,6 +30,13 @@ public:
 	Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices, const uint32_t _drawType);
 
 	/**
+	 * Getter for the mesh's bounding box.
+	 * 
+	 * \return The mesh's bounding box
+	 */
+	const BoundingBox& getBoundingBox() const;
+
+	/**
 	 * Draws the object to the screen.
 	 *
 	 */

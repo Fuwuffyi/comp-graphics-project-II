@@ -5,6 +5,8 @@
 #include <cmath>
 #include <limits>
 
+static constexpr float EPSILON = 0.01f;
+
 BoundingBox::BoundingBox(const std::vector<Vertex>& vertices)
 	:
 	maxMinValues({
@@ -14,12 +16,12 @@ BoundingBox::BoundingBox(const std::vector<Vertex>& vertices)
 	})
 {
 	for (const Vertex& v : vertices) {
-		this->maxMinValues[0] = std::min(maxMinValues[0], v.position.x);	// 0 = minX
-		this->maxMinValues[1] = std::max(maxMinValues[1], v.position.x);	// 1 = maxX
-		this->maxMinValues[2] = std::min(maxMinValues[2], v.position.y);	// 2 = minY
-		this->maxMinValues[3] = std::max(maxMinValues[3], v.position.y);	// 3 = maxY
-		this->maxMinValues[4] = std::max(maxMinValues[4], v.position.z);	// 4 = minZ
-		this->maxMinValues[5] = std::max(maxMinValues[5], v.position.z);	// 5 = maxZ
+		this->maxMinValues[0] = std::min(maxMinValues[0], v.position.x - EPSILON);	// 0 = minX
+		this->maxMinValues[1] = std::max(maxMinValues[1], v.position.x + EPSILON);	// 1 = maxX
+		this->maxMinValues[2] = std::min(maxMinValues[2], v.position.y - EPSILON);	// 2 = minY
+		this->maxMinValues[3] = std::max(maxMinValues[3], v.position.y + EPSILON);	// 3 = maxY
+		this->maxMinValues[4] = std::max(maxMinValues[4], v.position.z - EPSILON);	// 4 = minZ
+		this->maxMinValues[5] = std::max(maxMinValues[5], v.position.z + EPSILON);	// 5 = maxZ
 	}
 }
 

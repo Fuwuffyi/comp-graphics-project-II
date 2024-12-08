@@ -30,8 +30,8 @@ void Renderer::addToRenderingQueues(IRenderable* renderable) {
 
 void Renderer::sendDataToQueues() {
 	for (IRenderable* renderable : renderables) {
-		std::vector<std::tuple<Mesh*, Material *, glm::mat4>> drawables = renderable->getDrawables();
-		for (auto [meshPtr, materialPtr, model] : drawables) {
+		std::vector<std::tuple<Mesh*, Material *, glm::mat4, BoundingBox>> drawables = renderable->getDrawables();
+		for (auto [meshPtr, materialPtr, model, aabb] : drawables) {
 			const Shader* materialShader = materialPtr->getShader();
 			if (materialShader->litFlag) {
 				if (materialShader->transparentFlag) {
