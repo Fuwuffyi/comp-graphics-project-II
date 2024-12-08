@@ -14,6 +14,7 @@
 #include "ShaderLoader.hpp"
 #include "TextureLoader.hpp"
 #include "Transform.hpp"
+#include "Vertex.hpp"
 #include "Window.hpp"
 #include <iostream>
 
