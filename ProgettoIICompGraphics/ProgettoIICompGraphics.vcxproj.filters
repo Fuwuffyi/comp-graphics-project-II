@@ -189,6 +189,9 @@
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Source Files\mesh</Filter>
     </ClCompile>
+    <ClCompile Include="UniformBuffer.cpp">
+      <Filter>Source Files\buffers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.hpp">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="BoundingBox.hpp">
       <Filter>Header Files\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="UniformBuffer.hpp">
+      <Filter>Header Files\buffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
