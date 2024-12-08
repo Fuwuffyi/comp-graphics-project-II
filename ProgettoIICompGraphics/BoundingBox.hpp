@@ -10,16 +10,8 @@ struct Vertex;
 
 class BoundingBox {
 private:
-	/*
-	* Contains the max/min values of the coordinates in this order:
-	* minX
-	* maxX
-	* minY
-	* maxY
-	* minZ
-	* maxZ.
-	*/
-	std::array<float, 6> maxMinValues;
+	glm::vec3 maxValues;
+	glm::vec3 minValues;
 public:
 	/**
 	 * Constructor for an axis aligned bounding box.

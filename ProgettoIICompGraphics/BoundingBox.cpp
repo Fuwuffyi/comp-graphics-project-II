@@ -9,33 +9,26 @@ static constexpr float EPSILON = 0.01f;
 
 BoundingBox::BoundingBox(const std::vector<Vertex>& vertices)
 	:
-	maxMinValues({
-		std::numeric_limits<float>::infinity(), -std::numeric_limits<float>::infinity(), 
-		std::numeric_limits<float>::infinity(), -std::numeric_limits<float>::infinity(),
-		std::numeric_limits<float>::infinity(), -std::numeric_limits<float>::infinity()
-	})
+	maxValues(-std::numeric_limits<float>::infinity()),
+	minValues(std::numeric_limits<float>::infinity())
 {
 	for (const Vertex& v : vertices) {
-		this->maxMinValues[0] = std::min(maxMinValues[0], v.position.x - EPSILON);	// 0 = minX
-		this->maxMinValues[1] = std::max(maxMinValues[1], v.position.x + EPSILON);	// 1 = maxX
-		this->maxMinValues[2] = std::min(maxMinValues[2], v.position.y - EPSILON);	// 2 = minY
-		this->maxMinValues[3] = std::max(maxMinValues[3], v.position.y + EPSILON);	// 3 = maxY
-		this->maxMinValues[4] = std::min(maxMinValues[4], v.position.z - EPSILON);	// 4 = minZ
-		this->maxMinValues[5] = std::max(maxMinValues[5], v.position.z + EPSILON);	// 5 = maxZ
+		this->maxValues = glm::max(this->maxValues, v.position + EPSILON);
+		this->minValues = glm::min(this->minValues, v.position - EPSILON);
 	}
 }
 
 BoundingBox BoundingBox::transform(const glm::mat4& transformationMatrix) const {
 	std::vector<Vertex> verts(8);
 	// Transform the current bounding box's vertices by the matrix
-	const glm::vec4 transformed0 = transformationMatrix * glm::vec4(this->maxMinValues[0], this->maxMinValues[2], this->maxMinValues[4], 1.0f);
-	const glm::vec4 transformed1 = transformationMatrix * glm::vec4(this->maxMinValues[1], this->maxMinValues[2], this->maxMinValues[4], 1.0f);
-	const glm::vec4 transformed2 = transformationMatrix * glm::vec4(this->maxMinValues[0], this->maxMinValues[3], this->maxMinValues[4], 1.0f);
-	const glm::vec4 transformed3 = transformationMatrix * glm::vec4(this->maxMinValues[1], this->maxMinValues[3], this->maxMinValues[4], 1.0f);
-	const glm::vec4 transformed4 = transformationMatrix * glm::vec4(this->maxMinValues[0], this->maxMinValues[2], this->maxMinValues[5], 1.0f);
-	const glm::vec4 transformed5 = transformationMatrix * glm::vec4(this->maxMinValues[1], this->maxMinValues[2], this->maxMinValues[5], 1.0f);
-	const glm::vec4 transformed6 = transformationMatrix * glm::vec4(this->maxMinValues[0], this->maxMinValues[3], this->maxMinValues[5], 1.0f);
-	const glm::vec4 transformed7 = transformationMatrix * glm::vec4(this->maxMinValues[1], this->maxMinValues[3], this->maxMinValues[5], 1.0f);
+	const glm::vec4 transformed0 = transformationMatrix * glm::vec4(this->minValues.x, this->minValues.y, this->minValues.z, 1.0f);
+	const glm::vec4 transformed1 = transformationMatrix * glm::vec4(this->maxValues.x, this->minValues.y, this->minValues.z, 1.0f);
+	const glm::vec4 transformed2 = transformationMatrix * glm::vec4(this->minValues.x, this->maxValues.y, this->minValues.z, 1.0f);
+	const glm::vec4 transformed3 = transformationMatrix * glm::vec4(this->maxValues.x, this->maxValues.y, this->minValues.z, 1.0f);
+	const glm::vec4 transformed4 = transformationMatrix * glm::vec4(this->minValues.x, this->minValues.y, this->maxValues.z, 1.0f);
+	const glm::vec4 transformed5 = transformationMatrix * glm::vec4(this->maxValues.x, this->minValues.y, this->maxValues.z, 1.0f);
+	const glm::vec4 transformed6 = transformationMatrix * glm::vec4(this->minValues.x, this->maxValues.y, this->maxValues.z, 1.0f);
+	const glm::vec4 transformed7 = transformationMatrix * glm::vec4(this->maxValues.x, this->maxValues.y, this->maxValues.z, 1.0f);
 	verts[0] = Vertex{ glm::vec3(transformed0.x, transformed0.y, transformed0.z), glm::vec3(0.0f), glm::vec2(0.0f) };
 	verts[1] = Vertex{ glm::vec3(transformed1.x, transformed1.y, transformed1.z), glm::vec3(0.0f), glm::vec2(0.0f) };
 	verts[2] = Vertex{ glm::vec3(transformed2.x, transformed2.y, transformed2.z), glm::vec3(0.0f), glm::vec2(0.0f) };
@@ -49,14 +42,14 @@ BoundingBox BoundingBox::transform(const glm::mat4& transformationMatrix) const 
 }
 
 bool BoundingBox::checkCollisions(const BoundingBox& other) const {
-	const bool overlapX = this->maxMinValues[1] >= other.maxMinValues[0] && other.maxMinValues[1] >= this->maxMinValues[0];
-	const bool overlapY = this->maxMinValues[3] >= other.maxMinValues[2] && other.maxMinValues[3] >= this->maxMinValues[2];
-	const bool overlapZ = this->maxMinValues[5] >= other.maxMinValues[4] && other.maxMinValues[5] >= this->maxMinValues[4];
+	const bool overlapX = this->maxValues.x >= other.minValues.x && other.maxValues.x >= this->minValues.x;
+	const bool overlapY = this->maxValues.y >= other.minValues.y && other.maxValues.y >= this->minValues.y;
+	const bool overlapZ = this->maxValues.z >= other.minValues.z && other.maxValues.z >= this->minValues.z;
 	return overlapX && overlapY && overlapZ;
 }
 
 bool BoundingBox::checkCollisions(const glm::vec3& point) const {
-	return (point.x >= this->maxMinValues[0] && point.x <= this->maxMinValues[1]) &&
-           (point.y >= this->maxMinValues[2] && point.y <= this->maxMinValues[3]) &&
-           (point.z >= this->maxMinValues[4] && point.z <= this->maxMinValues[5]);
+	return (point.x >= this->minValues.x && point.x <= this->maxValues.x) &&
+           (point.y >= this->minValues.y && point.y <= this->maxValues.y) &&
+           (point.z >= this->minValues.z && point.z <= this->maxValues.z);
 }
