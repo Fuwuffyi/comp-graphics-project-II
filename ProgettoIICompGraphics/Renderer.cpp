@@ -55,6 +55,10 @@ void Renderer::setCubemap(Mesh* mesh, const std::shared_ptr<Material>& material)
 	cubemapMesh = mesh;
 }
 
+const std::vector<IRenderable*>& Renderer::getAllRenderables() {
+	return renderables;
+}
+
 void Renderer::setupOpengl() {
 	// Set depth testing function
 	glEnable(GL_DEPTH_TEST);

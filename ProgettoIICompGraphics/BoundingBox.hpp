@@ -43,4 +43,12 @@ public:
 	 * \return True if the two bounding boxes are colliding.
 	 */
 	bool checkCollisions(const BoundingBox& other) const;
+
+	/**
+	 * Checks collision between itself and a point.
+	 *
+	 * \param point The point to check the collision with.
+	 * \return True they are colliding.
+	 */
+	bool checkCollisions(const glm::vec3& point) const;
 };

@@ -20,7 +20,7 @@ BoundingBox::BoundingBox(const std::vector<Vertex>& vertices)
 		this->maxMinValues[1] = std::max(maxMinValues[1], v.position.x + EPSILON);	// 1 = maxX
 		this->maxMinValues[2] = std::min(maxMinValues[2], v.position.y - EPSILON);	// 2 = minY
 		this->maxMinValues[3] = std::max(maxMinValues[3], v.position.y + EPSILON);	// 3 = maxY
-		this->maxMinValues[4] = std::max(maxMinValues[4], v.position.z - EPSILON);	// 4 = minZ
+		this->maxMinValues[4] = std::min(maxMinValues[4], v.position.z - EPSILON);	// 4 = minZ
 		this->maxMinValues[5] = std::max(maxMinValues[5], v.position.z + EPSILON);	// 5 = maxZ
 	}
 }
@@ -53,4 +53,10 @@ bool BoundingBox::checkCollisions(const BoundingBox& other) const {
 	const bool overlapY = this->maxMinValues[3] >= other.maxMinValues[2] && other.maxMinValues[3] >= this->maxMinValues[2];
 	const bool overlapZ = this->maxMinValues[5] >= other.maxMinValues[4] && other.maxMinValues[5] >= this->maxMinValues[4];
 	return overlapX && overlapY && overlapZ;
+}
+
+bool BoundingBox::checkCollisions(const glm::vec3& point) const {
+	return (point.x >= this->maxMinValues[0] && point.x <= this->maxMinValues[1]) &&
+           (point.y >= this->maxMinValues[2] && point.y <= this->maxMinValues[3]) &&
+           (point.z >= this->maxMinValues[4] && point.z <= this->maxMinValues[5]);
 }

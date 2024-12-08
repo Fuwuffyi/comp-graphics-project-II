@@ -21,6 +21,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 void cameraControls(Camera& cam, Window& window, const float deltaTime) {
+	const std::vector<IRenderable *>& renderables = Renderer::getAllRenderables();
+	const Transform currentTransform = cam.getTransform();
 	// Setup movement
 	if (Keyboard::key(GLFW_KEY_W)) {
 		// Move forward
@@ -88,6 +90,16 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 		cam.getMutableTransform().setRotation(glm::vec3(pitch, yaw, currentRotation.z));
 		const glm::vec3 newPosition = target - cam.getViewDirection() * trackballZoom;
 		cam.getMutableTransform().setPosition(newPosition);
+	}
+	// Check collisions
+	for (IRenderable* object : renderables) {
+		for (auto [meshPtr, materialPtr, modelMatrix, aabb] : object->getDrawables()) {
+			if (aabb.checkCollisions(cam.getTransform().getPosition())) {
+				cam.getMutableTransform().setPosition(currentTransform.getPosition());
+				cam.getMutableTransform().setRotation(currentTransform.getRotation());
+				return;
+			}
+		}
 	}
 }
 
