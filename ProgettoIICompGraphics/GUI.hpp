@@ -28,5 +28,6 @@ public:
 	void newFrame() const;
 	void drawSelection(MeshInstance* selectedObject) const;
 	void drawResources() const;
+	void drawLightsEditor() const;
 	void endRendering() const;
 };

@@ -1,5 +1,6 @@
 #include "GUI.hpp"
 
+#include "LightSystem.hpp"
 #include "Material.hpp"
 #include "MaterialLoader.hpp"
 #include "ShaderLoader.hpp"
@@ -42,6 +43,84 @@ void GUI::drawSelection(MeshInstance* selectedObject) const {
 	}
 	ImGui::Begin("Selected Item", nullptr);
 	// TODO: make object changable using dropdown menus
+	ImGui::End();
+}
+
+
+void GUI::drawLightsEditor() const {
+	static const char* items[4] = { "NONE", "DIRECTIONAL", "POINT", "SPOT" };
+	ImGui::Begin("Lights editor", nullptr);
+	LightSystem::Lights& lights = LightSystem::getAllLights();
+	for (size_t i = 0; i < LightSystem::MAX_LIGHTS; ++i) {
+		if (ImGui::TreeNode(("Light " + std::to_string(i)).c_str())) {
+			LightSystem::Light& light = lights.lights[i];
+			if (ImGui::Combo("Type: ", reinterpret_cast<int32_t*>(&light.type), items, 4)) {
+				LightSystem::setLight(i, light);
+			}
+			if (ImGui::ColorEdit3("Ambient", &light.ambient.x)) {
+				LightSystem::setLight(i, light);
+			}
+			if (ImGui::ColorEdit3("Diffuse", &light.diffuse.x)) {
+				LightSystem::setLight(i, light);
+			}
+			if (ImGui::ColorEdit3("Specular", &light.specular.x)) {
+				LightSystem::setLight(i, light);
+			}
+			switch (light.type) {
+				case LightSystem::LIGHT_TYPE::NONE:
+					break;
+				case LightSystem::LIGHT_TYPE::DIRECTIONAL:
+					if (ImGui::SliderFloat3("Direction", &light.direction.x, -1.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					break;
+				case LightSystem::LIGHT_TYPE::POINT:
+					if (ImGui::SliderFloat3("Position", &light.position.x, -10.0f, 10.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Range", &light.range, 0.0f, 100.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Linear", &light.linear, 0.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Constant", &light.constant, 0.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Quadratic", &light.quadratic, 0.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					break;
+				case LightSystem::LIGHT_TYPE::SPOT:
+					if (ImGui::SliderFloat3("Position", &light.position.x, -10.0f, 10.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat3("Direction", &light.direction.x, -1.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Range", &light.range, 0.0f, 100.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Linear", &light.linear, 0.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Constant", &light.constant, 0.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Quadratic", &light.quadratic, 0.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Cutoff", &light.cutOff, 0.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					if (ImGui::SliderFloat("Outer Cutoff", &light.outerCutOff, 0.0f, 1.0f)) {
+						LightSystem::setLight(i, light);
+					}
+					break;
+			}
+			ImGui::TreePop();
+		}
+	}
 	ImGui::End();
 }
 

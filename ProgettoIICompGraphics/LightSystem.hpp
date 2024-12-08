@@ -70,6 +70,8 @@ namespace LightSystem {
 	void setLight(const size_t position, const DirectionalLight& directionalLight);
 	void setLight(const size_t position, const PointLight& pointLight);
 	void setLight(const size_t position, const SpotLight& spotLight);
+	void setLight(const size_t position, const Light& anyLight);
 	void eraseLight(const size_t position);
 	void enableAt(const uint32_t bindingPoint);
+	Lights& getAllLights();
 }
