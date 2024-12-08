@@ -156,6 +156,7 @@ int main() {
 	MeshInstance dragonInstance(dragonMeshes[0], MaterialLoader::load("phong"), dragonTrasnform);
 	// Initialize light System
 	LightSystem::initialize();
+	LightSystem::setLight(0, LightSystem::DirectionalLight{ glm::vec3(0.0f, -1.0f, 1.0f), glm::vec3(0.1f), glm::vec3(0.5f), glm::vec3(0.8f) });
 	// Setup cubemap
 	Mesh* cubemapMesh = Primitives::generateCube(1);
 	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));

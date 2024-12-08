@@ -17,7 +17,7 @@ void LightSystem::setLight(const size_t position, const DirectionalLight& direct
 	lightsBuffer->bind();
 	Light light{};
 	light.type = LIGHT_TYPE::DIRECTIONAL;
-	light.direction = directionalLight.direction;
+	light.direction = glm::normalize(directionalLight.direction);
 	light.ambient = directionalLight.ambient;
 	light.diffuse = directionalLight.diffuse;
 	light.specular = directionalLight.specular;
@@ -44,7 +44,7 @@ void LightSystem::setLight(const size_t position, const SpotLight& spotLight) {
 	Light light{};
 	light.type = LIGHT_TYPE::SPOT;
 	light.position = spotLight.position;
-	light.direction = spotLight.direction;
+	light.direction = glm::normalize(spotLight.direction);
 	light.ambient = spotLight.ambient;
 	light.diffuse = spotLight.diffuse;
 	light.specular = spotLight.specular;
