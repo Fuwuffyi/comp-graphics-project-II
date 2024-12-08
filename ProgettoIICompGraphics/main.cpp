@@ -140,7 +140,7 @@ int main() {
 	Transform sphereTransform(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	MeshInstance sphereInstance(spherePrimitive, MaterialLoader::load("phong"), sphereTransform);
 
-	Mesh* cylinderPrimitive = Primitives::generateCylinder(1.0f, 0.7f, 20);
+	Mesh* cylinderPrimitive = Primitives::generateCylinder(1.0f, 0.7f, 1.0f, 25, 25);
 	Transform cylinderTransform(glm::vec3(1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	MeshInstance cylinderInstance(cylinderPrimitive, MaterialLoader::load("blinn_phong"), cylinderTransform);
 

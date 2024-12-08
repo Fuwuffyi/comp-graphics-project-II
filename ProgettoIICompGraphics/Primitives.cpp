@@ -167,11 +167,67 @@ Mesh* Primitives::generateSphere(const uint32_t resolution) {
     return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateCylinder(const float bottomRadius, const float topRadius, const uint32_t resolution) {
-	std::vector<Vertex> vertices;
-	std::vector<uint32_t> indices;
-	// TODO: Implement (FLAT SHADED ON BOTTOM AND TOP, SMOOTH SHADED ON HORIZONTAL?)
-	return new Mesh(vertices, indices, GL_TRIANGLES);
+Mesh* Primitives::generateCylinder(const float bottomRadius, const float topRadius, const float length, const int slices, const int stacks) {
+    std::vector<Vertex> vertices;
+    std::vector<uint32_t> indices;
+    // Calculate step sizes for slicing and stacking
+    const float sliceStep = glm::pi<float>() * 2.0f / slices;
+    const float heightStep = length / stacks;
+    const float radiusStep = (topRadius - bottomRadius) / stacks;
+    // Start at the bottom of the cylinder
+    vertices.emplace_back(Vertex{ glm::vec3(0.0f, -length / 2.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.5f, 0.5f) });
+    // Vertices for the sides and the top
+    float currentHeight = -length / 2.0f;
+    float currentRadius = bottomRadius;
+    // For each stack layer
+    for (int32_t i = 0; i <= stacks; i++) {
+        float sliceAngle = 0.0f;
+        for (int32_t j = 0; j < slices; j++) {
+            // Calculate vertex position for current slice
+            const float x = currentRadius * cos(sliceAngle);
+            const float y = currentHeight;
+            const float z = currentRadius * sin(sliceAngle);
+            // Create a vertex and add it to the vertex list
+            vertices.emplace_back(Vertex{ glm::vec3(x, y, z), glm::normalize(glm::vec3(x, y, z)), glm::vec2(static_cast<float>(j) / slices, static_cast<float>(i) / stacks) });
+            sliceAngle += sliceStep;
+        }
+        // Move to the next height level and radius
+        currentHeight += heightStep;
+        currentRadius += radiusStep;
+    }
+    // Top center vertex
+    vertices.emplace_back(Vertex{ glm::vec3(0.0f, length / 2.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.5f, 0.5f) });
+    uint32_t baseIndex = 1; // Starting index for the side vertices
+    // Bottom face indices
+    for (uint32_t i = 0; i < slices; i++) {
+        indices.emplace_back(0);
+        indices.emplace_back(i + 1);
+        indices.emplace_back((i + 1) % slices + 1);
+    }
+    // Side face indices
+    for (uint32_t i = 0; i < stacks; i++) {
+        for (uint32_t j = 0; j < slices; j++) {
+            const uint32_t current = baseIndex + i * slices + j;
+            const uint32_t next = baseIndex + i * slices + (j + 1) % slices;
+            const uint32_t currentTop = baseIndex + (i + 1) * slices + j;
+            const uint32_t nextTop = baseIndex + (i + 1) * slices + (j + 1) % slices;
+            // Two triangles per quad
+            indices.emplace_back(current);
+            indices.emplace_back(currentTop);
+            indices.emplace_back(next);
+            indices.emplace_back(next);
+            indices.emplace_back(currentTop);
+            indices.emplace_back(nextTop);
+        }
+    }
+    // Top face indices
+    baseIndex = vertices.size() - slices - 1;
+    for (uint32_t i = 0; i < slices; i++) {
+        indices.emplace_back(vertices.size() - 1);
+        indices.emplace_back(baseIndex + (i + 1) % slices);
+        indices.emplace_back(baseIndex + i);
+    }
+    return new Mesh(vertices, indices, GL_TRIANGLES);
 }
 
 Mesh* Primitives::generateCone(const float radius, const uint32_t resolution) {
