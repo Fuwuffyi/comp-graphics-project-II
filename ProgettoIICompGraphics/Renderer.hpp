@@ -6,7 +6,7 @@
 /**
  * Foward declaration of the IRenderable interface.
  */
-class IRenderable;
+class MeshInstanceNode;
 
 /**
  * Foward declaration of the mesh class.
@@ -29,7 +29,7 @@ namespace Renderer {
 	 * 
 	 * \param renderable The renderable to add.
 	 */
-	void addToRenderingQueues(IRenderable* renderable);
+	void addToRenderingQueues(MeshInstanceNode* renderable);
 
 	/**
 	 * Sets up the base opengl draw parameters.
@@ -51,7 +51,7 @@ namespace Renderer {
 	 * 
 	 * \return All the renderer's loaded renderables.
 	 */
-	const std::vector<IRenderable *>& getAllRenderables();
+	const std::vector<MeshInstanceNode*>& getAllRenderables();
 
 	/**
 	 * Changes the cubemap of the world.

@@ -48,34 +48,34 @@ void Transform::setScale(const glm::vec3& _scale) {
 	this->dirtyTransform = true;
 }
 
-const glm::mat4& Transform::getPositionMatrix() {
+const glm::mat4& Transform::getPositionMatrix() const {
 	if (this->dirtyPosition) {
-		this->updatePositionMatrix();
-		this->dirtyPosition = false;
+		const_cast<Transform*>(this)->updatePositionMatrix();
+		const_cast<Transform*>(this)->dirtyPosition = false;
 	}
 	return this->matPosition;
 }
 
-const glm::mat4& Transform::getRotationMatrix() {
+const glm::mat4& Transform::getRotationMatrix() const {
 	if (this->dirtyRotation) {
-		this->updateRotationMatrix();
-		this->dirtyRotation = false;
+		const_cast<Transform*>(this)->updateRotationMatrix();
+		const_cast<Transform*>(this)->dirtyRotation = false;
 	}
 	return this->matRotation;
 }
 
-const glm::mat4& Transform::getScaleMatrix() {
+const glm::mat4& Transform::getScaleMatrix() const {
 	if (this->dirtyScale) {
-		this->updateScaleMatrix();
-		this->dirtyScale = false;
+		const_cast<Transform*>(this)->updateScaleMatrix();
+		const_cast<Transform*>(this)->dirtyScale = false;
 	}
 	return this->matScale;
 }
 
-const glm::mat4& Transform::getTransformMatrix() {
+const glm::mat4& Transform::getTransformMatrix() const {
 	if (this->dirtyTransform) {
-		this->updateTransformMatrix();
-		this->dirtyTransform = false;
+		const_cast<Transform*>(this)->updateTransformMatrix();
+		const_cast<Transform*>(this)->dirtyTransform = false;
 	}
 	return this->matTransform;
 }
@@ -101,4 +101,11 @@ void Transform::updatePositionMatrix() {
 
 void Transform::updateScaleMatrix() {
 	this->matScale = glm::scale(glm::mat4(1.0f), this->scale);
+}
+
+Transform Transform::operator*(const Transform& other) const {
+	const glm::vec3 combinedPosition = this->position + glm::vec3(this->getRotationMatrix() * glm::vec4(other.position, 1.0f));
+	const glm::vec3 combinedRotation = this->rotation + other.rotation;
+	const glm::vec3 combinedScale = this->scale * other.scale;
+	return Transform(combinedPosition, combinedRotation, combinedScale);
 }

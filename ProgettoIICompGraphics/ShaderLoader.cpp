@@ -95,7 +95,7 @@ std::shared_ptr<Shader> ShaderLoader::load(const std::string& shaderAssetFileNam
 	// Read shader file
 	auto [vertShaderFile, fragShaderFile, litFlag, transparentFlag] = readShaderAssetFile(shaderAssetFileName + SHADER_ASSET_FILE_EXTENSION);
 	// Load it
-	loadedShaders.emplace(shaderAssetFileName, std::make_shared<Shader>(readShaderSource(vertShaderFile), readShaderSource(fragShaderFile), litFlag, transparentFlag));
+	loadedShaders.emplace(shaderAssetFileName, std::make_shared<Shader>(shaderAssetFileName, readShaderSource(vertShaderFile), readShaderSource(fragShaderFile), litFlag, transparentFlag));
 	return loadedShaders.at(shaderAssetFileName);
 }
 

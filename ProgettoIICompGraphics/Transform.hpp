@@ -29,10 +29,12 @@ public:
 	const glm::vec3& getScale() const;
 	void setScale(const glm::vec3& _scale);
 
-	const glm::mat4& getPositionMatrix();
-	const glm::mat4& getRotationMatrix();
-	const glm::mat4& getScaleMatrix();
-	const glm::mat4& getTransformMatrix();
+	const glm::mat4& getPositionMatrix() const;
+	const glm::mat4& getRotationMatrix() const;
+	const glm::mat4& getScaleMatrix() const;
+	const glm::mat4& getTransformMatrix() const;
+
+	Transform operator*(const Transform& other) const;
 
 protected:
 	void updatePositionMatrix();

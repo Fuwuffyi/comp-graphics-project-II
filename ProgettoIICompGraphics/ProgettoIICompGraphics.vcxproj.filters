@@ -37,9 +37,6 @@
     <Filter Include="Source Files\loaders">
       <UniqueIdentifier>{88597e10-b6e8-473d-ba90-6b644ddcf633}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\renderables">
-      <UniqueIdentifier>{a4f1ff98-ad72-4850-b42b-38f5ab78706e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\buffers">
       <UniqueIdentifier>{15ccd411-21a3-4fd7-ae01-9f252737ecc2}</UniqueIdentifier>
     </Filter>
@@ -76,8 +73,11 @@
     <Filter Include="Header Files\texture">
       <UniqueIdentifier>{bdaf6f0e-2174-465d-830b-173cc88e7d8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\renderables">
+    <Filter Include="Header Files\scene_nodes">
       <UniqueIdentifier>{e9e0a6e5-01b8-474d-b02f-95fdfd7e5856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scene_nodes">
+      <UniqueIdentifier>{a4f1ff98-ad72-4850-b42b-38f5ab78706e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -120,12 +120,6 @@
     <ClCompile Include="MaterialLoader.cpp">
       <Filter>Source Files\loaders</Filter>
     </ClCompile>
-    <ClCompile Include="MeshInstance.cpp">
-      <Filter>Source Files\renderables</Filter>
-    </ClCompile>
-    <ClCompile Include="ModelInstance.cpp">
-      <Filter>Source Files\renderables</Filter>
-    </ClCompile>
     <ClCompile Include="MeshLoader.cpp">
       <Filter>Source Files\loaders</Filter>
     </ClCompile>
@@ -149,9 +143,6 @@
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\io</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderingQueue.cpp">
-      <Filter>Source Files\renderer</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\mesh</Filter>
@@ -195,8 +186,14 @@
     <ClCompile Include="LightSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IRenderable.cpp">
-      <Filter>Source Files\renderables</Filter>
+    <ClCompile Include="SceneNode.cpp">
+      <Filter>Source Files\scene_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshInstanceNode.cpp">
+      <Filter>Source Files\scene_nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingQueue.cpp">
+      <Filter>Source Files\renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -239,12 +236,6 @@
     <ClInclude Include="ShaderLoader.hpp">
       <Filter>Header Files\loaders</Filter>
     </ClInclude>
-    <ClInclude Include="IRenderable.hpp">
-      <Filter>Header Files\renderables</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshInstance.hpp">
-      <Filter>Header Files\renderables</Filter>
-    </ClInclude>
     <ClInclude Include="MeshLoader.hpp">
       <Filter>Header Files\loaders</Filter>
     </ClInclude>
@@ -268,9 +259,6 @@
     </ClInclude>
     <ClInclude Include="Window.hpp">
       <Filter>Header Files\io</Filter>
-    </ClInclude>
-    <ClInclude Include="ModelInstance.hpp">
-      <Filter>Header Files\renderables</Filter>
     </ClInclude>
     <ClInclude Include="RenderingQueue.hpp">
       <Filter>Header Files\renderer</Filter>
@@ -316,6 +304,12 @@
     </ClInclude>
     <ClInclude Include="LightSystem.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneNode.hpp">
+      <Filter>Header Files\scene_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshInstanceNode.hpp">
+      <Filter>Header Files\scene_nodes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

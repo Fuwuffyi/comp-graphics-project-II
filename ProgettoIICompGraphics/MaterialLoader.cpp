@@ -127,7 +127,7 @@ std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetF
 	// Read the file
 	auto [shaderName, propertyMap, textureMap] = readMaterialAssetFile(materialAssetFileName + MATERIAL_ASSET_FILE_EXTENSION);
 	// Load the material
-	loadedMaterials.emplace(materialAssetFileName, std::make_shared<Material>(ShaderLoader::load(shaderName), propertyMap, textureMap));
+	loadedMaterials.emplace(materialAssetFileName, std::make_shared<Material>(materialAssetFileName, ShaderLoader::load(shaderName), propertyMap, textureMap));
 	return loadedMaterials.at(materialAssetFileName);
 }
 

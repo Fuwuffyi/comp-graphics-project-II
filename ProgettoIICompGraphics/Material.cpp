@@ -4,10 +4,11 @@
 #include "Texture.hpp"
 #include <stdexcept>
 
-Material::Material(const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures)
+Material::Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures)
 	:
 	shader(_shader),
-	values(_values)
+	values(_values),
+	name(_name)
 {
 	if (this->shader == nullptr) {
 		std::runtime_error("The material has been initialized without a shader!");
@@ -20,6 +21,10 @@ Material::~Material() {
 
 Shader* Material::getShader() const {
 	return this->shader.get();
+}
+
+void Material::setShader(const std::shared_ptr<Shader>& _shader) {
+	this->shader = _shader;
 }
 
 std::unordered_map<std::string, Material::MaterialValueType>& Material::getMutableProperties() {

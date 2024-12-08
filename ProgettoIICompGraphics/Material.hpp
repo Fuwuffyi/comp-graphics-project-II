@@ -38,11 +38,12 @@ public:
 	/**
 	 * Constructor for a material.
 	 * 
+	 * \param _name The material's name.
 	 * \param _shader A shader pointer to be used to render the material.
 	 * \param values The properties of the material.
 	 * \param textures The material's loaded textures.
 	 */
-	Material(const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures);
+	Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures);
 
 	/**
 	 * Destructor for the material class.
@@ -56,6 +57,13 @@ public:
 	* \return The material's shader pointer.
 	*/
 	Shader* getShader() const;
+
+	/*
+	* Sets the material's shader.
+	*
+	* \param _shader The new shader to set the material to.
+	*/
+	void setShader(const std::shared_ptr<Shader>& _shader);
 
 	/*
 	* Gets the material's properties.

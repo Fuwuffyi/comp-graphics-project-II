@@ -192,8 +192,8 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClCompile Include="..\external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="IRenderable.cpp" />
     <ClCompile Include="LightSystem.cpp" />
+    <ClCompile Include="MeshInstanceNode.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ElementBuffer.cpp" />
@@ -203,12 +203,11 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialLoader.cpp" />
     <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MeshInstance.cpp" />
-    <ClCompile Include="ModelInstance.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Primitives.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="RenderingQueue.cpp" />
+    <ClCompile Include="SceneNode.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SimpleBuffer.cpp" />
@@ -236,6 +235,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClInclude Include="BoundingBox.hpp" />
     <ClInclude Include="GUI.hpp" />
     <ClInclude Include="LightSystem.hpp" />
+    <ClInclude Include="MeshInstanceNode.hpp" />
     <ClInclude Include="MeshLoader.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="ElementBuffer.hpp" />
@@ -243,13 +243,11 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClInclude Include="MaterialLoader.hpp" />
     <ClInclude Include="Material.hpp" />
     <ClInclude Include="Mesh.hpp" />
-    <ClInclude Include="MeshInstance.hpp" />
-    <ClInclude Include="ModelInstance.hpp" />
     <ClInclude Include="Mouse.hpp" />
-    <ClInclude Include="IRenderable.hpp" />
     <ClInclude Include="Primitives.hpp" />
     <ClInclude Include="Renderer.hpp" />
     <ClInclude Include="RenderingQueue.hpp" />
+    <ClInclude Include="SceneNode.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="ShaderLoader.hpp" />
     <ClInclude Include="SimpleBuffer.hpp" />

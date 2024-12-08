@@ -1,8 +1,11 @@
 #include "GUI.hpp"
 
+#include "BoundingBox.hpp"
+#include "MeshInstanceNode.hpp"
 #include "LightSystem.hpp"
 #include "Material.hpp"
 #include "MaterialLoader.hpp"
+#include "Shader.hpp"
 #include "ShaderLoader.hpp"
 #include "TextureLoader.hpp"
 #include <glfw/glfw3.h>
@@ -35,16 +38,39 @@ void GUI::newFrame() const {
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 }
-
-void GUI::drawSelection(MeshInstance* selectedObject) const {
+/*
+* TODO: FIX
+void GUI::drawSelection(MeshInstanceNode* selectedObject) const {
 	if (!selectedObject) {
 		return;
 	}
 	ImGui::Begin("Selected Item", nullptr);
-	// TODO: make object changable using dropdown menus
+	ImGui::Text("Current selection: %s", selectedObject->name);
+	uint32_t i = 0;
+	for (auto [meshPtr, materialPtr, modelMatrix, bbox] : selectedObject->getDrawables()) {
+		if (ImGui::TreeNode(("Mesh " + std::to_string(i++)).c_str())) {
+			if (ImGui::BeginCombo("Shader", materialPtr->getShader()->name.c_str())) {
+				for (const std::string& shaderName : ShaderLoader::getAllFileNames()) {
+					if (ImGui::Selectable(shaderName.c_str())) {
+						materialPtr->setShader(ShaderLoader::load(shaderName));
+					}
+				}
+				ImGui::EndCombo();
+			}
+			if (ImGui::BeginCombo("Material", materialPtr->name.c_str())) {
+				for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
+					if (ImGui::Selectable(materialName.c_str())) {
+						// selectedObject->setMaterial(MaterialLoader::load(materialName));
+					}
+				}
+				ImGui::EndCombo();
+			}
+			ImGui::TreePop();
+		}
+	}
 	ImGui::End();
 }
-
+*/
 
 void GUI::drawLightsEditor() const {
 	static const char* items[4] = { "NONE", "DIRECTIONAL", "POINT", "SPOT" };
@@ -57,7 +83,7 @@ void GUI::drawLightsEditor() const {
 	for (size_t i = 0; i < LightSystem::MAX_LIGHTS; ++i) {
 		if (ImGui::TreeNode(("Light " + std::to_string(i)).c_str())) {
 			LightSystem::Light& light = lights.lights[i];
-			if (ImGui::Combo("Type: ", reinterpret_cast<int32_t*>(&light.type), items, 4)) {
+			if (ImGui::Combo("Type", reinterpret_cast<int32_t*>(&light.type), items, 4)) {
 				LightSystem::setLight(i, light);
 			}
 			if (ImGui::ColorEdit3("Ambient", &light.ambient.x)) {

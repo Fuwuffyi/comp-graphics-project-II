@@ -7,11 +7,12 @@
 #include "LightSystem.hpp"
 #include "MaterialLoader.hpp"
 #include "Mesh.hpp"
-#include "MeshInstance.hpp"
+#include "MeshInstanceNode.hpp"
 #include "MeshLoader.hpp"
 #include "Mouse.hpp"
 #include "Primitives.hpp"
 #include "Renderer.hpp"
+#include "SceneNode.hpp"
 #include "ShaderLoader.hpp"
 #include "TextureLoader.hpp"
 #include "Transform.hpp"
@@ -19,8 +20,9 @@
 #include "Window.hpp"
 #include <iostream>
 
+
+
 void cameraControls(Camera& cam, Window& window, const float deltaTime) {
-	const std::vector<IRenderable *>& renderables = Renderer::getAllRenderables();
 	const Transform currentTransform = cam.getTransform();
 	// Setup movement
 	if (Keyboard::key(GLFW_KEY_W)) {
@@ -91,12 +93,11 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 		cam.getMutableTransform().setPosition(newPosition);
 	}
 	// Check collisions
-	for (IRenderable* object : renderables) {
-		for (auto [meshPtr, materialPtr, modelMatrix, aabb] : object->getDrawables()) {
-			if (aabb.checkCollisions(cam.getTransform().getPosition())) {
-				cam.getMutableTransform().setPosition(currentTransform.getPosition());
-				return;
-			}
+	const std::vector<MeshInstanceNode *>& instances = Renderer::getAllRenderables();
+	for (MeshInstanceNode* instance : instances) {
+		if (instance->getBoundingBox().checkCollisions(cam.getTransform().getPosition())) {
+			cam.getMutableTransform().setPosition(currentTransform.getPosition());
+			return;
 		}
 	}
 }
@@ -123,37 +124,48 @@ int main() {
 	// Create a camera
 	Camera cam(Transform(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.01f, 100.0f);
 	// Test out primitives
+	std::shared_ptr<SceneNode> scene = std::make_shared<SceneNode>("Scene", Transform());
+	
 	Mesh* planePrimitive = Primitives::generatePlane(5);
 	Transform planeTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
-	MeshInstance planeInstance("Planius maximus", planePrimitive, MaterialLoader::load("blinn_phong"), planeTransform);
+	std::shared_ptr<MeshInstanceNode> planeInstance = std::make_shared<MeshInstanceNode>("Planius maximus", planePrimitive, MaterialLoader::load("blinn_phong"), planeTransform, scene);
 
 	Mesh* cubePrimitive = Primitives::generateCube(25);
 	Transform cubeTransform(glm::vec3(0.0f, 0.2f, 1.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
-	MeshInstance cubeInstance("Cubus maximus", cubePrimitive, MaterialLoader::load("phong"), cubeTransform);
+	std::shared_ptr<MeshInstanceNode> cubeInstance = std::make_shared<MeshInstanceNode>("Cubus maximus", cubePrimitive, MaterialLoader::load("phong"), cubeTransform, scene);
 
 	Mesh* pyramidPrimitive = Primitives::generatePyramid(5);
 	Transform pyramidTransform(glm::vec3(0.0f, 0.2f, -1.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance pyramidInstance("Pyramidus maximus", pyramidPrimitive, MaterialLoader::load("blinn_phong"), pyramidTransform);
+	std::shared_ptr<MeshInstanceNode> pyramidInstance = std::make_shared<MeshInstanceNode>("Pyramidus maximus", pyramidPrimitive, MaterialLoader::load("blinn_phong"), pyramidTransform, scene);
 
 	Mesh* spherePrimitive = Primitives::generateSphere(15);
 	Transform sphereTransform(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance sphereInstance("Spherius maximus", spherePrimitive, MaterialLoader::load("phong"), sphereTransform);
+	std::shared_ptr<MeshInstanceNode> sphereInstance = std::make_shared<MeshInstanceNode>("Spherius maximus", spherePrimitive, MaterialLoader::load("phong"), sphereTransform, scene);
 
 	Mesh* cylinderPrimitive = Primitives::generateCylinder(1.0f, 0.7f, 1.0f, 25, 25);
 	Transform cylinderTransform(glm::vec3(1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance cylinderInstance("Cylinderius maximus", cylinderPrimitive, MaterialLoader::load("blinn_phong"), cylinderTransform);
+	std::shared_ptr<MeshInstanceNode> cylinderInstance = std::make_shared<MeshInstanceNode>("Cylinderius maximus", cylinderPrimitive, MaterialLoader::load("blinn_phong"), cylinderTransform, scene);
 
 	Mesh* conePrimitive = Primitives::generateCone(1.0f, 1.0f, 25, 25);
 	Transform coneTransform(glm::vec3(-1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.2f));
-	MeshInstance coneInstance("Conius maximus", conePrimitive, MaterialLoader::load("phong"), coneTransform);
+	std::shared_ptr<MeshInstanceNode> coneInstance = std::make_shared<MeshInstanceNode>("Conius maximus", conePrimitive, MaterialLoader::load("phong"), coneTransform, scene);
 
 	Mesh* thorusPrimitive = Primitives::generateThorus(3.0f, 0.2f, 20);
 	Transform thorusTransform(glm::vec3(2.0f, 0.2f, 2.0f), glm::vec3(0.0f), glm::vec3(0.5f));
-	MeshInstance thorusInstance("Thorium", thorusPrimitive, MaterialLoader::load("blinn_phong"), thorusTransform);
+	std::shared_ptr<MeshInstanceNode> thorusInstance = std::make_shared<MeshInstanceNode>("Thorium", thorusPrimitive, MaterialLoader::load("blinn_phong"), thorusTransform, scene);
 	// Load the dragon
 	const std::vector<Mesh *> dragonMeshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
 	Transform dragonTrasnform(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f), glm::vec3(2.0f));
-	MeshInstance dragonInstance("Drake", dragonMeshes[0], MaterialLoader::load("phong"), dragonTrasnform);
+	std::shared_ptr<MeshInstanceNode> dragonInstance = std::make_shared<MeshInstanceNode>("Drake", dragonMeshes[0], MaterialLoader::load("phong"), dragonTrasnform, scene);
+	// Add children to scene
+	scene->addChild(planeInstance);
+	scene->addChild(cubeInstance);
+	scene->addChild(pyramidInstance);
+	scene->addChild(sphereInstance);
+	scene->addChild(cylinderInstance);
+	scene->addChild(coneInstance);
+	scene->addChild(thorusInstance);
+	scene->addChild(dragonInstance);
 	// Initialize light System
 	LightSystem::initialize();
 	LightSystem::setLight(0, LightSystem::DirectionalLight{ glm::vec3(0.3f, -1.0f, 1.0f), glm::vec3(0.1f), glm::vec3(0.5f), glm::vec3(0.8f) });
@@ -161,14 +173,14 @@ int main() {
 	Mesh* cubemapMesh = Primitives::generateCube(1);
 	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));
 	// Add objects to rendering queue
-	Renderer::addToRenderingQueues(&planeInstance);
-	Renderer::addToRenderingQueues(&cubeInstance);
-	Renderer::addToRenderingQueues(&pyramidInstance);
-	Renderer::addToRenderingQueues(&sphereInstance);
-	Renderer::addToRenderingQueues(&cylinderInstance);
-	Renderer::addToRenderingQueues(&coneInstance);
-	Renderer::addToRenderingQueues(&thorusInstance);
-	Renderer::addToRenderingQueues(&dragonInstance);
+	Renderer::addToRenderingQueues(planeInstance.get());
+	Renderer::addToRenderingQueues(cubeInstance.get());
+	Renderer::addToRenderingQueues(pyramidInstance.get());
+	Renderer::addToRenderingQueues(sphereInstance.get());
+	Renderer::addToRenderingQueues(cylinderInstance.get());
+	Renderer::addToRenderingQueues(coneInstance.get());
+	Renderer::addToRenderingQueues(thorusInstance.get());
+	Renderer::addToRenderingQueues(dragonInstance.get());
 	Renderer::setupOpengl();
 	// Setup GUI
 	GUI gui(window.getWindowPtr());
@@ -186,6 +198,7 @@ int main() {
 		if (!gui.clickedOnUi()) {
 			cameraControls(cam, window, deltaTime);
 		}
+		scene->changeRotation(glm::vec3(0.0f, 45.0f, 0.0f) * deltaTime);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -194,9 +207,9 @@ int main() {
 		// Test draw
 		Renderer::renderAll(cam.getCameraMatrix(), cam.getViewMatrix(), cam.getProjectionMatrix(), cam.getTransform().getPosition());
 		// Draw gui
-		gui.drawSelection(nullptr);
 		gui.drawLightsEditor();
 		gui.drawResources();
+		// gui.drawSelection(&dragonInstance);
 		gui.endRendering();
 		// End frame
 		window.swapBuffers();

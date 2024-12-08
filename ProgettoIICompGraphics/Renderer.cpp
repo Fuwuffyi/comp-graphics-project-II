@@ -1,6 +1,6 @@
 #include "Renderer.hpp"
 
-#include "IRenderable.hpp"
+#include "MeshInstanceNode.hpp"
 #include "Material.hpp"
 #include "Mesh.hpp"
 #include "RenderingQueue.hpp"
@@ -12,7 +12,7 @@ namespace Renderer {
 	static RenderingQueue litTransparentQueue(false);
 	static RenderingQueue unlitQueue;
 	static RenderingQueue unlitTransparentQueue(false);
-	static std::vector<IRenderable *> renderables;
+	static std::vector<MeshInstanceNode *> renderingList;
 
 	static std::shared_ptr<Material> cubemapMaterial = nullptr;
 	static Mesh* cubemapMesh = nullptr;
@@ -20,27 +20,25 @@ namespace Renderer {
 	static void sendDataToQueues();
 }
 
-void Renderer::addToRenderingQueues(IRenderable* renderable) {
-	renderables.emplace_back(renderable);
+void Renderer::addToRenderingQueues(MeshInstanceNode* renderable) {
+	renderingList.emplace_back(renderable);
 }
 
 void Renderer::sendDataToQueues() {
-	for (IRenderable* renderable : renderables) {
-		std::vector<std::tuple<Mesh*, Material *, glm::mat4, BoundingBox>> drawables = renderable->getDrawables();
-		for (auto [meshPtr, materialPtr, model, aabb] : drawables) {
-			const Shader* materialShader = materialPtr->getShader();
-			if (materialShader->litFlag) {
-				if (materialShader->transparentFlag) {
-					litTransparentQueue.addRenderable(meshPtr, materialPtr, model);
-				} else {
-					litQueue.addRenderable(meshPtr, materialPtr, model);
-				}
+	for (MeshInstanceNode* renderable : renderingList) {
+		Material* materialPtr = renderable->getMaterial().get();
+		const Shader* shaderPtr = renderable->getMaterial()->getShader();
+		if (shaderPtr->litFlag) {
+			if (shaderPtr->transparentFlag) {
+				litTransparentQueue.addRenderable(renderable->getMesh(), materialPtr, renderable->getWorldTransform().getTransformMatrix());
 			} else {
-				if (materialShader->transparentFlag) {
-					unlitTransparentQueue.addRenderable(meshPtr, materialPtr, model);
-				} else {
-					unlitQueue.addRenderable(meshPtr, materialPtr, model);
-				}
+				litQueue.addRenderable(renderable->getMesh(), materialPtr, renderable->getWorldTransform().getTransformMatrix());
+			}
+		} else {
+			if (shaderPtr->transparentFlag) {
+				unlitTransparentQueue.addRenderable(renderable->getMesh(), materialPtr, renderable->getWorldTransform().getTransformMatrix());
+			} else {
+				unlitQueue.addRenderable(renderable->getMesh(), materialPtr, renderable->getWorldTransform().getTransformMatrix());
 			}
 		}
 	}
@@ -55,8 +53,8 @@ void Renderer::setCubemap(Mesh* mesh, const std::shared_ptr<Material>& material)
 	}
 }
 
-const std::vector<IRenderable*>& Renderer::getAllRenderables() {
-	return renderables;
+const std::vector<MeshInstanceNode *>& Renderer::getAllRenderables() {
+	return renderingList;
 }
 
 void Renderer::setupOpengl() {
