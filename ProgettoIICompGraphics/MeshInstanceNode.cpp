@@ -12,7 +12,7 @@ MeshInstanceNode::MeshInstanceNode(const std::string& _name, Mesh* _mesh, const 
 
 void MeshInstanceNode::updateWorldTransform(const glm::mat4& parentModelMatrix) {
 	SceneNode::updateWorldTransform();
-	boundingBox = this->mesh->getBoundingBox().transform(this->transform.getTransformMatrix());
+	boundingBox = this->mesh->getBoundingBox().transform(this->localTransform.getTransformMatrix());
 	if (this->parentNode) {
 		boundingBox = boundingBox.transform(parentModelMatrix);
 	}

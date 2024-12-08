@@ -2,7 +2,7 @@
 
 SceneNode::SceneNode(const std::string& _name, const Transform& _transform, const std::shared_ptr<SceneNode>& parent)
 	:
-	transform(_transform),
+	localTransform(_transform),
 	worldTransform(_transform),
 	parentNode(parent),
 	childNodes(),
@@ -13,9 +13,9 @@ SceneNode::SceneNode(const std::string& _name, const Transform& _transform, cons
 
 void SceneNode::updateWorldTransform(const glm::mat4& parentModelMatrix) {
 	if (!this->parentNode) {
-		this->worldTransform = transform;
+		this->worldTransform = localTransform;
 	} else {
-		this->worldTransform = this->parentNode->getWorldTransform() * this->transform;
+		this->worldTransform = this->parentNode->getWorldTransform() * this->localTransform;
 	}
 	// Update child node transforms
 	for (std::shared_ptr<SceneNode>& node : this->childNodes) {
@@ -27,33 +27,37 @@ const Transform& SceneNode::getWorldTransform() const {
 	return this->worldTransform;
 }
 
+const Transform& SceneNode::getLocalTransform() const {
+	return this->localTransform;
+}
+
 void SceneNode::setPosition(const glm::vec3& newPos) {
-	this->transform.setPosition(newPos);
+	this->localTransform.setPosition(newPos);
 	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
 }
 
 void SceneNode::setRotation(const glm::vec3& newRot) {
-	this->transform.setRotation(newRot);
+	this->localTransform.setRotation(newRot);
 	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
 }
 
 void SceneNode::setScale(const glm::vec3& newScale) {
-	this->transform.setScale(newScale);
+	this->localTransform.setScale(newScale);
 	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
 }
 
 void SceneNode::changePosition(const glm::vec3& posOffset) {
-	this->transform.setPosition(this->transform.getPosition() + posOffset);
+	this->localTransform.setPosition(this->localTransform.getPosition() + posOffset);
 	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
 }
 
 void SceneNode::changeRotation(const glm::vec3& rotOffset) {
-	this->transform.setRotation(this->transform.getRotation() + rotOffset);
+	this->localTransform.setRotation(this->localTransform.getRotation() + rotOffset);
 	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
 }
 
 void SceneNode::changeScale(const glm::vec3& scaleOffset) {
-	this->transform.setScale(this->transform.getScale() + scaleOffset);
+	this->localTransform.setScale(this->localTransform.getScale() + scaleOffset);
 	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
 }
 

@@ -26,8 +26,7 @@ public:
 
 	bool clickedOnUi() const;
 	void newFrame() const;
-	// TODO: FIX
-	// void drawSelection(MeshInstanceNode* selectedObject) const;
+	void drawSelection(MeshInstanceNode* selectedObject) const;
 	void drawResources() const;
 	void drawLightsEditor() const;
 	void endRendering() const;

@@ -6,7 +6,7 @@
 
 class SceneNode {
 protected:
-	Transform transform; // Local transform relative to the parent
+	Transform localTransform; // Local transform relative to the parent
 	Transform worldTransform; // Transform relative to the world
 
 	std::shared_ptr<SceneNode> parentNode;
@@ -19,6 +19,7 @@ public:
 	SceneNode(const std::string& _name, const Transform& _transform, const std::shared_ptr<SceneNode>& parent = nullptr);
 
 	const Transform& getWorldTransform() const;
+	const Transform& getLocalTransform() const;
 
 	void setPosition(const glm::vec3& newPos);
 	void setRotation(const glm::vec3& newRot);

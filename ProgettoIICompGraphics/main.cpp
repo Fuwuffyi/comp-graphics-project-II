@@ -198,7 +198,6 @@ int main() {
 		if (!gui.clickedOnUi()) {
 			cameraControls(cam, window, deltaTime);
 		}
-		scene->changeRotation(glm::vec3(0.0f, 45.0f, 0.0f) * deltaTime);
 		// Clear buffers
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -209,7 +208,7 @@ int main() {
 		// Draw gui
 		gui.drawLightsEditor();
 		gui.drawResources();
-		// gui.drawSelection(&dragonInstance);
+		gui.drawSelection(dragonInstance.get());
 		gui.endRendering();
 		// End frame
 		window.swapBuffers();

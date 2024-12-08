@@ -38,39 +38,45 @@ void GUI::newFrame() const {
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 }
-/*
-* TODO: FIX
+
 void GUI::drawSelection(MeshInstanceNode* selectedObject) const {
 	if (!selectedObject) {
 		return;
 	}
 	ImGui::Begin("Selected Item", nullptr);
 	ImGui::Text("Current selection: %s", selectedObject->name);
-	uint32_t i = 0;
-	for (auto [meshPtr, materialPtr, modelMatrix, bbox] : selectedObject->getDrawables()) {
-		if (ImGui::TreeNode(("Mesh " + std::to_string(i++)).c_str())) {
-			if (ImGui::BeginCombo("Shader", materialPtr->getShader()->name.c_str())) {
-				for (const std::string& shaderName : ShaderLoader::getAllFileNames()) {
-					if (ImGui::Selectable(shaderName.c_str())) {
-						materialPtr->setShader(ShaderLoader::load(shaderName));
-					}
-				}
-				ImGui::EndCombo();
+	Material* materialPtr = selectedObject->getMaterial().get();
+	Shader* shaderPtr = materialPtr->getShader();
+	if (ImGui::BeginCombo("Shader", shaderPtr->name.c_str())) {
+		for (const std::string& shaderName : ShaderLoader::getAllFileNames()) {
+			if (ImGui::Selectable(shaderName.c_str())) {
+				materialPtr->setShader(ShaderLoader::load(shaderName));
 			}
-			if (ImGui::BeginCombo("Material", materialPtr->name.c_str())) {
-				for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
-					if (ImGui::Selectable(materialName.c_str())) {
-						// selectedObject->setMaterial(MaterialLoader::load(materialName));
-					}
-				}
-				ImGui::EndCombo();
-			}
-			ImGui::TreePop();
 		}
+		ImGui::EndCombo();
+	}
+	if (ImGui::BeginCombo("Material", materialPtr->name.c_str())) {
+		for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
+			if (ImGui::Selectable(materialName.c_str())) {
+				selectedObject->setMaterial(MaterialLoader::load(materialName));
+			}
+		}
+		ImGui::EndCombo();
+	}
+	glm::vec3 input = selectedObject->getLocalTransform().getPosition();
+	if (ImGui::InputFloat3("Position", &input.x)) {
+		selectedObject->setPosition(input);
+	}
+	input = selectedObject->getLocalTransform().getRotation();
+	if (ImGui::InputFloat3("Rotation", &input.x)) {
+		selectedObject->setRotation(input);
+	}
+	input = selectedObject->getLocalTransform().getScale();
+	if (ImGui::InputFloat3("Scale", &input.x)) {
+		selectedObject->setScale(input);
 	}
 	ImGui::End();
 }
-*/
 
 void GUI::drawLightsEditor() const {
 	static const char* items[4] = { "NONE", "DIRECTIONAL", "POINT", "SPOT" };
