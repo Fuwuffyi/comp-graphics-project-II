@@ -96,7 +96,6 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 		for (auto [meshPtr, materialPtr, modelMatrix, aabb] : object->getDrawables()) {
 			if (aabb.checkCollisions(cam.getTransform().getPosition())) {
 				cam.getMutableTransform().setPosition(currentTransform.getPosition());
-				cam.getMutableTransform().setRotation(currentTransform.getRotation());
 				return;
 			}
 		}
