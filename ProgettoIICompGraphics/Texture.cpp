@@ -33,6 +33,7 @@ void Texture::setParameters(const std::vector<std::pair<int32_t, int32_t>>& para
 
 void Texture::activate(const int32_t bindingPoint) const {
 	glActiveTexture(GL_TEXTURE0 + bindingPoint);
+	this->bind();
 }
 
 void Texture::bind() const {
