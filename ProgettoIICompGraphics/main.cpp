@@ -243,11 +243,12 @@ int main() {
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		// Get new GUI Frame
-		gui.newFrame();
+		gui.newFrame(window.getDimensions());
 		// Test draw
 		Renderer::renderAll(cam.getCameraMatrix(), cam.getViewMatrix(), cam.getProjectionMatrix(), cam.getTransform().getPosition());
 		// Draw gui
 		gui.drawLightsEditor();
+		gui.drawInspector(scene.get());
 		gui.drawResources();
 		gui.drawSelection(selectedInstance);
 		gui.endRendering();

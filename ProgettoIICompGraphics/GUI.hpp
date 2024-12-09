@@ -20,13 +20,19 @@ private:
 	static void drawMaterialProperties(const std::string& name, glm::uvec2& vector);
 	static void drawMaterialProperties(const std::string& name, glm::uvec3& vector);
 	static void drawMaterialProperties(const std::string& name, glm::uvec4& vector);
+
+	static glm::uvec2 screenSize;
+
+	void createNodeInputs(SceneNode*& node) const;
+	void drawInspectorNode(SceneNode*& node) const;
 public:
 	GUI(GLFWwindow* window);
 	~GUI();
 
 	bool clickedOnUi() const;
-	void newFrame() const;
+	void newFrame(const glm::uvec2& dimensions) const;
 	void drawSelection(SceneNode*& selectedObject) const;
+	void drawInspector(SceneNode* root) const;
 	void drawResources() const;
 	void drawLightsEditor() const;
 	void endRendering() const;

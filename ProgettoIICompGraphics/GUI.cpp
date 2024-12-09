@@ -14,6 +14,8 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
+glm::uvec2 GUI::screenSize = glm::uvec2(0);
+
 GUI::GUI(GLFWwindow* window) {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -34,36 +36,27 @@ bool GUI::clickedOnUi() const {
 	return ImGui::GetIO().WantCaptureMouse;
 }
 
-void GUI::newFrame() const {
+void GUI::newFrame(const glm::uvec2& dimensions) const {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	GUI::screenSize = dimensions;
 }
 
-void GUI::drawSelection(SceneNode*& selectedObject) const {
-	if (selectedObject == nullptr) {
-		return;
-	}
-	ImGui::Begin("Selected Item", nullptr);
-	ImGui::Text("Current selection: %s", selectedObject->name.c_str());
-	if (selectedObject->getParent()) {
-		if (ImGui::Button("Select parent")) {
-			selectedObject = selectedObject->getParent().get();
-		}
-	}
-	glm::vec3 input = selectedObject->getLocalTransform().getPosition();
+void GUI::createNodeInputs(SceneNode*& node) const {
+	glm::vec3 input = node->getLocalTransform().getPosition();
 	if (ImGui::InputFloat3("Position", &input.x)) {
-		selectedObject->setPosition(input);
+		node->setPosition(input);
 	}
-	input = selectedObject->getLocalTransform().getRotation();
+	input = node->getLocalTransform().getRotation();
 	if (ImGui::InputFloat3("Rotation", &input.x)) {
-		selectedObject->setRotation(input);
+		node->setRotation(input);
 	}
-	input = selectedObject->getLocalTransform().getScale();
+	input = node->getLocalTransform().getScale();
 	if (ImGui::InputFloat3("Scale", &input.x)) {
-		selectedObject->setScale(input);
+		node->setScale(input);
 	}
-	if (auto meshInstanceChild = dynamic_cast<MeshInstanceNode *>(selectedObject)) {
+	if (auto meshInstanceChild = dynamic_cast<MeshInstanceNode*>(node)) {
 		Material* materialPtr = meshInstanceChild->getMaterial().get();
 		Shader* shaderPtr = materialPtr->getShader();
 		if (ImGui::BeginCombo("Shader", shaderPtr->name.c_str())) {
@@ -83,6 +76,47 @@ void GUI::drawSelection(SceneNode*& selectedObject) const {
 			ImGui::EndCombo();
 		}
 	}
+}
+
+void GUI::drawInspectorNode(SceneNode*& node) const {
+	if (ImGui::TreeNode(node->name.c_str())) {
+		createNodeInputs(node);
+		const auto children = node->getChildren();
+		if (children.size() > 0) {
+			if (ImGui::TreeNode((node->name + " children").c_str())) {
+				for (auto child : children) {
+					auto ptr = child.get();
+					drawInspectorNode(ptr);
+				}
+				ImGui::TreePop();
+			}
+		}
+		ImGui::TreePop();
+	}
+}
+
+void GUI::drawInspector(SceneNode* root) const {
+	ImGui::SetNextWindowPos(ImVec2(screenSize.x - 500, 0), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(500, screenSize.y), ImGuiCond_Always);
+	ImGui::Begin("Scene Inspector", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_NoResize);
+	this->drawInspectorNode(root);
+	ImGui::End();
+}
+
+void GUI::drawSelection(SceneNode*& selectedObject) const {
+	if (selectedObject == nullptr) {
+		return;
+	}
+	ImGui::SetNextWindowPos(ImVec2(0, screenSize.y - 200), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(screenSize.x, 200), ImGuiCond_Always);
+	ImGui::Begin("Selected Item", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
+	ImGui::Text("Current selection: %s", selectedObject->name.c_str());
+	if (selectedObject->getParent()) {
+		if (ImGui::Button("Select parent")) {
+			selectedObject = selectedObject->getParent().get();
+		}
+	}
+	createNodeInputs(selectedObject);
 	ImGui::End();
 }
 
