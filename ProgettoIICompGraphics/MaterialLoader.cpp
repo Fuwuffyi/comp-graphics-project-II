@@ -131,6 +131,10 @@ std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetF
 	return loadedMaterials.at(materialAssetFileName);
 }
 
+std::shared_ptr<Material> MaterialLoader::load(const std::string& name, const std::shared_ptr<Material>& loadedMaterial) {
+	loadedMaterials.emplace(name, loadedMaterial);
+}
+
 void MaterialLoader::unloadAll() {
 	loadedMaterials.clear();
 }
