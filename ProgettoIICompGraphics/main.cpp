@@ -20,8 +20,6 @@
 #include "Window.hpp"
 #include <iostream>
 
-
-
 void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 	const Transform currentTransform = cam.getTransform();
 	// Setup movement
@@ -56,39 +54,39 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 	// Set cursor hidden when holding left/middle mouse buttons
 	constexpr const float sensitivity = 0.1f;
 	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_LEFT) || Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
-		glfwSetInputMode(window.getWindowPtr(), GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+		glfwSetInputMode(window.getWindowPtr(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	} else if (Mouse::buttonWentUp(GLFW_MOUSE_BUTTON_LEFT) || Mouse::buttonWentUp(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		glfwSetInputMode(window.getWindowPtr(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 	// Setup FPS style camera when holding left click
+	constexpr const float epsilon = 0.01f;
 	if (Mouse::button(GLFW_MOUSE_BUTTON_LEFT)) {
 		const float mouseDeltaX = Mouse::getDx();
 		const float mouseDeltaY = Mouse::getDy();
-		cam.getMutableTransform().setRotation(cam.getTransform().getRotation() + glm::vec3(mouseDeltaY, -mouseDeltaX, 0.0f) * sensitivity);
+		const glm::vec3 newRotation = cam.getTransform().getRotation() + glm::vec3(mouseDeltaY, -mouseDeltaX, 0.0f) * sensitivity;
+		cam.getMutableTransform().setRotation(glm::vec3(glm::clamp(newRotation.x, -90.0f + epsilon, 90.0f - epsilon), newRotation.y, newRotation.z));
 	}
 	// Change FOV/Zoom based on scroll wheel
-	constexpr const float epsilon = 0.01f;
 	static float trackballZoom = 1.0f;
 	if (Mouse::button(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		const float newZoom = trackballZoom - Mouse::getScrollDy() * 100.0f * deltaTime;
 		trackballZoom = std::min(std::max(newZoom, epsilon), 10.0f);
 	} else {
 		const float newFov = cam.getFOV() - Mouse::getScrollDy() * 1000.0f * deltaTime;
-		cam.setFOV(std::min(std::max(newFov, epsilon), 180.0f - epsilon));
+		cam.setFOV(std::min(std::max(newFov, epsilon), 120.0f - epsilon));
 	}
 	// Setup trackball style camera when holding middle mouse button
 	static glm::vec3 target;
 	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
-		target = cam.getTransform().getPosition() + cam.getViewDirection() * trackballZoom;
+		target = cam.getTransform().getPosition() + cam.getViewDirection();
 	}
-	// TODO: Fix trackball movement
 	if (Mouse::button(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		const float mouseDeltaX = Mouse::getDx();
 		const float mouseDeltaY = Mouse::getDy();
 		const glm::vec3 currentRotation = cam.getTransform().getRotation();
 		const float yaw = currentRotation.y + mouseDeltaX * sensitivity;
 		const float pitch = currentRotation.x + mouseDeltaY * sensitivity;
-		cam.getMutableTransform().setRotation(glm::vec3(pitch, yaw, currentRotation.z));
+		cam.getMutableTransform().setRotation(glm::vec3(glm::clamp(pitch, -89.0f, 89.0f), yaw, currentRotation.z));
 		const glm::vec3 newPosition = target - cam.getViewDirection() * trackballZoom;
 		cam.getMutableTransform().setPosition(newPosition);
 	}

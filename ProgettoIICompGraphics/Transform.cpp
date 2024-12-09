@@ -34,6 +34,9 @@ const glm::vec3& Transform::getRotation() const {
 
 void Transform::setRotation(const glm::vec3& rot) {
 	this->rotation = rot;
+	this->rotation.x = glm::mod(this->rotation.x + 180.0f, 360.0f) - 180.0f;
+	this->rotation.y = glm::mod(this->rotation.y + 180.0f, 360.0f) - 180.0f;
+	this->rotation.z = glm::mod(this->rotation.z + 180.0f, 360.0f) - 180.0f;
 	this->dirtyRotation = true;
 	this->dirtyTransform = true;
 }
