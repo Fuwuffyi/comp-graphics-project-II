@@ -8,6 +8,7 @@ Material::Material(const std::string& _name, const std::shared_ptr<Shader>& _sha
 	:
 	shader(_shader),
 	values(_values),
+	textures(_textures),
 	name(_name)
 {
 	if (this->shader == nullptr) {
@@ -46,10 +47,11 @@ void Material::activate() const {
 		};
 		std::visit(visitor, value);
 	}
-	this->shader->setUniform("useTextures", static_cast<int32_t>(this->textures.size() > 0));
+	this->shader->setUniform("useTexture", this->textures.size() > 0 ? 1 : 0);
 	// Setup all shader uniform properties
 	for (const auto& [uniform, texturePtr] : this->textures) {
 		static int32_t bindingPoint = 0;
+		std::cout << bindingPoint << std::endl;
 		texturePtr->activate(bindingPoint);
 		this->shader->setUniform(uniform, bindingPoint++);
 	}
