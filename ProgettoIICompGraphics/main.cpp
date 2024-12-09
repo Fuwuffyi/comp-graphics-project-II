@@ -192,7 +192,7 @@ int main() {
 	Transform thorusTransform(glm::vec3(2.0f, 0.2f, 2.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	std::shared_ptr<MeshInstanceNode> thorusInstance = std::make_shared<MeshInstanceNode>("Thorium", thorusPrimitive, MaterialLoader::load("blinn_phong"), thorusTransform, scene);
 	// Load the dragon
-	std::shared_ptr<SceneNode> dragonMeshRoot = MeshLoader::loadMesh("assets/meshes/pot.obj", Transform(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.2f)));
+	std::shared_ptr<SceneNode> dragonMeshRoot = MeshLoader::loadMesh("assets/meshes/Lantern.glb", Transform(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.2f)));
 	scene->addChild(dragonMeshRoot);
 	dragonMeshRoot->setParent(scene);
 	// Add children to scene
