@@ -151,11 +151,11 @@ std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution) {
             const uint32_t bottomLeft = (y + 1) * (resolution + 1) + x;
             const uint32_t bottomRight = bottomLeft + 1;
             indices.emplace_back(topLeft);
-            indices.emplace_back(bottomLeft);
-            indices.emplace_back(topRight);
             indices.emplace_back(topRight);
             indices.emplace_back(bottomLeft);
+            indices.emplace_back(topRight);
             indices.emplace_back(bottomRight);
+            indices.emplace_back(bottomLeft);
         }
     }
     // Generate vertices and indices for the triangular faces
