@@ -130,7 +130,71 @@ std::shared_ptr<Mesh> Primitives::generateCube(const uint32_t resolution) {
 std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
-    // TODO: Implement (FLAT SHADED)
+    const float height = 1.0f;
+    const float halfBase = 0.5f;
+    const glm::vec3 apex(0.0f, height, 0.0f);
+    // Generate vertices for the base
+    const float sideLength = 1.0f / resolution;
+    for (uint32_t y = 0; y <= resolution; ++y) {
+        for (uint32_t x = 0; x <= resolution; ++x) {
+            glm::vec3 position(-halfBase + x * sideLength, 0.0f, -halfBase + y * sideLength);
+            glm::vec3 normal(0.0f, -1.0f, 0.0f);
+            glm::vec2 uv(x / resolution, y / resolution);
+            vertices.emplace_back(Vertex{ position, normal, uv });
+        }
+    }
+    // Generate indices for the base
+    for (uint32_t y = 0; y < resolution; ++y) {
+        for (uint32_t x = 0; x < resolution; ++x) {
+            const uint32_t topLeft = y * (resolution + 1) + x;
+            const uint32_t topRight = topLeft + 1;
+            const uint32_t bottomLeft = (y + 1) * (resolution + 1) + x;
+            const uint32_t bottomRight = bottomLeft + 1;
+            indices.emplace_back(topLeft);
+            indices.emplace_back(bottomLeft);
+            indices.emplace_back(topRight);
+            indices.emplace_back(topRight);
+            indices.emplace_back(bottomLeft);
+            indices.emplace_back(bottomRight);
+        }
+    }
+    // Generate vertices and indices for the triangular faces
+    for (uint32_t i = 0; i < 4; ++i) {
+        // Define the corners of the face
+        glm::vec3 corner1, corner2;
+        glm::vec3 normal;
+        switch (i) {
+        case 0: // Front face
+            corner1 = glm::vec3(-halfBase, 0.0f, halfBase);
+            corner2 = glm::vec3(halfBase, 0.0f, halfBase);
+            normal = glm::normalize(glm::cross(corner2 - apex, corner1 - apex));
+            break;
+        case 1: // Right face
+            corner1 = glm::vec3(halfBase, 0.0f, halfBase);
+            corner2 = glm::vec3(halfBase, 0.0f, -halfBase);
+            normal = glm::normalize(glm::cross(corner2 - apex, corner1 - apex));
+            break;
+        case 2: // Back face
+            corner1 = glm::vec3(halfBase, 0.0f, -halfBase);
+            corner2 = glm::vec3(-halfBase, 0.0f, -halfBase);
+            normal = glm::normalize(glm::cross(corner2 - apex, corner1 - apex));
+            break;
+        case 3: // Left face
+            corner1 = glm::vec3(-halfBase, 0.0f, -halfBase);
+            corner2 = glm::vec3(-halfBase, 0.0f, halfBase);
+            normal = glm::normalize(glm::cross(corner2 - apex, corner1 - apex));
+            break;
+        }
+        // Add vertices for the face
+        uint32_t baseIndex = vertices.size();
+        vertices.emplace_back(Vertex{ apex, normal, glm::vec2(0.5f, 1.0f) });
+        vertices.emplace_back(Vertex{ corner1, normal, glm::vec2(0.0f, 0.0f) });
+        vertices.emplace_back(Vertex{ corner2, normal, glm::vec2(1.0f, 0.0f) });
+        // Add indices for the face
+        indices.emplace_back(baseIndex + 0); // Apex
+        indices.emplace_back(baseIndex + 1); // Corner 1
+        indices.emplace_back(baseIndex + 2); // Corner 2
+    }
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
@@ -233,7 +297,7 @@ std::shared_ptr<Mesh> Primitives::generateCone(const float radius, const float l
 	return Primitives::generateCylinder(radius, 0.0f, length, slices, stacks);
 }
 
-std::shared_ptr<Mesh> Primitives::generateThorus(const float innerRadius, const float circleRadius, const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generateThorus(const float innerRadius, const float circleRadius, const uint32_t resCircle, const uint32_t resSteps) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
     // TODO: Implement (SMOOTH SHADED)

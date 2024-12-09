@@ -28,7 +28,7 @@ namespace Primitives {
 	/**
 	 * Generates a heap allocated pyramid.
 	 *
-	 * \param resolution // TODO: ============================================================================================================
+	 * \param resolution Amount of subdivisions on the base of the pyramid.
 	 * \return The pyramid object.
 	 */
 	std::shared_ptr<Mesh> generatePyramid(const uint32_t resolution);
@@ -69,8 +69,9 @@ namespace Primitives {
 	 *
 	 * \param innerRadius The radius between the center and the thorus shape.
 	 * \param circleRadius The radius of the circle of the thorus shape.
-	 * \param resolution // TODO: ============================================================================================================
+	 * \param resCircle Amount of subdivisions of the circle.
+	 * \param resSteps Amount of circles to create the thorus.
 	 * \return The thorus object.
 	 */
-	std::shared_ptr<Mesh> generateThorus(const float innerRadius = 1.0f, const float circleRadius = 0.25f, const uint32_t resolution = 5);
+	std::shared_ptr<Mesh> generateThorus(const float innerRadius = 1.0f, const float circleRadius = 0.25f, const uint32_t resCircle = 5, const uint32_t resSteps = 5);
 }
