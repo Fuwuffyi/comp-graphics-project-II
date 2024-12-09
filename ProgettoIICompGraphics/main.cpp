@@ -96,9 +96,24 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 	}
 	// Check selections
 	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_RIGHT)) {
-		// Perform raycasting to find the closest instance
+		// Get useful coordinates
+		const glm::uvec2 windowDimensions = window.getDimensions();
+		const glm::vec2 mousePos = glm::vec2(Mouse::getMouseX(), Mouse::getMouseY());
+		glm::vec2 ndcMousePos;
+		ndcMousePos.x = (2.0f * mousePos.x) / windowDimensions.x - 1.0f;
+		ndcMousePos.y = 1.0f - (2.0f * mousePos.y) / windowDimensions.y;
+		// Ray in clip space
+		const glm::vec4 rayClip(ndcMousePos.x, ndcMousePos.y, -1.0f, 1.0f);
+		// Convert to view space
+		const glm::mat4 projMatrix = cam.getProjectionMatrix();
+		glm::vec4 rayView = glm::inverse(projMatrix) * rayClip;
+		rayView.z = -1.0f; // Ensure ray points forward
+		rayView.w = 0.0f;
+		// Convert to world space
+		const glm::mat4 viewMatrix = cam.getViewMatrix();
 		const glm::vec3 rayOrigin = cam.getTransform().getPosition();
-		const glm::vec3 rayDirection = cam.getViewDirection();
+		const glm::vec3 rayDirection = glm::normalize(glm::vec3(glm::inverse(viewMatrix) * rayView));
+		// Setup some base variables for the search
 		MeshInstanceNode* closestInstance = nullptr;
 		float closestDistance = std::numeric_limits<float>::max();
 		// Loop through all instances and check if the ray intersects any bounding boxes
