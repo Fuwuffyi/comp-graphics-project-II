@@ -1,0 +1,11 @@
+Model Information:
+* title:	LISBOA HOUSE TRIMSHEET
+* source:	https://sketchfab.com/3d-models/lisboa-house-trimsheet-851d55fecdd14338acbff35b53331ef6
+* author:	valentin_ross_ (https://sketchfab.com/valentin_ross_)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "LISBOA HOUSE TRIMSHEET" (https://sketchfab.com/3d-models/lisboa-house-trimsheet-851d55fecdd14338acbff35b53331ef6) by valentin_ross_ (https://sketchfab.com/valentin_ross_) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

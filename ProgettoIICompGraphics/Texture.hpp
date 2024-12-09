@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 #include <vector>
 
 class Texture {
@@ -10,6 +11,8 @@ public:
 	const uint32_t textureId;
 	const int32_t textureType;
 public:
+	static std::shared_ptr<Texture> dummyTexture;
+
 	// Erase copy constructors, as it would break opengl
 	Texture(const Texture&) = delete;
 	Texture& operator=(const Texture&) = delete;

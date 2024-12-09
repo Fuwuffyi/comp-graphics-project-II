@@ -19,7 +19,6 @@ uniform float material_shininess;
 uniform sampler2D diffuse0;
 uniform sampler2D specular0;
 uniform sampler2D normal0;
-uniform bool useTexture;
 
 struct Light {
 	vec3 position;
@@ -49,11 +48,13 @@ vec4 calcDiffuse(vec3 lightDiffuse, float diffuseFactor);
 vec4 calcAmbient(vec3 lightAmbient);
 vec4 calcSpecular(vec3 lightSpecular, float specularFactor);
 
+bool isTextureValid(sampler2D tex);
+
 void main() {
 	vec4 combinedLighting = vec4(0.0);
 	vec3 viewDir = normalize(cameraPosition - worldPosition);
 	vec3 normal = normalIn;
-	if (useTexture) {
+	if (isTextureValid(normal0)) {
 		normal = texture(normal0, uvIn).xyz;
 	}
 	for (uint i = 0u; i < MAX_LIGHTS; ++i) {
@@ -71,7 +72,7 @@ void main() {
 			combinedLighting += spotLight(light, normal, worldPosition, viewDir);
 		}
 	}
-	if (useTexture) {
+	if (isTextureValid(diffuse0)) {
 		fragColor = texture(diffuse0, uvIn) * combinedLighting;
 	}
 	else {
@@ -79,15 +80,19 @@ void main() {
 	}
 }
 
+bool isTextureValid(sampler2D tex) {
+	return texture(tex, vec2(0.5, 0.5)) != vec4(0.0, 0.0, 0.0, 0.0);
+}
+
 vec4 calcDiffuse(vec3 lightDiffuse, float diffuseFactor) {
-	if (useTexture) {
+	if (isTextureValid(diffuse0)) {
 		return texture(diffuse0, uvIn) * vec4(lightDiffuse, 1.0) * diffuseFactor;
 	}
 	return material_diffuse * vec4(lightDiffuse, 1.0) * diffuseFactor;
 }
 
 vec4 calcSpecular(vec3 lightSpecular, float specularFactor) {
-	if (useTexture) {
+	if (isTextureValid(specular0)) {
 		return texture(specular0, uvIn) * vec4(lightSpecular, 1.0) * specularFactor;
 	}
 	return material_specular * vec4(lightSpecular, 1.0) * specularFactor;

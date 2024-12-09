@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <stdexcept>
 
+std::shared_ptr<Texture> Texture::dummyTexture = nullptr;
+
 uint32_t Texture::genTextureId(const int32_t textureType) {
 	uint32_t texture;
 	glGenTextures(1, &texture);
@@ -46,5 +48,5 @@ void Texture::deactivate(const int32_t bindingPoint) const {
 }
 
 void Texture::unbind() const {
-	glBindTexture(this->textureType, 0);
+	glBindTexture(this->textureType, Texture::dummyTexture->textureId);
 }

@@ -13,6 +13,7 @@
 #include "Renderer.hpp"
 #include "SceneNode.hpp"
 #include "ShaderLoader.hpp"
+#include "Texture.hpp"
 #include "TextureLoader.hpp"
 #include "Transform.hpp"
 #include "Vertex.hpp"
@@ -70,7 +71,7 @@ int main() {
 		LightSystem::setLight(1 + i, LightSystem::SpotLight{ 
 			glm::vec3(6.5f + 3.8f * i, 5.0f, 0.6f), 
 			glm::vec3(0.0f, -1.0f, 0.0f),
-			0.5f, 0.0f,
+			1.0f, 0.8f,
 			glm::vec3(1.0f, 1.0f, 0.0f),
 			glm::vec3(1.0f, 0.95f, 0.6f),
 			glm::vec3(1.0f, 1.0f, 0.0f),
@@ -81,7 +82,7 @@ int main() {
 		LightSystem::setLight(9 + i, LightSystem::SpotLight{
 			glm::vec3(-6.5f - 3.8f * i, 5.0f, 0.6f),
 			glm::vec3(0.0f, -1.0f, 0.0f),
-			0.5f, 0.0f,
+			1.0f, 0.8f,
 			glm::vec3(1.0f, 1.0f, 0.0f),
 			glm::vec3(1.0f, 0.95f, 0.6f),
 			glm::vec3(1.0f, 1.0f, 0.0f),
@@ -91,6 +92,8 @@ int main() {
 	// Setup cubemap
 	std::shared_ptr<Mesh> cubemapMesh = Primitives::generateCube(1);
 	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));
+	// Setup dummy texture
+	Texture::dummyTexture = TextureLoader::load("dummy.png");
 	// Add objects to rendering queue
 	Renderer::setupOpengl();
 	// Start the draw loop

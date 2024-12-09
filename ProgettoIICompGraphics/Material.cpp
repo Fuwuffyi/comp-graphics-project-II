@@ -46,7 +46,6 @@ void Material::activate() const {
 		};
 		std::visit(visitor, value);
 	}
-	this->shader->setUniform("useTexture", this->textures.size() > 0 ? 1 : 0);
 	// Setup all shader uniform properties
 	for (const auto& [uniform, texturePtr] : this->textures) {
 		static int32_t bindingPoint = 0;
