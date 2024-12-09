@@ -198,13 +198,11 @@ int main() {
 	// Add children to scene
 	scene->addChild(planeInstance);
 	scene->addChild(cubeInstance);
-	// scene->addChild(pyramidInstance);
+	scene->addChild(pyramidInstance);
 	scene->addChild(sphereInstance);
 	scene->addChild(cylinderInstance);
 	scene->addChild(coneInstance);
-	// scene->addChild(thorusInstance);
-	// Testing purposes
-	selectedInstance = cubeInstance.get();
+	scene->addChild(thorusInstance);
 	// Add all the renderables to the renderer
 	std::deque<std::shared_ptr<SceneNode>> meshQueue = { scene };
 	while (!meshQueue.empty()) {
