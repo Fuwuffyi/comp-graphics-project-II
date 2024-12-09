@@ -32,7 +32,6 @@ std::unordered_map<std::string, Material::MaterialValueType>& Material::getMutab
 	return this->values;
 }
 
-#include <iostream>
 void Material::activate() const {
 	if (!this->shader) {
 		return;
@@ -51,7 +50,6 @@ void Material::activate() const {
 	// Setup all shader uniform properties
 	for (const auto& [uniform, texturePtr] : this->textures) {
 		static int32_t bindingPoint = 0;
-		std::cout << bindingPoint << std::endl;
 		texturePtr->activate(bindingPoint);
 		this->shader->setUniform(uniform, bindingPoint++);
 	}
