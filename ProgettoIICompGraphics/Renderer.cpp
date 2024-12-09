@@ -15,7 +15,7 @@ namespace Renderer {
 	static std::vector<MeshInstanceNode *> renderingList;
 
 	static std::shared_ptr<Material> cubemapMaterial = nullptr;
-	static Mesh* cubemapMesh = nullptr;
+	static std::shared_ptr<Mesh> cubemapMesh = nullptr;
 
 	static void sendDataToQueues();
 }
@@ -44,7 +44,7 @@ void Renderer::sendDataToQueues() {
 	}
 }
 
-void Renderer::setCubemap(Mesh* mesh, const std::shared_ptr<Material>& material) {
+void Renderer::setCubemap(const std::shared_ptr<Mesh>& mesh, const std::shared_ptr<Material>& material) {
 	if (mesh) {
 		cubemapMesh = mesh;
 	}

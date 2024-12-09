@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/constants.hpp>
 
-Mesh* Primitives::generatePlane(const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generatePlane(const uint32_t resolution) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     const float dx = 1.0f / resolution;
@@ -38,10 +38,10 @@ Mesh* Primitives::generatePlane(const uint32_t resolution) {
             indices.emplace_back(bottomRight);
         }
     }
-    return new Mesh(vertices, indices, GL_TRIANGLES);
+    return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateCube(const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generateCube(const uint32_t resolution) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     // Calculate side length based on resolution
@@ -124,17 +124,17 @@ Mesh* Primitives::generateCube(const uint32_t resolution) {
             }
         }
     }
-    return new Mesh(vertices, indices, GL_TRIANGLES);
+    return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generatePyramid(const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     // TODO: Implement (FLAT SHADED)
-    return new Mesh(vertices, indices, GL_TRIANGLES);
+    return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateSphere(const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generateSphere(const uint32_t resolution) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     for (uint32_t lat = 0; lat <= resolution; ++lat) {
@@ -163,10 +163,10 @@ Mesh* Primitives::generateSphere(const uint32_t resolution) {
             indices.emplace_back(b + 1);
         }
     }
-    return new Mesh(vertices, indices, GL_TRIANGLES);
+    return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateCylinder(const float bottomRadius, const float topRadius, const float length, const int slices, const int stacks) {
+std::shared_ptr<Mesh> Primitives::generateCylinder(const float bottomRadius, const float topRadius, const float length, const int slices, const int stacks) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     // Calculate step sizes for slicing and stacking
@@ -226,16 +226,16 @@ Mesh* Primitives::generateCylinder(const float bottomRadius, const float topRadi
         indices.emplace_back(baseIndex + (i + 1) % slices);
         indices.emplace_back(baseIndex + i);
     }
-    return new Mesh(vertices, indices, GL_TRIANGLES);
+    return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-Mesh* Primitives::generateCone(const float radius, const float length, const int slices, const int stacks) {
+std::shared_ptr<Mesh> Primitives::generateCone(const float radius, const float length, const int slices, const int stacks) {
 	return Primitives::generateCylinder(radius, 0.0f, length, slices, stacks);
 }
 
-Mesh* Primitives::generateThorus(const float innerRadius, const float circleRadius, const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generateThorus(const float innerRadius, const float circleRadius, const uint32_t resolution) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
     // TODO: Implement (SMOOTH SHADED)
-	return new Mesh(vertices, indices, GL_TRIANGLES);
+	return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }

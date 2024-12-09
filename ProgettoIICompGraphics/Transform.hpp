@@ -19,6 +19,7 @@ protected:
 	bool dirtyTransform;
 public:
 	Transform(const glm::vec3& _position = glm::vec3(0.0f), const glm::vec3& _rotation = glm::vec3(0.0f), const glm::vec3& _scale = glm::vec3(1.0f));
+	Transform(const glm::mat4& transformMatrix);
 
 	const glm::vec3& getPosition() const;
 	void setPosition(const glm::vec3& pos);

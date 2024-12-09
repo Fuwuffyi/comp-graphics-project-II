@@ -18,6 +18,34 @@ Transform::Transform(const glm::vec3& _position, const glm::vec3& _rotation, con
 	dirtyTransform(true)
 {}
 
+Transform::Transform(const glm::mat4& transformMatrix)
+	:
+	matPosition(1.0f),
+	matRotation(1.0f),
+	matScale(1.0f),
+	matTransform(1.0f),
+	dirtyPosition(true),
+	dirtyRotation(true),
+	dirtyScale(true),
+	dirtyTransform(true)
+{
+	// Extract position (last column)
+	position = glm::vec3(transformMatrix[3]);
+	// Extract scale and rotation (upper-left 3x3 matrix)
+	glm::mat3 rotationScale = glm::mat3(transformMatrix);
+	// Decompose rotationScale into scale and rotation
+	scale = glm::vec3(glm::length(rotationScale[0]), glm::length(rotationScale[1]), glm::length(rotationScale[2]));
+	// Normalize the rotation matrix to get the rotation component
+	glm::mat3 rotationMatrix = rotationScale;
+	rotationMatrix[0] /= scale.x;
+	rotationMatrix[1] /= scale.y;
+	rotationMatrix[2] /= scale.z;
+	// Extract rotation as Euler angles (in degrees)
+	rotation.x = glm::degrees(atan2(rotationMatrix[2][1], rotationMatrix[2][2]));
+	rotation.y = glm::degrees(atan2(-rotationMatrix[2][0], glm::length(rotationMatrix[2])));
+	rotation.z = glm::degrees(atan2(rotationMatrix[1][0], rotationMatrix[0][0]));
+}
+
 const glm::vec3& Transform::getPosition() const {
 	return this->position;
 }

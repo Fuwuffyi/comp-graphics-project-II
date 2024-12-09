@@ -18,6 +18,7 @@
 #include "Transform.hpp"
 #include "Vertex.hpp"
 #include "Window.hpp"
+#include <deque>
 #include <iostream>
 
 void cameraControls(Camera& cam, Window& window, const float deltaTime) {
@@ -125,37 +126,37 @@ int main() {
 	// Test out primitives
 	std::shared_ptr<SceneNode> scene = std::make_shared<SceneNode>("Scene", Transform());
 	
-	Mesh* planePrimitive = Primitives::generatePlane(5);
+	std::shared_ptr<Mesh> planePrimitive = Primitives::generatePlane(5);
 	Transform planeTransform(glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f));
 	std::shared_ptr<MeshInstanceNode> planeInstance = std::make_shared<MeshInstanceNode>("Planius maximus", planePrimitive, MaterialLoader::load("blinn_phong"), planeTransform, scene);
 
-	Mesh* cubePrimitive = Primitives::generateCube(25);
+	std::shared_ptr<Mesh> cubePrimitive = Primitives::generateCube(25);
 	Transform cubeTransform(glm::vec3(0.0f, 0.2f, 1.0f), glm::vec3(0.0f, 45.0f, 0.0f), glm::vec3(0.5f));
 	std::shared_ptr<MeshInstanceNode> cubeInstance = std::make_shared<MeshInstanceNode>("Cubus maximus", cubePrimitive, MaterialLoader::load("phong"), cubeTransform, scene);
 
-	Mesh* pyramidPrimitive = Primitives::generatePyramid(5);
+	std::shared_ptr<Mesh> pyramidPrimitive = Primitives::generatePyramid(5);
 	Transform pyramidTransform(glm::vec3(0.0f, 0.2f, -1.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	std::shared_ptr<MeshInstanceNode> pyramidInstance = std::make_shared<MeshInstanceNode>("Pyramidus maximus", pyramidPrimitive, MaterialLoader::load("blinn_phong"), pyramidTransform, scene);
 
-	Mesh* spherePrimitive = Primitives::generateSphere(15);
+	std::shared_ptr<Mesh> spherePrimitive = Primitives::generateSphere(15);
 	Transform sphereTransform(glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	std::shared_ptr<MeshInstanceNode> sphereInstance = std::make_shared<MeshInstanceNode>("Spherius maximus", spherePrimitive, MaterialLoader::load("phong"), sphereTransform, scene);
 
-	Mesh* cylinderPrimitive = Primitives::generateCylinder(1.0f, 0.7f, 1.0f, 25, 25);
+	std::shared_ptr<Mesh> cylinderPrimitive = Primitives::generateCylinder(1.0f, 0.7f, 1.0f, 25, 25);
 	Transform cylinderTransform(glm::vec3(1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	std::shared_ptr<MeshInstanceNode> cylinderInstance = std::make_shared<MeshInstanceNode>("Cylinderius maximus", cylinderPrimitive, MaterialLoader::load("blinn_phong"), cylinderTransform, scene);
 
-	Mesh* conePrimitive = Primitives::generateCone(1.0f, 1.0f, 25, 25);
+	std::shared_ptr<Mesh> conePrimitive = Primitives::generateCone(1.0f, 1.0f, 25, 25);
 	Transform coneTransform(glm::vec3(-1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.2f));
 	std::shared_ptr<MeshInstanceNode> coneInstance = std::make_shared<MeshInstanceNode>("Conius maximus", conePrimitive, MaterialLoader::load("phong"), coneTransform, scene);
 
-	Mesh* thorusPrimitive = Primitives::generateThorus(3.0f, 0.2f, 20);
+	std::shared_ptr<Mesh> thorusPrimitive = Primitives::generateThorus(3.0f, 0.2f, 20);
 	Transform thorusTransform(glm::vec3(2.0f, 0.2f, 2.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	std::shared_ptr<MeshInstanceNode> thorusInstance = std::make_shared<MeshInstanceNode>("Thorium", thorusPrimitive, MaterialLoader::load("blinn_phong"), thorusTransform, scene);
 	// Load the dragon
-	const std::vector<Mesh *> dragonMeshes = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply");
-	Transform dragonTrasnform(glm::vec3(0.0f, 0.0f, 0.25f), glm::vec3(0.0f), glm::vec3(2.0f));
-	std::shared_ptr<MeshInstanceNode> dragonInstance = std::make_shared<MeshInstanceNode>("Drake", dragonMeshes[0], MaterialLoader::load("phong"), dragonTrasnform, scene);
+	std::shared_ptr<SceneNode> dragonMeshRoot = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply", Transform());
+	scene->addChild(dragonMeshRoot);
+	dragonMeshRoot->setParent(scene);
 	// Add children to scene
 	scene->addChild(planeInstance);
 	scene->addChild(cubeInstance);
@@ -164,22 +165,26 @@ int main() {
 	scene->addChild(cylinderInstance);
 	scene->addChild(coneInstance);
 	scene->addChild(thorusInstance);
-	scene->addChild(dragonInstance);
+	// Add all the renderables to the renderer
+	std::deque<std::shared_ptr<SceneNode>> meshQueue = { scene };
+	while (!meshQueue.empty()) {
+		auto node = meshQueue.front();
+		std::cout << node->name << std::endl;
+		meshQueue.pop_front();
+		for (auto& child : node->getChildren()) {
+			meshQueue.push_back(child);
+			if (auto meshInstanceChild = std::dynamic_pointer_cast<MeshInstanceNode>(child)) {
+				Renderer::addToRenderingQueues(meshInstanceChild.get());
+			}
+		}
+	}
 	// Initialize light System
 	LightSystem::initialize();
 	LightSystem::setLight(0, LightSystem::DirectionalLight{ glm::vec3(0.3f, -1.0f, 1.0f), glm::vec3(0.1f), glm::vec3(0.5f), glm::vec3(0.8f) });
 	// Setup cubemap
-	Mesh* cubemapMesh = Primitives::generateCube(1);
+	std::shared_ptr<Mesh> cubemapMesh = Primitives::generateCube(1);
 	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));
 	// Add objects to rendering queue
-	Renderer::addToRenderingQueues(planeInstance.get());
-	Renderer::addToRenderingQueues(cubeInstance.get());
-	Renderer::addToRenderingQueues(pyramidInstance.get());
-	Renderer::addToRenderingQueues(sphereInstance.get());
-	Renderer::addToRenderingQueues(cylinderInstance.get());
-	Renderer::addToRenderingQueues(coneInstance.get());
-	Renderer::addToRenderingQueues(thorusInstance.get());
-	Renderer::addToRenderingQueues(dragonInstance.get());
 	Renderer::setupOpengl();
 	// Setup GUI
 	GUI gui(window.getWindowPtr());
@@ -207,22 +212,11 @@ int main() {
 		// Draw gui
 		gui.drawLightsEditor();
 		gui.drawResources();
-		gui.drawSelection(dragonInstance.get());
+		gui.drawSelection(coneInstance.get());
 		gui.endRendering();
 		// End frame
 		window.swapBuffers();
 		glfwPollEvents();
-	}
-	delete planePrimitive;
-	delete cubePrimitive;
-	delete pyramidPrimitive;
-	delete spherePrimitive;
-	delete cylinderPrimitive;
-	delete conePrimitive;
-	delete thorusPrimitive;
-	delete cubemapMesh;
-	for (const Mesh* m : dragonMeshes) {
-		delete m;
 	}
 	MaterialLoader::unloadAll();
 	ShaderLoader::unloadAll();

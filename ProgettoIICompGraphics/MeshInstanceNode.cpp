@@ -2,7 +2,7 @@
 
 #include "Mesh.hpp"
 
-MeshInstanceNode::MeshInstanceNode(const std::string& _name, Mesh* _mesh, const std::shared_ptr<Material>& _material, const Transform& _transform, const std::shared_ptr<SceneNode>& parent)
+MeshInstanceNode::MeshInstanceNode(const std::string& _name, const std::shared_ptr<Mesh>& _mesh, const std::shared_ptr<Material>& _material, const Transform& _transform, const std::shared_ptr<SceneNode>& parent)
 	:
 	SceneNode(_name, _transform, parent),
 	mesh(_mesh),
@@ -19,7 +19,7 @@ void MeshInstanceNode::updateWorldTransform() {
 }
 
 Mesh* MeshInstanceNode::getMesh() const {
-	return this->mesh;
+	return this->mesh.get();
 }
 
 const std::shared_ptr<Material>& MeshInstanceNode::getMaterial() const {

@@ -59,5 +59,5 @@ namespace Renderer {
 	 * \param mesh The cubemap's mesh.
 	 * \param material The cubemap's material
 	 */
-	void setCubemap(Mesh* mesh, const std::shared_ptr<Material>& material);
+	void setCubemap(const std::shared_ptr<Mesh>& mesh, const std::shared_ptr<Material>& material);
 };
