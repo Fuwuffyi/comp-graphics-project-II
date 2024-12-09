@@ -15,6 +15,8 @@
 #include <stdexcept>
 
 namespace MeshLoader {
+    static std::unordered_map<std::string, std::pair<std::shared_ptr<Material>, std::shared_ptr<Mesh>>> loadedMeshes;
+
     static std::shared_ptr<MeshInstanceNode> processMesh(aiMesh* mesh, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides = std::vector<std::shared_ptr<Material>>(), const std::shared_ptr<SceneNode>& parent = nullptr);
     static std::shared_ptr<SceneNode> processNode(aiNode* node, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides = std::vector<std::shared_ptr<Material>>(), const std::shared_ptr<SceneNode>& parent = nullptr);
 
@@ -46,6 +48,14 @@ std::string MeshLoader::getNodeName(const aiString& str, const std::string& pare
 }
 
 std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides, const std::shared_ptr<SceneNode>& parent) {
+    if (loadedMeshes.find(getNodeName(mesh->mName, parent ? parent->name : "")) != loadedMeshes.end()) {
+        return std::make_shared<MeshInstanceNode>(
+            getNodeName(mesh->mName, parent ? parent->name : ""),
+            loadedMeshes.at(getNodeName(mesh->mName, parent ? parent->name : "")).second,
+            loadedMeshes.at(getNodeName(mesh->mName, parent ? parent->name : "")).first,
+            Transform(),
+            parent);
+    }
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     for (uint32_t i = 0; i < mesh->mNumVertices; ++i) {
@@ -105,7 +115,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                 // Setup shininess factor
                 float shininess;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_SHININESS, shininess)) {
-                    shininess = 0.0f;
+                    shininess = 1.0f;
                 }
                 materialProperties.emplace("shininess", shininess);
                 // Diffuse textures
@@ -154,6 +164,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
         throw std::runtime_error("No material has been provided for index: " + std::to_string(mesh->mMaterialIndex));
     }
     const std::shared_ptr<Mesh> loadedMesh = std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
+    loadedMeshes.emplace(getNodeName(mesh->mName, parent ? parent->name : ""), std::pair<std::shared_ptr<Material>, std::shared_ptr<Mesh>>(material, loadedMesh));
     return std::make_shared<MeshInstanceNode>(
         getNodeName(mesh->mName, parent ? parent->name : ""),
         loadedMesh, 
