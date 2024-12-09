@@ -40,7 +40,7 @@ int main() {
 	Window window(windowName, glm::uvec2(900, 900));
 	window.setWindowActive();
 	// Create a camera
-	Camera cam(Transform(glm::vec3(0.0f, 2.0f, -2.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.01f, 100.0f);
+	Camera cam(Transform(glm::vec3(0.0f, 10.0f, -10.0f), glm::vec3(0.0f, 180.0f, 0.0f)), glm::vec3(0.0f, 1.0f, 0.0f), 90.0f, 1.0f, 0.01f, 100.0f);
 	// Setup GUI
 	GUI gui(window.getWindowPtr());
 	// Create an empty scene

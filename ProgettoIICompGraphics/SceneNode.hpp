@@ -14,7 +14,7 @@ protected:
 
 	virtual void updateWorldTransform();
 public:
-	const std::string name;
+	std::string name;
 
 	SceneNode(const std::string& _name, const Transform& _transform, const std::shared_ptr<SceneNode>& parent = nullptr);
 
