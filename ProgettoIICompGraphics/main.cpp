@@ -188,7 +188,7 @@ int main() {
 	Transform coneTransform(glm::vec3(-1.0f, 0.2f, 0.0f), glm::vec3(0.0f), glm::vec3(0.2f));
 	std::shared_ptr<MeshInstanceNode> coneInstance = std::make_shared<MeshInstanceNode>("Conius maximus", conePrimitive, MaterialLoader::load("phong"), coneTransform, scene);
 
-	std::shared_ptr<Mesh> thorusPrimitive = Primitives::generateThorus(3.0f, 0.2f, 20);
+	std::shared_ptr<Mesh> thorusPrimitive = Primitives::generateThorus(0.4f, 0.2f, 20, 20);
 	Transform thorusTransform(glm::vec3(2.0f, 0.2f, 2.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	std::shared_ptr<MeshInstanceNode> thorusInstance = std::make_shared<MeshInstanceNode>("Thorium", thorusPrimitive, MaterialLoader::load("blinn_phong"), thorusTransform, scene);
 	// Load the dragon

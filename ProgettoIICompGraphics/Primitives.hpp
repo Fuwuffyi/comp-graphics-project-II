@@ -51,7 +51,7 @@ namespace Primitives {
 	 * \param stacks The amount of vertical detail of the model.
 	 * \return The cylinder object.
 	 */
-	std::shared_ptr<Mesh> generateCylinder(const float bottomRadius = 1.0f, const float topRadius = 1.0f, const float length = 1.0f, const int slices = 5, const int stacks = 5);
+	std::shared_ptr<Mesh> generateCylinder(const float bottomRadius = 1.0f, const float topRadius = 1.0f, const float length = 1.0f, const uint32_t slices = 5, const uint32_t stacks = 5);
 	
 	/**
 	 * Generates a heap allocated cone.
