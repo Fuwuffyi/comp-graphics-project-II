@@ -126,7 +126,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                         if (texturePath.length <= 0) {
                             throw std::runtime_error("Could not read the texture for: " + matName);
                         }
-                        textures.emplace("diffuse_" + i, TextureLoader::load(std::string(texturePath.C_Str())));
+                        textures.emplace("diffuse" + std::to_string(i), TextureLoader::load(std::string(texturePath.C_Str())));
                     }
                 }
                 // Specular textures
@@ -137,7 +137,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                         if (texturePath.length <= 0) {
                             throw std::runtime_error("Could not read the texture for: " + matName);
                         }
-                        textures.emplace("specular_" + i, TextureLoader::load(std::string(texturePath.C_Str())));
+                        textures.emplace("specular" + std::to_string(i), TextureLoader::load(std::string(texturePath.C_Str())));
                     }
                 }
                 // Normal map textures
@@ -148,7 +148,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                         if (texturePath.length <= 0) {
                             throw std::runtime_error("Could not read the texture for: " + matName);
                         }
-                        textures.emplace("normal_" + i, TextureLoader::load(std::string(texturePath.C_Str())));
+                        textures.emplace("normal" + std::to_string(i), TextureLoader::load(std::string(texturePath.C_Str())));
                     }
                 }
                 // Load all textures

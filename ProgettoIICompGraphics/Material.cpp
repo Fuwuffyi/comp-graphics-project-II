@@ -54,3 +54,10 @@ void Material::activate() const {
 		this->shader->setUniform(uniform, bindingPoint++);
 	}
 }
+
+void Material::deactivate() const {
+	for (const auto& [uniform, texturePtr] : this->textures) {
+		static int32_t bindingPoint = 0;
+		texturePtr->deactivate(bindingPoint++);
+	}
+}

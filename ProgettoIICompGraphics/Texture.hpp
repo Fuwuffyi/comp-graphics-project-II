@@ -56,4 +56,17 @@ public:
 	 * 
 	 */
 	void bind() const;
+
+	/**
+	 * Removes texture from binding point.
+	 *
+	 * \param bindingPoint Removes a texture from a binding
+	 */
+	void deactivate(const int32_t bindingPoint) const;
+
+	/**
+	 * Unbinds the texture
+	 *
+	 */
+	void unbind() const;
 };

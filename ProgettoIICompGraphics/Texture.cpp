@@ -39,3 +39,12 @@ void Texture::activate(const int32_t bindingPoint) const {
 void Texture::bind() const {
 	glBindTexture(this->textureType, this->textureId);
 }
+
+void Texture::deactivate(const int32_t bindingPoint) const {
+	glActiveTexture(GL_TEXTURE0 + bindingPoint);
+	this->unbind();
+}
+
+void Texture::unbind() const {
+	glBindTexture(this->textureType, 0);
+}

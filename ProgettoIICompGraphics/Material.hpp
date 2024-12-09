@@ -77,5 +77,11 @@ public:
 	 * 
 	 */
 	void activate() const;
+
+	/**
+	 * Deactivates the material's shader and materialss.
+	 *
+	 */
+	void deactivate() const;
 };
  

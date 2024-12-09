@@ -42,6 +42,7 @@ void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& view
 		materialPtr->getShader()->setUniformMatrix("cameraMatrix", cameraMatrix);
 		materialPtr->getShader()->setUniformMatrix("objMatrix", model);
 		meshPtr->draw();
+		materialPtr->deactivate();
 	}
 }
 
