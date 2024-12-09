@@ -195,6 +195,12 @@
     <ClCompile Include="RenderingQueue.cpp">
       <Filter>Source Files\renderer</Filter>
     </ClCompile>
+    <ClCompile Include="MainScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Transform.hpp">
@@ -310,6 +316,12 @@
     </ClInclude>
     <ClInclude Include="MeshInstanceNode.hpp">
       <Filter>Header Files\scene_nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="MainScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraControls.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

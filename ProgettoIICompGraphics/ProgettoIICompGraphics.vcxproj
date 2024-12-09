@@ -191,8 +191,10 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClCompile Include="..\external\imgui\imgui_tables.cpp" />
     <ClCompile Include="..\external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="CameraControls.cpp" />
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="LightSystem.cpp" />
+    <ClCompile Include="MainScene.cpp" />
     <ClCompile Include="MeshInstanceNode.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -233,8 +235,10 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <ClInclude Include="..\external\imgui\imstb_textedit.h" />
     <ClInclude Include="..\external\imgui\imstb_truetype.h" />
     <ClInclude Include="BoundingBox.hpp" />
+    <ClInclude Include="CameraControls.hpp" />
     <ClInclude Include="GUI.hpp" />
     <ClInclude Include="LightSystem.hpp" />
+    <ClInclude Include="MainScene.hpp" />
     <ClInclude Include="MeshInstanceNode.hpp" />
     <ClInclude Include="MeshLoader.hpp" />
     <ClInclude Include="Camera.hpp" />
