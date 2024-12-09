@@ -12,7 +12,7 @@ private:
 	std::shared_ptr<Material> material;
 	BoundingBox boundingBox;
 protected:
-	virtual void updateWorldTransform(const glm::mat4& parentModelMatrix = glm::mat4(1.0f)) override;
+	virtual void updateWorldTransform() override;
 public:
 	MeshInstanceNode(const std::string& _name, Mesh* _mesh, const std::shared_ptr<Material>& _material, const Transform& _transform, const std::shared_ptr<SceneNode>& parent = nullptr);
 

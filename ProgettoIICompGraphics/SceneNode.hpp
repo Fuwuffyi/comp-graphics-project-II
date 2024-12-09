@@ -12,7 +12,7 @@ protected:
 	std::shared_ptr<SceneNode> parentNode;
 	std::vector<std::shared_ptr<SceneNode>> childNodes;
 
-	virtual void updateWorldTransform(const glm::mat4& parentModelMatrix = glm::mat4(1.0f));
+	virtual void updateWorldTransform();
 public:
 	const std::string name;
 
@@ -28,6 +28,7 @@ public:
 	void changeRotation(const glm::vec3& rotOffset);
 	void changeScale(const glm::vec3& scaleOffset);
 
+	void setParent(const std::shared_ptr<SceneNode>& newParent);
 	void addChild(const std::shared_ptr<SceneNode>& child);
 	const std::vector<std::shared_ptr<SceneNode>>& getChildren() const;
 };

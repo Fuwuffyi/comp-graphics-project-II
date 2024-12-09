@@ -11,7 +11,7 @@ SceneNode::SceneNode(const std::string& _name, const Transform& _transform, cons
 	updateWorldTransform();
 }
 
-void SceneNode::updateWorldTransform(const glm::mat4& parentModelMatrix) {
+void SceneNode::updateWorldTransform() {
 	if (!this->parentNode) {
 		this->worldTransform = localTransform;
 	} else {
@@ -19,7 +19,7 @@ void SceneNode::updateWorldTransform(const glm::mat4& parentModelMatrix) {
 	}
 	// Update child node transforms
 	for (std::shared_ptr<SceneNode>& node : this->childNodes) {
-		node->updateWorldTransform(this->worldTransform.getTransformMatrix());
+		node->updateWorldTransform();
 	}
 }
 
@@ -33,37 +33,42 @@ const Transform& SceneNode::getLocalTransform() const {
 
 void SceneNode::setPosition(const glm::vec3& newPos) {
 	this->localTransform.setPosition(newPos);
-	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
+	this->updateWorldTransform();
 }
 
 void SceneNode::setRotation(const glm::vec3& newRot) {
 	this->localTransform.setRotation(newRot);
-	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
+	this->updateWorldTransform();
 }
 
 void SceneNode::setScale(const glm::vec3& newScale) {
 	this->localTransform.setScale(newScale);
-	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
+	this->updateWorldTransform();
 }
 
 void SceneNode::changePosition(const glm::vec3& posOffset) {
 	this->localTransform.setPosition(this->localTransform.getPosition() + posOffset);
-	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
+	this->updateWorldTransform();
 }
 
 void SceneNode::changeRotation(const glm::vec3& rotOffset) {
 	this->localTransform.setRotation(this->localTransform.getRotation() + rotOffset);
-	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
+	this->updateWorldTransform();
 }
 
 void SceneNode::changeScale(const glm::vec3& scaleOffset) {
 	this->localTransform.setScale(this->localTransform.getScale() + scaleOffset);
-	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
+	this->updateWorldTransform();
+}
+
+void SceneNode::setParent(const std::shared_ptr<SceneNode>& newParent) {
+	this->parentNode = newParent;
+	this->updateWorldTransform();
 }
 
 void SceneNode::addChild(const std::shared_ptr<SceneNode>& child) {
 	this->childNodes.emplace_back(child);
-	this->updateWorldTransform(this->worldTransform.getTransformMatrix());
+	this->updateWorldTransform();
 }
 
 const std::vector<std::shared_ptr<SceneNode>>& SceneNode::getChildren() const {
