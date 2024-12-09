@@ -14,8 +14,8 @@
 #include <stdexcept>
 
 namespace MeshLoader {
-    static std::shared_ptr<MeshInstanceNode> processMesh(aiMesh* mesh, const aiScene* scene, const std::shared_ptr<SceneNode>& parent = nullptr);
-    static std::shared_ptr<SceneNode> processNode(aiNode* node, const aiScene* scene, const std::shared_ptr<SceneNode>&parent = nullptr);
+    static std::shared_ptr<MeshInstanceNode> processMesh(aiMesh* mesh, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides = std::vector<std::shared_ptr<Material>>(), const std::shared_ptr<SceneNode>& parent = nullptr);
+    static std::shared_ptr<SceneNode> processNode(aiNode* node, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides = std::vector<std::shared_ptr<Material>>(), const std::shared_ptr<SceneNode>& parent = nullptr);
 
     static constexpr glm::mat4 mat4ToGlm(const aiMatrix4x4& aiMat);
     static std::string getNodeName(const aiString& str, const std::string& parentStr = "");
@@ -44,7 +44,7 @@ std::string MeshLoader::getNodeName(const aiString& str, const std::string& pare
     return parentStr + "_child_" + std::to_string(currentNodeIndex++);
 }
 
-std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene, const std::shared_ptr<SceneNode>& parent) {
+std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides, const std::shared_ptr<SceneNode>& parent) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     for (uint32_t i = 0; i < mesh->mNumVertices; ++i) {
@@ -65,16 +65,69 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
             indices.push_back(face.mIndices[j]);
         }
     }
+    std::shared_ptr<Material> material = nullptr;
+    if (mesh->mMaterialIndex < scene->mNumMaterials) {
+        aiMaterial* aiMaterial = scene->mMaterials[mesh->mMaterialIndex];
+        const std::string matName = std::string(aiMaterial->GetName().C_Str());
+        if (mesh->mMaterialIndex < materialOverrides.size()) {
+            material = materialOverrides[mesh->mMaterialIndex];
+        } else {
+            if (MaterialLoader::isLoaded(matName)) {
+                material = MaterialLoader::load(matName);
+            } else {
+                std::unordered_map<std::string, Material::MaterialValueType> materialProperties;
+                // Setup base color
+                aiColor4D color;
+                if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_BASE_COLOR, color)) {
+                    color = aiColor4D(1.0f);
+                }
+                materialProperties.emplace("color", glm::vec4(color.r, color.g, color.b, color.a));
+                // Setup ambient color
+                aiColor4D ambient;
+                if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_AMBIENT, ambient)) {
+                    ambient = aiColor4D(1.0f);
+                }
+                materialProperties.emplace("ambient", glm::vec4(ambient.r, ambient.g, ambient.b, ambient.a));
+                // Setup diffuse color
+                aiColor4D diffuse;
+                if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse)) {
+                    diffuse = aiColor4D(1.0f);
+                }
+                materialProperties.emplace("diffuse", glm::vec4(diffuse.r, diffuse.g, diffuse.b, diffuse.a));
+                // Setup specular color
+                aiColor4D specular;
+                if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specular)) {
+                    specular = aiColor4D(0.0f, 0.0f, 0.0f, 1.0f);
+                }
+                materialProperties.emplace("specular", glm::vec4(specular.r, specular.g, specular.b, specular.a));
+                // Setup shininess factor
+                float shininess;
+                if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_SHININESS, shininess)) {
+                    shininess = 0.0f;
+                }
+                materialProperties.emplace("shininess", shininess);
+                material = MaterialLoader::load(matName, "blinn_phong", materialProperties);
+            }
+        }
+    } else if (mesh->mMaterialIndex < materialOverrides.size()) {
+        material = materialOverrides[mesh->mMaterialIndex];
+    } else {
+        material = MaterialLoader::load("debug");
+    }
+    if (!material) {
+        throw std::runtime_error("No material has been provided for index: " + std::to_string(mesh->mMaterialIndex));
+    }
     const std::shared_ptr<Mesh> loadedMesh = std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
     return std::make_shared<MeshInstanceNode>(
         getNodeName(mesh->mName, parent ? parent->name : ""),
         loadedMesh, 
-        MaterialLoader::load("phong"), 
+        material,
         Transform(),
         parent);
 }
 
-std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* scene, const std::shared_ptr<SceneNode>& parent) {
+std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides, const std::shared_ptr<SceneNode>& parent) {
+    // Create current node as empty
     const std::shared_ptr<SceneNode> currentNode = std::make_shared<SceneNode>(
         getNodeName(node->mName, parent ? parent->name : ""),
         Transform(mat4ToGlm(node->mTransformation)), 
@@ -83,27 +136,31 @@ std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* 
     // Process all the node's meshes
     for (uint32_t i = 0; i < node->mNumMeshes; ++i) {
         aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-        currentNode->addChild(processMesh(mesh, scene, currentNode));
+        currentNode->addChild(processMesh(mesh, scene, materialOverrides, currentNode));
     }
     // Process all the node's children
     for (uint32_t i = 0; i < node->mNumChildren; ++i) {
-        currentNode->addChild(processNode(node->mChildren[i], scene, currentNode));
+        currentNode->addChild(processNode(node->mChildren[i], scene, materialOverrides, currentNode));
     }
     return currentNode;
 }
 
-std::shared_ptr<SceneNode> MeshLoader::loadMesh(const std::string& fileName, const Transform& rootTransform) {
+std::shared_ptr<SceneNode> MeshLoader::loadMesh(const std::string& fileName, const Transform& rootTransform, const std::vector<std::shared_ptr<Material>>& materialOverrides) {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeMeshes | aiProcess_GenSmoothNormals | aiProcess_Triangulate | aiProcess_FlipUVs);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		throw std::runtime_error("Failed to open mesh file: " + fileName);
 	}
+    // Setup base template variables (in case they are not set in obj file)
     currentFile = fileName;
     currentNodeIndex = 0;
-    const std::shared_ptr<SceneNode> rootNode = processNode(scene->mRootNode, scene);
+    // Create object tree from file
+    const std::shared_ptr<SceneNode> rootNode = processNode(scene->mRootNode, scene, materialOverrides);
+    // Set root node position to transform
     rootNode->setPosition(rootTransform.getPosition());
     rootNode->setRotation(rootTransform.getRotation());
     rootNode->setScale(rootTransform.getScale());
+    // Free memory and return
     importer.FreeScene();
 	return rootNode;
 }

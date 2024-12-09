@@ -1,2 +1,6 @@
 shader phong
-p materialColor vec4 1.0 1.0 0.0 1.0
+p color vec4 0.0 1.0 1.0 1.0
+p specular vec4 1.0 1.0 1.0 1.0
+p ambient vec4 1.0 1.0 1.0 1.0
+p shininess float 8.0
+p diffuse vec4 1.0 1.0 1.0 1.0

@@ -346,5 +346,17 @@
     <None Include="assets\shaders\sources\cubemap.vert.glsl">
       <Filter>Resource Files\shaders\sources</Filter>
     </None>
+    <None Include="assets\shaders\sources\unlit_color.frag.glsl">
+      <Filter>Resource Files\shaders\sources</Filter>
+    </None>
+    <None Include="assets\shaders\sources\unlit_color.vert.glsl">
+      <Filter>Resource Files\shaders\sources</Filter>
+    </None>
+    <None Include="assets\shaders\unlit_color.shader">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="assets\materials\debug.material">
+      <Filter>Resource Files\materials</Filter>
+    </None>
   </ItemGroup>
 </Project>

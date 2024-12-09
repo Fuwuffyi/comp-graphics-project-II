@@ -41,7 +41,7 @@ void Material::activate() const {
 	for (const auto& [uniform, value] : this->values) {
 		const auto visitor = [&uniform, this](const auto& val) {
 			using T = std::decay_t<decltype(val)>;
-			this->shader->setUniform(uniform, val);
+			this->shader->setUniform("material_" + uniform, val);
 		};
 		std::visit(visitor, value);
 	}

@@ -7,8 +7,13 @@ out vec4 fragColor;
 in vec3 normalIn;
 in vec3 worldPosition;
 
-uniform vec4 materialColor;
 uniform vec3 cameraPosition;
+
+uniform vec4 material_color;
+uniform vec4 material_ambient;
+uniform vec4 material_diffuse;
+uniform vec4 material_specular;
+uniform float material_shininess;
 
 struct Light {
 	vec3 position;
@@ -49,20 +54,20 @@ void main() {
 			combinedLighting += spotLight(light, normalIn, worldPosition, viewDir);
 		}
 	}
-    fragColor = vec4(materialColor.xyz * combinedLighting, 1.0);
+    fragColor = vec4(material_color.xyz * combinedLighting, 1.0);
 }
 
 vec3 directionalLight(Light light, vec3 normal, vec3 viewDir) {
 	vec3 lightDir = normalize(-light.direction);
 	// Ambient
-	vec3 ambient = light.ambient;
+	vec3 ambient = material_ambient.xyz * light.ambient;
 	// Diffuse
 	float diff = max(dot(normal, lightDir), 0.0);
-	vec3 diffuse = light.diffuse * diff;
+	vec3 diffuse = material_diffuse.xyz * light.diffuse * diff;
 	// Specular
 	vec3 halfVec = normalize(viewDir + lightDir);
-	float spec = pow(max(dot(normal, halfVec), 0.0), 8.0);
-	vec3 specular = light.specular * spec;
+	float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
+	vec3 specular = material_specular.xyz * light.specular * spec;
 	// Return values
 	return (ambient + diffuse + specular);
 }
@@ -79,14 +84,14 @@ vec3 pointLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	// Clamp attenuation to avoid exceeding range
 	attenuation = max(attenuation, 0.0);
 	// Ambient
-	vec3 ambient = light.ambient;
+	vec3 ambient = material_ambient.xyz * light.ambient;
 	// Diffuse
 	float diff = max(dot(normal, lightDir), 0.0);
-	vec3 diffuse = light.diffuse * diff;
+	vec3 diffuse = material_diffuse.xyz * light.diffuse * diff;
 	// Specular
 	vec3 halfVec = normalize(viewDir + lightDir);
-	float spec = pow(max(dot(normal, halfVec), 0.0), 8.0);
-	vec3 specular = light.specular * spec;
+	float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
+	vec3 specular = material_specular.xyz * light.specular * spec;
 	// Return values
 	return attenuation * (ambient + diffuse + specular);
 }
@@ -106,14 +111,14 @@ vec3 spotLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	float epsilon = light.cutOff - light.outerCutOff;
 	float intensity = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
 	// Ambient
-	vec3 ambient = light.ambient;
+	vec3 ambient = material_ambient.xyz * light.ambient;
 	// Diffuse
 	float diff = max(dot(normal, lightDir), 0.0);
-	vec3 diffuse = light.diffuse * diff;
+	vec3 diffuse = material_diffuse.xyz * light.diffuse * diff;
 	// Specular
 	vec3 halfVec = normalize(viewDir + lightDir);
-	float spec = pow(max(dot(normal, halfVec), 0.0), 8.0);
-	vec3 specular = light.specular * spec;
+	float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
+	vec3 specular = material_specular.xyz * light.specular * spec;
 	// Return values
 	return attenuation * intensity * (ambient + diffuse + specular);
 }

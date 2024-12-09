@@ -1,15 +1,14 @@
 #include "MaterialLoader.hpp"
 
-#include "Material.hpp"
 #include "Shader.hpp"
 #include "ShaderLoader.hpp"
 #include "TextureLoader.hpp"
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <unordered_map>
 
 namespace MaterialLoader {
 	static std::unordered_map<std::string, std::shared_ptr<Material>> loadedMaterials;
@@ -131,8 +130,12 @@ std::shared_ptr<Material> MaterialLoader::load(const std::string& materialAssetF
 	return loadedMaterials.at(materialAssetFileName);
 }
 
-std::shared_ptr<Material> MaterialLoader::load(const std::string& name, const std::shared_ptr<Material>& loadedMaterial) {
-	loadedMaterials.emplace(name, loadedMaterial);
+std::shared_ptr<Material> MaterialLoader::load(const std::string& name, const std::string& shaderName, const std::unordered_map<std::string, Material::MaterialValueType>& properties, const std::unordered_map<std::string, std::shared_ptr<Texture>>& textures) {
+	if (isLoaded(name)) {
+		return loadedMaterials.at(name);
+	}
+	loadedMaterials.emplace(name, std::make_shared<Material>(name, ShaderLoader::load(shaderName), properties, textures));
+	return loadedMaterials.at(name);
 }
 
 void MaterialLoader::unloadAll() {
@@ -148,6 +151,13 @@ std::vector<std::string> MaterialLoader::getAllFileNames() {
 	for (const auto& entry : std::filesystem::directory_iterator(MATERIAL_ASSET_DIR)) {
 		if (std::filesystem::is_regular_file(entry)) {
 			names.emplace_back(entry.path().stem().string());
+		}
+	}
+	for (auto mat : loadedMaterials) {
+		const std::string name = mat.second->name;
+		auto it = std::find(names.begin(), names.end(), name);
+		if (it == names.end()) {
+			names.emplace_back(name);
 		}
 	}
 	return names;
