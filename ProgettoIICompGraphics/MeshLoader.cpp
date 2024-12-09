@@ -34,15 +34,14 @@ constexpr glm::mat4 MeshLoader::mat4ToGlm(const aiMatrix4x4& aiMat) {
 }
 
 std::string MeshLoader::getNodeName(const aiString& str, const std::string& parentStr) {
-    std::string nodeName = std::string(str.C_Str());
-    if (nodeName.empty()) {
-        if (parentStr.empty()) {
-            nodeName = std::filesystem::path(currentFile).stem().string() + "_root";
-        } else {
-            nodeName = parentStr + "_child_" + std::to_string(currentNodeIndex++);
-        }
+    const std::string nodeName = std::string(str.C_Str());
+    if (!nodeName.empty()) {
+        return nodeName;
     }
-    return nodeName;
+    if (parentStr.empty()) {
+        return std::filesystem::path(currentFile).stem().string() + "_root";
+    }
+    return parentStr + "_child_" + std::to_string(currentNodeIndex++);
 }
 
 std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene, const std::shared_ptr<SceneNode>& parent) {
@@ -66,7 +65,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
             indices.push_back(face.mIndices[j]);
         }
     }
-    std::shared_ptr<Mesh> loadedMesh = std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
+    const std::shared_ptr<Mesh> loadedMesh = std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
     return std::make_shared<MeshInstanceNode>(
         getNodeName(mesh->mName, parent ? parent->name : ""), 
         loadedMesh, 
