@@ -1,0 +1,9 @@
+shader water
+p color vec4 0.0 0.2 0.8 0.5
+p specular vec4 0.8 0.8 1.0 0.5
+p ambient vec4 0.1 0.1 0.2 0.5
+p shininess float 32.0
+p diffuse vec4 0.3 0.4 0.6 0.5
+p waveHeight float 0.4
+p waveSpeed float 0.7
+p waveFrequency float 0.7

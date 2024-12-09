@@ -6,6 +6,7 @@
 #include "Shader.hpp"
 #include <algorithm>
 #include <glad/glad.h>
+#include <glfw/glfw3.h>
 
 RenderingQueue::RenderingQueue(const bool _closestFirst)
 	:
@@ -36,6 +37,7 @@ void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& view
 		const uint32_t blockIndex = glGetUniformBlockIndex(materialPtr->getShader()->id, "lightBuffer");
 		glUniformBlockBinding(materialPtr->getShader()->id, blockIndex, 0);
 		// Continue rendering normally
+		materialPtr->getShader()->setUniform("glfwTime", static_cast<float>(glfwGetTime()));
 		materialPtr->getShader()->setUniform("cameraPosition", viewPoint);
 		materialPtr->getShader()->setUniformMatrix("cameraMatrix", cameraMatrix);
 		materialPtr->getShader()->setUniformMatrix("objMatrix", model);

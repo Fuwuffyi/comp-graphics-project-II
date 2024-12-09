@@ -1,0 +1,2 @@
+shader unlit_color
+p color vec3 0.0 0.05 0.1

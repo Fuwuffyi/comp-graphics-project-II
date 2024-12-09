@@ -267,6 +267,8 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <None Include="assets\materials\cubemap.material" />
     <None Include="assets\materials\debug.material" />
     <None Include="assets\materials\phong.material" />
+    <None Include="assets\materials\seafloor.material" />
+    <None Include="assets\materials\water.material" />
     <None Include="assets\shaders\blinn_phong.shader" />
     <None Include="assets\shaders\cubemap.shader" />
     <None Include="assets\shaders\phong.shader" />
@@ -277,7 +279,10 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <None Include="assets\shaders\sources\phong.frag.glsl" />
     <None Include="assets\shaders\sources\unlit_color.frag.glsl" />
     <None Include="assets\shaders\sources\unlit_color.vert.glsl" />
+    <None Include="assets\shaders\sources\blinn_phong_transparent.frag.glsl" />
+    <None Include="assets\shaders\sources\water.vert.glsl" />
     <None Include="assets\shaders\unlit_color.shader" />
+    <None Include="assets\shaders\water.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -31,6 +31,7 @@ std::unordered_map<std::string, Material::MaterialValueType>& Material::getMutab
 	return this->values;
 }
 
+#include <iostream>
 void Material::activate() const {
 	if (!this->shader) {
 		return;
