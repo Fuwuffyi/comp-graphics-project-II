@@ -4,6 +4,7 @@
 #include "Mesh.hpp"
 #include "MeshInstanceNode.hpp"
 #include "SceneNode.hpp"
+#include "TextureLoader.hpp"
 #include "Transform.hpp"
 #include "Vertex.hpp"
 #include <assimp/Importer.hpp>
@@ -76,6 +77,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                 material = MaterialLoader::load(matName);
             } else {
                 std::unordered_map<std::string, Material::MaterialValueType> materialProperties;
+                std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
                 // Setup base color
                 aiColor4D color;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_BASE_COLOR, color)) {
@@ -106,7 +108,41 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                     shininess = 0.0f;
                 }
                 materialProperties.emplace("shininess", shininess);
-                material = MaterialLoader::load(matName, "blinn_phong", materialProperties);
+                // Diffuse textures
+                uint32_t textureCount = aiMaterial->GetTextureCount(aiTextureType_DIFFUSE);
+                for (uint32_t i = 0; i < textureCount; ++i) {
+                    aiString texturePath;
+                    if (AI_SUCCESS == aiMaterial->GetTexture(aiTextureType_DIFFUSE, i, &texturePath)) {
+                        if (texturePath.length <= 0) {
+                            throw std::runtime_error("Could not read the texture for: " + matName);
+                        }
+                        textures.emplace("diffuse_" + i, TextureLoader::load(std::string(texturePath.C_Str())));
+                    }
+                }
+                // Specular textures
+                textureCount = aiMaterial->GetTextureCount(aiTextureType_SPECULAR);
+                for (uint32_t i = 0; i < textureCount; ++i) {
+                    aiString texturePath;
+                    if (AI_SUCCESS == aiMaterial->GetTexture(aiTextureType_SPECULAR, i, &texturePath)) {
+                        if (texturePath.length <= 0) {
+                            throw std::runtime_error("Could not read the texture for: " + matName);
+                        }
+                        textures.emplace("specular_" + i, TextureLoader::load(std::string(texturePath.C_Str())));
+                    }
+                }
+                // Normal map textures
+                textureCount = aiMaterial->GetTextureCount(aiTextureType_NORMALS);
+                for (uint32_t i = 0; i < textureCount; ++i) {
+                    aiString texturePath;
+                    if (AI_SUCCESS == aiMaterial->GetTexture(aiTextureType_NORMALS, i, &texturePath)) {
+                        if (texturePath.length <= 0) {
+                            throw std::runtime_error("Could not read the texture for: " + matName);
+                        }
+                        textures.emplace("normal_" + i, TextureLoader::load(std::string(texturePath.C_Str())));
+                    }
+                }
+                // Load all textures
+                material = MaterialLoader::load(matName, "blinn_phong", materialProperties, textures);
             }
         }
     } else if (mesh->mMaterialIndex < materialOverrides.size()) {
