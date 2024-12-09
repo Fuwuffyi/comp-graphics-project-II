@@ -1,10 +1,11 @@
 #include "GUI.hpp"
 
 #include "BoundingBox.hpp"
-#include "MeshInstanceNode.hpp"
 #include "LightSystem.hpp"
 #include "Material.hpp"
 #include "MaterialLoader.hpp"
+#include "MeshInstanceNode.hpp"
+#include "SceneNode.hpp"
 #include "Shader.hpp"
 #include "ShaderLoader.hpp"
 #include "TextureLoader.hpp"
@@ -39,29 +40,16 @@ void GUI::newFrame() const {
 	ImGui::NewFrame();
 }
 
-void GUI::drawSelection(MeshInstanceNode* selectedObject) const {
-	if (!selectedObject) {
+void GUI::drawSelection(SceneNode*& selectedObject) const {
+	if (selectedObject == nullptr) {
 		return;
 	}
 	ImGui::Begin("Selected Item", nullptr);
-	ImGui::Text("Current selection: %s", selectedObject->name);
-	Material* materialPtr = selectedObject->getMaterial().get();
-	Shader* shaderPtr = materialPtr->getShader();
-	if (ImGui::BeginCombo("Shader", shaderPtr->name.c_str())) {
-		for (const std::string& shaderName : ShaderLoader::getAllFileNames()) {
-			if (ImGui::Selectable(shaderName.c_str())) {
-				materialPtr->setShader(ShaderLoader::load(shaderName));
-			}
+	ImGui::Text("Current selection: %s", selectedObject->name.c_str());
+	if (selectedObject->getParent()) {
+		if (ImGui::Button("Select parent")) {
+			selectedObject = selectedObject->getParent().get();
 		}
-		ImGui::EndCombo();
-	}
-	if (ImGui::BeginCombo("Material", materialPtr->name.c_str())) {
-		for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
-			if (ImGui::Selectable(materialName.c_str())) {
-				selectedObject->setMaterial(MaterialLoader::load(materialName));
-			}
-		}
-		ImGui::EndCombo();
 	}
 	glm::vec3 input = selectedObject->getLocalTransform().getPosition();
 	if (ImGui::InputFloat3("Position", &input.x)) {
@@ -74,6 +62,26 @@ void GUI::drawSelection(MeshInstanceNode* selectedObject) const {
 	input = selectedObject->getLocalTransform().getScale();
 	if (ImGui::InputFloat3("Scale", &input.x)) {
 		selectedObject->setScale(input);
+	}
+	if (auto meshInstanceChild = dynamic_cast<MeshInstanceNode *>(selectedObject)) {
+		Material* materialPtr = meshInstanceChild->getMaterial().get();
+		Shader* shaderPtr = materialPtr->getShader();
+		if (ImGui::BeginCombo("Shader", shaderPtr->name.c_str())) {
+			for (const std::string& shaderName : ShaderLoader::getAllFileNames()) {
+				if (ImGui::Selectable(shaderName.c_str())) {
+					materialPtr->setShader(ShaderLoader::load(shaderName));
+				}
+			}
+			ImGui::EndCombo();
+		}
+		if (ImGui::BeginCombo("Material", materialPtr->name.c_str())) {
+			for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
+				if (ImGui::Selectable(materialName.c_str())) {
+					meshInstanceChild->setMaterial(MaterialLoader::load(materialName));
+				}
+			}
+			ImGui::EndCombo();
+		}
 	}
 	ImGui::End();
 }

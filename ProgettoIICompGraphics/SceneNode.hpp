@@ -29,6 +29,7 @@ public:
 	void changeScale(const glm::vec3& scaleOffset);
 
 	void setParent(const std::shared_ptr<SceneNode>& newParent);
+	const std::shared_ptr<SceneNode>& getParent() const;
 	void addChild(const std::shared_ptr<SceneNode>& child);
 	const std::vector<std::shared_ptr<SceneNode>>& getChildren() const;
 };

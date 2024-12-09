@@ -67,7 +67,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
     }
     const std::shared_ptr<Mesh> loadedMesh = std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
     return std::make_shared<MeshInstanceNode>(
-        getNodeName(mesh->mName, parent ? parent->name : ""), 
+        getNodeName(mesh->mName, parent ? parent->name : ""),
         loadedMesh, 
         MaterialLoader::load("phong"), 
         Transform(),
@@ -76,7 +76,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
 
 std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* scene, const std::shared_ptr<SceneNode>& parent) {
     const std::shared_ptr<SceneNode> currentNode = std::make_shared<SceneNode>(
-        getNodeName(node->mName, parent ? parent->name : ""), 
+        getNodeName(node->mName, parent ? parent->name : ""),
         Transform(mat4ToGlm(node->mTransformation)), 
         parent
     );

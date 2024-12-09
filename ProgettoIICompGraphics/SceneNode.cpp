@@ -61,6 +61,10 @@ void SceneNode::changeScale(const glm::vec3& scaleOffset) {
 	this->updateWorldTransform();
 }
 
+const std::shared_ptr<SceneNode>& SceneNode::getParent() const {
+	return this->parentNode;
+}
+
 void SceneNode::setParent(const std::shared_ptr<SceneNode>& newParent) {
 	this->parentNode = newParent;
 	this->updateWorldTransform();
@@ -68,7 +72,7 @@ void SceneNode::setParent(const std::shared_ptr<SceneNode>& newParent) {
 
 void SceneNode::addChild(const std::shared_ptr<SceneNode>& child) {
 	this->childNodes.emplace_back(child);
-	this->updateWorldTransform();
+	child->updateWorldTransform();
 }
 
 const std::vector<std::shared_ptr<SceneNode>>& SceneNode::getChildren() const {

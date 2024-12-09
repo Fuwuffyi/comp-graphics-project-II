@@ -4,7 +4,7 @@
 #include <string>
 
 struct GLFWwindow;
-class MeshInstanceNode;
+class SceneNode;
 
 class GUI {
 private:
@@ -26,7 +26,7 @@ public:
 
 	bool clickedOnUi() const;
 	void newFrame() const;
-	void drawSelection(MeshInstanceNode* selectedObject) const;
+	void drawSelection(SceneNode*& selectedObject) const;
 	void drawResources() const;
 	void drawLightsEditor() const;
 	void endRendering() const;

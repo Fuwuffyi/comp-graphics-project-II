@@ -42,4 +42,15 @@ public:
 	 * \return True they are colliding.
 	 */
 	bool checkCollisions(const glm::vec3& point) const;
+
+	/**
+	 * Checks if a ray intersects the bounding box.
+	 * 
+	 * \param rayOrigin The origin of the ray.
+	 * \param rayDirection The direction of the ray.
+	 * \param tMin The entering position along the ray (output variable).
+	 * \param tMax The exiting position along the ray (output variable).
+	 * \return True if the ray intersects the bounding box, false otherwise.
+	 */
+	bool rayIntersects(const glm::vec3& rayOrigin, const glm::vec3& rayDirection, float& tMin, float& tMax) const;
 };

@@ -21,6 +21,8 @@
 #include <deque>
 #include <iostream>
 
+static SceneNode* selectedInstance = nullptr;
+
 void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 	const Transform currentTransform = cam.getTransform();
 	// Setup movement
@@ -92,6 +94,27 @@ void cameraControls(Camera& cam, Window& window, const float deltaTime) {
 		const glm::vec3 newPosition = target - cam.getViewDirection() * trackballZoom;
 		cam.getMutableTransform().setPosition(newPosition);
 	}
+	// Check selections
+	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_RIGHT)) {
+		// Perform raycasting to find the closest instance
+		const glm::vec3 rayOrigin = cam.getTransform().getPosition();
+		const glm::vec3 rayDirection = cam.getViewDirection();
+		MeshInstanceNode* closestInstance = nullptr;
+		float closestDistance = std::numeric_limits<float>::max();
+		// Loop through all instances and check if the ray intersects any bounding boxes
+		const std::vector<MeshInstanceNode*>& instances = Renderer::getAllRenderables();
+		for (MeshInstanceNode* instance : instances) {
+			float tMin, tMax;
+			if (instance->getBoundingBox().rayIntersects(rayOrigin, rayDirection, tMin, tMax)) {
+				// Check if this instance is the closest
+				if (tMin < closestDistance) {
+					closestDistance = tMin;
+					closestInstance = instance;
+				}
+			}
+		}
+		selectedInstance = selectedInstance == closestInstance ? nullptr : closestInstance;
+	}
 	// Check collisions
 	const std::vector<MeshInstanceNode *>& instances = Renderer::getAllRenderables();
 	for (MeshInstanceNode* instance : instances) {
@@ -154,28 +177,29 @@ int main() {
 	Transform thorusTransform(glm::vec3(2.0f, 0.2f, 2.0f), glm::vec3(0.0f), glm::vec3(0.5f));
 	std::shared_ptr<MeshInstanceNode> thorusInstance = std::make_shared<MeshInstanceNode>("Thorium", thorusPrimitive, MaterialLoader::load("blinn_phong"), thorusTransform, scene);
 	// Load the dragon
-	std::shared_ptr<SceneNode> dragonMeshRoot = MeshLoader::loadMesh("assets/meshes/dragon_vrip.ply", Transform());
+	std::shared_ptr<SceneNode> dragonMeshRoot = MeshLoader::loadMesh("assets/meshes/pot.obj", Transform(glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.2f)));
 	scene->addChild(dragonMeshRoot);
 	dragonMeshRoot->setParent(scene);
 	// Add children to scene
 	scene->addChild(planeInstance);
 	scene->addChild(cubeInstance);
-	scene->addChild(pyramidInstance);
+	// scene->addChild(pyramidInstance);
 	scene->addChild(sphereInstance);
 	scene->addChild(cylinderInstance);
 	scene->addChild(coneInstance);
-	scene->addChild(thorusInstance);
+	// scene->addChild(thorusInstance);
+	// Testing purposes
+	selectedInstance = cubeInstance.get();
 	// Add all the renderables to the renderer
 	std::deque<std::shared_ptr<SceneNode>> meshQueue = { scene };
 	while (!meshQueue.empty()) {
 		auto node = meshQueue.front();
-		std::cout << node->name << std::endl;
 		meshQueue.pop_front();
+		if (auto meshInstanceChild = std::dynamic_pointer_cast<MeshInstanceNode>(node)) {
+			Renderer::addToRenderingQueues(meshInstanceChild.get());
+		}
 		for (auto& child : node->getChildren()) {
 			meshQueue.push_back(child);
-			if (auto meshInstanceChild = std::dynamic_pointer_cast<MeshInstanceNode>(child)) {
-				Renderer::addToRenderingQueues(meshInstanceChild.get());
-			}
 		}
 	}
 	// Initialize light System
@@ -212,7 +236,7 @@ int main() {
 		// Draw gui
 		gui.drawLightsEditor();
 		gui.drawResources();
-		gui.drawSelection(coneInstance.get());
+		gui.drawSelection(selectedInstance);
 		gui.endRendering();
 		// End frame
 		window.swapBuffers();

@@ -51,3 +51,23 @@ bool BoundingBox::checkCollisions(const glm::vec3& point) const {
            (point.y >= this->minValues.y && point.y <= this->maxValues.y) &&
            (point.z >= this->minValues.z && point.z <= this->maxValues.z);
 }
+
+bool BoundingBox::rayIntersects(const glm::vec3& rayOrigin, const glm::vec3& rayDirection, float& tMin, float& tMax) const {
+	// Early exit if ray direction is zero (no movement)
+	if (glm::all(glm::equal(rayDirection, glm::vec3(0.0f)))) {
+		return false; // No intersection since the ray doesn't move
+	}
+	// Calculate the inverse of the ray direction
+	const glm::vec3 invDir = 1.0f / rayDirection;
+	// Calculate intersection with the planes defined by the bounding box
+	const glm::vec3 t0 = (minValues - rayOrigin) * invDir;
+	const glm::vec3 t1 = (maxValues - rayOrigin) * invDir;
+	// Swap t0 and t1 for negative directions
+	const glm::vec3 tNear = glm::min(t0, t1);
+	const glm::vec3 tFar = glm::max(t0, t1);
+	// Calculate tMin and tMax (intersection distances along the ray)
+	tMin = glm::max(tNear.x, glm::max(tNear.y, tNear.z));
+	tMax = glm::min(tFar.x, glm::min(tFar.y, tFar.z));
+	// If tMax < tMin, no intersection occurs
+	return tMax > glm::max(0.0f, tMin);
+}
