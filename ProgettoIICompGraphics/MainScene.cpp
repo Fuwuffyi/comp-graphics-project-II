@@ -26,13 +26,13 @@ std::shared_ptr<SceneNode> MainScene::getCity() {
 	city->addChild(walkway);
 	// Add lights
 	for (uint32_t i = 0; i < 8; ++i) {
-		std::shared_ptr<SceneNode> lightMesh = MeshLoader::loadMesh("assets/meshes/rv_lamp_post_4.obj", Transform(glm::vec3(6.5f + 3.8f * i, 2.15f, -1.2f), glm::vec3(0.0f, -90.0f, 0.0f), glm::vec3(0.15f)));
+		std::shared_ptr<SceneNode> lightMesh = MeshLoader::loadMesh("assets/meshes/rv_lamp_post_4.obj", Transform(glm::vec3(6.5f + 3.8f * i, 2.15f, 1.2f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(0.15f)));
 		lightMesh->name = lightMesh->name + "R" + std::to_string(i);
 		lightMesh->setParent(city);
 		city->addChild(lightMesh);
 	}
 	for (uint32_t i = 0; i < 8; ++i) {
-		std::shared_ptr<SceneNode> lightMesh = MeshLoader::loadMesh("assets/meshes/rv_lamp_post_4.obj", Transform(glm::vec3(-6.5f - 3.8f * i, 2.15f, -1.2f), glm::vec3(0.0f, -90.0f, 0.0f), glm::vec3(0.15f)));
+		std::shared_ptr<SceneNode> lightMesh = MeshLoader::loadMesh("assets/meshes/rv_lamp_post_4.obj", Transform(glm::vec3(-6.5f - 3.8f * i, 2.15f, 1.2f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(0.15f)));
 		lightMesh->name = lightMesh->name + "L" + std::to_string(i);
 		lightMesh->setParent(city);
 		city->addChild(lightMesh);
