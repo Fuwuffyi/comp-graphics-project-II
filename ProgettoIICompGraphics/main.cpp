@@ -71,7 +71,7 @@ int main() {
 		LightSystem::setLight(1 + i, LightSystem::SpotLight{ 
 			glm::vec3(6.5f + 3.8f * i, 4.0f, 0.7f), 
 			glm::vec3(0.0f, -1.0f, 0.0f),
-			0.9f, 0.6f,
+			0.8f, 0.27f,
 			glm::vec3(1.0f, 1.0f, 0.0f),
 			glm::vec3(1.0f, 0.95f, 0.6f),
 			glm::vec3(1.0f, 1.0f, 0.0f),
@@ -82,7 +82,7 @@ int main() {
 		LightSystem::setLight(9 + i, LightSystem::SpotLight{
 			glm::vec3(-6.5f - 3.8f * i, 4.0f, 0.7f),
 			glm::vec3(0.0f, -1.0f, 0.0f),
-			0.9f, 0.6f,
+			0.8f, 0.27f,
 			glm::vec3(1.0f, 1.0f, 0.0f),
 			glm::vec3(1.0f, 0.95f, 0.6f),
 			glm::vec3(1.0f, 1.0f, 0.0f),
