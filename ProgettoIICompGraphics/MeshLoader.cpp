@@ -17,8 +17,8 @@
 namespace MeshLoader {
     static std::unordered_map<std::string, std::pair<std::shared_ptr<Material>, std::shared_ptr<Mesh>>> loadedMeshes;
 
-    static std::shared_ptr<MeshInstanceNode> processMesh(aiMesh* mesh, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides = std::vector<std::shared_ptr<Material>>(), const std::shared_ptr<SceneNode>& parent = nullptr);
-    static std::shared_ptr<SceneNode> processNode(aiNode* node, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides = std::vector<std::shared_ptr<Material>>(), const std::shared_ptr<SceneNode>& parent = nullptr);
+    static std::shared_ptr<MeshInstanceNode> processMesh(aiMesh* mesh, const aiScene* scene, const std::unordered_map<uint32_t, std::shared_ptr<Material>>& materialOverrides = std::unordered_map<uint32_t, std::shared_ptr<Material>>(), const std::shared_ptr<SceneNode>& parent = nullptr);
+    static std::shared_ptr<SceneNode> processNode(aiNode* node, const aiScene* scene, const std::unordered_map<uint32_t, std::shared_ptr<Material>>& materialOverrides = std::unordered_map<uint32_t, std::shared_ptr<Material>>(), const std::shared_ptr<SceneNode>& parent = nullptr);
 
     static constexpr glm::mat4 mat4ToGlm(const aiMatrix4x4& aiMat);
     static std::string getNodeName(const aiString& str, const std::string& parentStr = "");
@@ -47,7 +47,7 @@ std::string MeshLoader::getNodeName(const aiString& str, const std::string& pare
     return parentStr + "_child_" + std::to_string(currentNodeIndex++);
 }
 
-std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides, const std::shared_ptr<SceneNode>& parent) {
+std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene, const std::unordered_map<uint32_t, std::shared_ptr<Material>>& materialOverrides, const std::shared_ptr<SceneNode>& parent) {
     if (loadedMeshes.find(getNodeName(mesh->mName, parent ? parent->name : "")) != loadedMeshes.end()) {
         return std::make_shared<MeshInstanceNode>(
             getNodeName(mesh->mName, parent ? parent->name : ""),
@@ -80,55 +80,54 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
     if (mesh->mMaterialIndex < scene->mNumMaterials) {
         aiMaterial* aiMaterial = scene->mMaterials[mesh->mMaterialIndex];
         const std::string matName = std::string(aiMaterial->GetName().C_Str());
-        if (mesh->mMaterialIndex < materialOverrides.size()) {
-            material = materialOverrides[mesh->mMaterialIndex];
+        if (materialOverrides.find(mesh->mMaterialIndex) != materialOverrides.end()) {
+            material = materialOverrides.at(mesh->mMaterialIndex);
         } else {
             if (MaterialLoader::isLoaded(matName)) {
                 material = MaterialLoader::load(matName);
             } else {
-                bool transparent = false;
+                std::string currShader = "blinn_phong";
                 std::unordered_map<std::string, Material::MaterialValueType> materialProperties;
                 std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
+                // Check opacity
+                float opacity;
+                if (AI_SUCCESS == aiMaterial->Get(AI_MATKEY_OPACITY, opacity)) {
+                    if (opacity < 1.0f) {
+                        std::string currShader = "blinn_phong_transparency";
+                    }
+                }
                 // Setup base color
                 aiColor4D color;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_BASE_COLOR, color)) {
                     color = aiColor4D(1.0f);
-                    if (color.a < 1.0f) {
-                        transparent = true;
-                    }
                 }
                 materialProperties.emplace("color", glm::vec4(color.r, color.g, color.b, color.a));
                 // Setup ambient color
                 aiColor4D ambient;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_AMBIENT, ambient)) {
                     ambient = aiColor4D(1.0f);
-                    if (ambient.a < 1.0f) {
-                        transparent = true;
-                    }
                 }
                 materialProperties.emplace("ambient", glm::vec4(ambient.r, ambient.g, ambient.b, ambient.a));
                 // Setup diffuse color
                 aiColor4D diffuse;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse)) {
                     diffuse = aiColor4D(1.0f);
-                    if (diffuse.a < 1.0f) {
-                        transparent = true;
-                    }
                 }
                 materialProperties.emplace("diffuse", glm::vec4(diffuse.r, diffuse.g, diffuse.b, diffuse.a));
                 // Setup specular color
                 aiColor4D specular;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specular)) {
                     specular = aiColor4D(0.0f, 0.0f, 0.0f, 1.0f);
-                    if (specular.a < 1.0f) {
-                        transparent = true;
-                    }
                 }
                 materialProperties.emplace("specular", glm::vec4(specular.r, specular.g, specular.b, specular.a));
                 // Setup shininess factor
                 float shininess;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_SHININESS, shininess)) {
                     shininess = 1.0f;
+                } else {
+                    // Normalize shininess, for some reason it is 1-1000 in assimp?
+                    shininess /= 1000.0f;
+                    shininess *= 32.0f;
                 }
                 materialProperties.emplace("shininess", shininess);
                 // Base color (albedo) textures
@@ -176,11 +175,9 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                     }
                 }
                 // Load all textures
-                material = MaterialLoader::load(matName, transparent ? "blinn_phong_transparent" : "blinn_phong", materialProperties, textures);
+                material = MaterialLoader::load(matName, currShader, materialProperties, textures);
             }
         }
-    } else if (mesh->mMaterialIndex < materialOverrides.size()) {
-        material = materialOverrides[mesh->mMaterialIndex];
     } else {
         material = MaterialLoader::load("debug");
     }
@@ -197,7 +194,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
         parent);
 }
 
-std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* scene, const std::vector<std::shared_ptr<Material>>& materialOverrides, const std::shared_ptr<SceneNode>& parent) {
+std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* scene, const std::unordered_map<uint32_t, std::shared_ptr<Material>>& materialOverrides, const std::shared_ptr<SceneNode>& parent) {
     // Create current node as empty
     const std::shared_ptr<SceneNode> currentNode = std::make_shared<SceneNode>(
         getNodeName(node->mName, parent ? parent->name : ""),
@@ -216,7 +213,7 @@ std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* 
     return currentNode;
 }
 
-std::shared_ptr<SceneNode> MeshLoader::loadMesh(const std::string& fileName, const Transform& rootTransform, const std::vector<std::shared_ptr<Material>>& materialOverrides) {
+std::shared_ptr<SceneNode> MeshLoader::loadMesh(const std::string& fileName, const Transform& rootTransform, const std::unordered_map<uint32_t, std::shared_ptr<Material>>& materialOverrides) {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes | aiProcess_RemoveRedundantMaterials | aiProcess_GenSmoothNormals | aiProcess_Triangulate);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
