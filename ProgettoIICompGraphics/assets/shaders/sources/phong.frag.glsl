@@ -7,6 +7,7 @@ out vec4 fragColor;
 in vec3 normalIn;
 in vec2 uvIn;
 in vec3 worldPosition;
+in mat3 normalMatrix;
 
 uniform vec3 cameraPosition;
 
@@ -54,7 +55,7 @@ void main() {
 	vec3 viewDir = normalize(cameraPosition - worldPosition);
 	vec3 normal = normalIn;
 	if (isTextureValid(normal0)) {
-		normal = texture(normal0, uvIn).xyz;
+		normal = normalize(normalMatrix * texture(normal0, uvIn).xyz);
 	}
 	for (uint i = 0u; i < MAX_LIGHTS; ++i) {
 		Light light = lights[i];
