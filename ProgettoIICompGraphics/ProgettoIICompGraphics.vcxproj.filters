@@ -385,12 +385,6 @@
     <None Include="assets\shaders\blinn_phong_transparent.shader">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="assets\shaders\blinn_phong_cutout.shader">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="assets\shaders\sources\blinn_phong_cutout.frag.glsl">
-      <Filter>Resource Files\shaders\sources</Filter>
-    </None>
     <None Include="assets\materials\grass.material">
       <Filter>Resource Files\materials</Filter>
     </None>
@@ -402,6 +396,9 @@
     </None>
     <None Include="assets\materials\leaves.material">
       <Filter>Resource Files\materials</Filter>
+    </None>
+    <None Include="assets\shaders\phong_transparent.shader">
+      <Filter>Resource Files\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

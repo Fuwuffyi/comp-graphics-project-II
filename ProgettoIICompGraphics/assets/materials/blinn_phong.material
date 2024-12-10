@@ -4,3 +4,4 @@ p specular vec4 1.0 1.0 1.0 1.0
 p ambient vec4 1.0 1.0 1.0 1.0
 p shininess float 8.0
 p diffuse vec4 1.0 1.0 1.0 1.0
+p cutoutThreshold float 0.0

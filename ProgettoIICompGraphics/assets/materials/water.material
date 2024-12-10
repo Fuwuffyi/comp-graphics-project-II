@@ -7,3 +7,4 @@ p diffuse vec4 0.5 0.5 0.8 0.5
 p waveHeight float 0.2
 p waveSpeed float 1.2
 p waveFrequency float 1.4
+p cutoutThreshold float 0.0

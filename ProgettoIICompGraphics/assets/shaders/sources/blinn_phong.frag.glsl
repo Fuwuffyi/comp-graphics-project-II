@@ -17,6 +17,7 @@ uniform vec4 material_ambient;
 uniform vec4 material_diffuse;
 uniform vec4 material_specular;
 uniform float material_shininess;
+uniform float material_cutoutThreshold;
 
 uniform sampler2D albedo0;
 uniform sampler2D diffuse0;
@@ -75,12 +76,16 @@ void main() {
 			combinedLighting += spotLight(light, normal, worldPosition, viewDir);
 		}
 	}
+	vec4 endColor;
 	if (isTextureValid(albedo0)) {
-		fragColor = texture(albedo0, uvIn) * combinedLighting;
+		endColor = texture(albedo0, uvIn) * combinedLighting;
+	} else {
+		endColor = material_color * combinedLighting;
 	}
-	else {
-		fragColor = material_color * combinedLighting;
+	if (endColor.a <= material_cutoutThreshold) {
+		discard;
 	}
+	fragColor = endColor;
 }
 
 bool isTextureValid(sampler2D tex) {
