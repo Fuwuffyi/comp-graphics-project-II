@@ -1,0 +1,8 @@
+shader leaves
+p color vec4 1.0 1.0 1.0 1.0
+p specular vec4 0.0 0.0 0.0 1.0
+p ambient vec4 1.0 1.0 1.0 1.0
+p shininess float 8.0
+p diffuse vec4 1.0 1.0 1.0 1.0
+p cutoutThreshold float 0.2
+t albedo0 texture2D PineTree/Leavs_baseColor.png

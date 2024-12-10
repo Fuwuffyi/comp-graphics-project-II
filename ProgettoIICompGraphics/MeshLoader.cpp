@@ -126,13 +126,13 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                 }
                 materialProperties.emplace("specular", glm::vec4(specular.r, specular.g, specular.b, specular.a));
                 // Setup shininess factor
-                float shininess;
-                if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_SHININESS, shininess)) {
-                    shininess = 1.0f;
-                } else {
-                    // Normalize shininess, for some reason it is 1-1000 in assimp?
+                float shininess = 0.0f;
+                if (AI_SUCCESS == aiMaterial->Get(AI_MATKEY_SHININESS, shininess)) {
+                    // Normalize shininess, for some reason it is 1000 in assimp?
                     shininess /= 1000.0f;
-                    shininess *= 32.0f;
+                }
+                if (shininess == 0.0f) {
+                    shininess = 1.0f;
                 }
                 materialProperties.emplace("shininess", shininess);
                 // Base color (albedo) textures

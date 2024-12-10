@@ -397,5 +397,14 @@
     <None Include="assets\materials\grass.material">
       <Filter>Resource Files\materials</Filter>
     </None>
+    <None Include="assets\shaders\leaves.shader">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="assets\shaders\sources\leaves.vert.glsl">
+      <Filter>Resource Files\shaders\sources</Filter>
+    </None>
+    <None Include="assets\materials\leaves.material">
+      <Filter>Resource Files\materials</Filter>
+    </None>
   </ItemGroup>
 </Project>
