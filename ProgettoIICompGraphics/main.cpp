@@ -67,17 +67,6 @@ int main() {
 		glm::vec3(1.0f) 
 	});
 	// Add more lights to reflect current scene
-	/*
-	LightSystem::setLight(1, LightSystem::SpotLight{
-		glm::vec3(6.5f + 3.8f, 5.0f, 0.6f),
-		glm::vec3(0.0f, -1.0f, 0.0f),
-		0.9f, 0.6f,
-		glm::vec3(1.0f, 1.0f, 0.0f),
-		glm::vec3(1.0f, 0.95f, 0.6f),
-		glm::vec3(1.0f, 1.0f, 0.0f),
-		15.0f, 0.2f, 0.05f, 0.1f
-		});
-		*/
 	for (uint32_t i = 0; i < 8; ++i) {
 		LightSystem::setLight(1 + i, LightSystem::SpotLight{ 
 			glm::vec3(6.5f + 3.8f * i, 5.0f, 0.6f), 
