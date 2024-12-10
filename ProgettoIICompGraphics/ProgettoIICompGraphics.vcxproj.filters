@@ -385,5 +385,8 @@
     <None Include="assets\materials\seafloor.material">
       <Filter>Resource Files\materials</Filter>
     </None>
+    <None Include="assets\shaders\blinn_phong_transparent.shader">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

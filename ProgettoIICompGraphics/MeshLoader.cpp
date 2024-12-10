@@ -86,30 +86,43 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
             if (MaterialLoader::isLoaded(matName)) {
                 material = MaterialLoader::load(matName);
             } else {
+                bool transparent = false;
                 std::unordered_map<std::string, Material::MaterialValueType> materialProperties;
                 std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
                 // Setup base color
                 aiColor4D color;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_BASE_COLOR, color)) {
                     color = aiColor4D(1.0f);
+                    if (color.a < 1.0f) {
+                        transparent = true;
+                    }
                 }
                 materialProperties.emplace("color", glm::vec4(color.r, color.g, color.b, color.a));
                 // Setup ambient color
                 aiColor4D ambient;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_AMBIENT, ambient)) {
                     ambient = aiColor4D(1.0f);
+                    if (ambient.a < 1.0f) {
+                        transparent = true;
+                    }
                 }
                 materialProperties.emplace("ambient", glm::vec4(ambient.r, ambient.g, ambient.b, ambient.a));
                 // Setup diffuse color
                 aiColor4D diffuse;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_DIFFUSE, diffuse)) {
                     diffuse = aiColor4D(1.0f);
+                    if (diffuse.a < 1.0f) {
+                        transparent = true;
+                    }
                 }
                 materialProperties.emplace("diffuse", glm::vec4(diffuse.r, diffuse.g, diffuse.b, diffuse.a));
                 // Setup specular color
                 aiColor4D specular;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specular)) {
                     specular = aiColor4D(0.0f, 0.0f, 0.0f, 1.0f);
+                    if (specular.a < 1.0f) {
+                        transparent = true;
+                    }
                 }
                 materialProperties.emplace("specular", glm::vec4(specular.r, specular.g, specular.b, specular.a));
                 // Setup shininess factor
@@ -163,7 +176,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                     }
                 }
                 // Load all textures
-                material = MaterialLoader::load(matName, "blinn_phong", materialProperties, textures);
+                material = MaterialLoader::load(matName, transparent ? "blinn_phong_transparent" : "blinn_phong", materialProperties, textures);
             }
         }
     } else if (mesh->mMaterialIndex < materialOverrides.size()) {
