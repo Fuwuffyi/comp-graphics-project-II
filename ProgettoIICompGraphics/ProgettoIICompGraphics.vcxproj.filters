@@ -400,7 +400,7 @@
     <None Include="assets\shaders\phong_transparent.shader">
       <Filter>Resource Files\shaders</Filter>
     </None>
-    <None Include="assets\materials\testA.material">
+    <None Include="assets\materials\bricks.material">
       <Filter>Resource Files\materials</Filter>
     </None>
     <None Include="assets\materials\lampPost.material">

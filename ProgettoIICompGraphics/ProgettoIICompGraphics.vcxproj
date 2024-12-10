@@ -272,7 +272,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <None Include="assets\materials\leaves.material" />
     <None Include="assets\materials\phong.material" />
     <None Include="assets\materials\seafloor.material" />
-    <None Include="assets\materials\testA.material" />
+    <None Include="assets\materials\bricks.material" />
     <None Include="assets\materials\lampPost.material" />
     <None Include="assets\materials\lightGlass.material" />
     <None Include="assets\materials\water.material" />
