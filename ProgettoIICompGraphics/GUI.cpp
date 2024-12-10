@@ -45,16 +45,19 @@ void GUI::newFrame(const glm::uvec2& dimensions) const {
 
 void GUI::createNodeInputs(SceneNode*& node) const {
 	glm::vec3 input = node->getLocalTransform().getPosition();
-	if (ImGui::InputFloat3("Position", &input.x)) {
-		node->setPosition(input);
-	}
-	input = node->getLocalTransform().getRotation();
-	if (ImGui::InputFloat3("Rotation", &input.x)) {
-		node->setRotation(input);
-	}
-	input = node->getLocalTransform().getScale();
-	if (ImGui::InputFloat3("Scale", &input.x)) {
-		node->setScale(input);
+	if (ImGui::TreeNode((node->name + " position").c_str())) {
+		if (ImGui::InputFloat3("Position", &input.x)) {
+			node->setPosition(input);
+		}
+		input = node->getLocalTransform().getRotation();
+		if (ImGui::InputFloat3("Rotation", &input.x)) {
+			node->setRotation(input);
+		}
+		input = node->getLocalTransform().getScale();
+		if (ImGui::InputFloat3("Scale", &input.x)) {
+			node->setScale(input);
+		}
+		ImGui::TreePop();
 	}
 	if (auto meshInstanceChild = dynamic_cast<MeshInstanceNode*>(node)) {
 		Material* materialPtr = meshInstanceChild->getMaterial().get();
