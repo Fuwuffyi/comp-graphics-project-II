@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/constants.hpp>
 
-std::shared_ptr<Mesh> Primitives::generatePlane(const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generatePlane(const uint32_t resolution, const glm::vec2 uvScale) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     const float dx = 1.0f / resolution;
@@ -20,7 +20,7 @@ std::shared_ptr<Mesh> Primitives::generatePlane(const uint32_t resolution) {
             );
             const glm::vec3 normal(0.0f, 1.0f, 0.0f);
             const glm::vec2 uv(float(x) / resolution, float(y) / resolution);
-            vertices.emplace_back(Vertex { position, normal, uv });
+            vertices.emplace_back(Vertex { position, normal, uv * uvScale });
         }
     }
     // Generate indices
@@ -41,7 +41,7 @@ std::shared_ptr<Mesh> Primitives::generatePlane(const uint32_t resolution) {
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-std::shared_ptr<Mesh> Primitives::generateCube(const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generateCube(const uint32_t resolution, const glm::vec2 uvScale) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     // Calculate side length based on resolution
@@ -92,7 +92,7 @@ std::shared_ptr<Mesh> Primitives::generateCube(const uint32_t resolution) {
                         uv = glm::vec2(x / resolution, y / resolution);
                         break;
                 }
-                vertices.emplace_back(Vertex{ position, normal, uv });
+                vertices.emplace_back(Vertex{ position, normal, uv * uvScale });
             }
         }
     }
@@ -127,7 +127,7 @@ std::shared_ptr<Mesh> Primitives::generateCube(const uint32_t resolution) {
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution, const glm::vec2 uvScale) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     const float height = 1.0f;
@@ -140,7 +140,7 @@ std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution) {
             glm::vec3 position(-halfBase + x * sideLength, 0.0f, -halfBase + y * sideLength);
             glm::vec3 normal(0.0f, -1.0f, 0.0f);
             glm::vec2 uv(x / resolution, y / resolution);
-            vertices.emplace_back(Vertex{ position, normal, uv });
+            vertices.emplace_back(Vertex{ position, normal, uv * uvScale });
         }
     }
     // Generate indices for the base
@@ -187,9 +187,9 @@ std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution) {
         }
         // Add vertices for the face
         uint32_t baseIndex = static_cast<uint32_t>(vertices.size());
-        vertices.emplace_back(Vertex { apex, normal, glm::vec2(0.5f, 1.0f) });
-        vertices.emplace_back(Vertex { corner1, normal, glm::vec2(0.0f, 0.0f) });
-        vertices.emplace_back(Vertex { corner2, normal, glm::vec2(1.0f, 0.0f) });
+        vertices.emplace_back(Vertex { apex, normal, glm::vec2(0.5f, 1.0f) * uvScale });
+        vertices.emplace_back(Vertex { corner1, normal, glm::vec2(0.0f, 0.0f) * uvScale });
+        vertices.emplace_back(Vertex { corner2, normal, glm::vec2(1.0f, 0.0f) * uvScale });
         // Add indices for the face
         indices.emplace_back(baseIndex);
         indices.emplace_back(baseIndex + 1);
@@ -198,7 +198,7 @@ std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution) {
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-std::shared_ptr<Mesh> Primitives::generateSphere(const uint32_t resolution) {
+std::shared_ptr<Mesh> Primitives::generateSphere(const uint32_t resolution, const glm::vec2 uvScale) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     for (uint32_t lat = 0; lat <= resolution; ++lat) {
@@ -212,7 +212,7 @@ std::shared_ptr<Mesh> Primitives::generateSphere(const uint32_t resolution) {
             const glm::vec3 normal = glm::vec3(cosPhi * sinTheta, cosTheta, sinPhi * sinTheta);
             const glm::vec3 position = normal;
             const glm::vec2 uv(float(lon) / resolution, float(lat) / resolution);
-            vertices.emplace_back(Vertex { position, normal, uv });
+            vertices.emplace_back(Vertex { position, normal, uv * uvScale });
         }
     }
     for (uint32_t lat = 0; lat < resolution; ++lat) {
@@ -230,7 +230,7 @@ std::shared_ptr<Mesh> Primitives::generateSphere(const uint32_t resolution) {
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-std::shared_ptr<Mesh> Primitives::generateCylinder(const float bottomRadius, const float topRadius, const float length, const uint32_t slices, const uint32_t stacks) {
+std::shared_ptr<Mesh> Primitives::generateCylinder(const float bottomRadius, const float topRadius, const float length, const uint32_t slices, const uint32_t stacks, const glm::vec2 uvScale) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
     // Calculate step sizes for slicing and stacking
@@ -238,7 +238,7 @@ std::shared_ptr<Mesh> Primitives::generateCylinder(const float bottomRadius, con
     const float heightStep = length / stacks;
     const float radiusStep = (topRadius - bottomRadius) / stacks;
     // Start at the bottom of the cylinder
-    vertices.emplace_back(Vertex{ glm::vec3(0.0f, -length / 2.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.5f, 0.5f) });
+    vertices.emplace_back(Vertex{ glm::vec3(0.0f, -length / 2.0f, 0.0f), glm::vec3(0.0f, -1.0f, 0.0f), glm::vec2(0.5f, 0.5f) * uvScale });
     // Vertices for the sides and the top
     float currentHeight = -length / 2.0f;
     float currentRadius = bottomRadius;
@@ -251,7 +251,7 @@ std::shared_ptr<Mesh> Primitives::generateCylinder(const float bottomRadius, con
             const float y = currentHeight;
             const float z = currentRadius * std::sin(sliceAngle);
             // Create a vertex and add it to the vertex list
-            vertices.emplace_back(Vertex{ glm::vec3(x, y, z), glm::normalize(glm::vec3(x, y, z)), glm::vec2(static_cast<float>(j) / slices, static_cast<float>(i) / stacks) });
+            vertices.emplace_back(Vertex{ glm::vec3(x, y, z), glm::normalize(glm::vec3(x, y, z)), glm::vec2(static_cast<float>(j) / slices, static_cast<float>(i) / stacks) * uvScale });
             sliceAngle += sliceStep;
         }
         // Move to the next height level and radius
@@ -259,7 +259,7 @@ std::shared_ptr<Mesh> Primitives::generateCylinder(const float bottomRadius, con
         currentRadius += radiusStep;
     }
     // Top center vertex
-    vertices.emplace_back(Vertex{ glm::vec3(0.0f, length / 2.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.5f, 0.5f) });
+    vertices.emplace_back(Vertex{ glm::vec3(0.0f, length / 2.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.5f, 0.5f) * uvScale });
     uint32_t baseIndex = 1; // Starting index for the side vertices
     // Bottom face indices
     for (uint32_t i = 0; i < slices; i++) {
@@ -293,11 +293,11 @@ std::shared_ptr<Mesh> Primitives::generateCylinder(const float bottomRadius, con
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
-std::shared_ptr<Mesh> Primitives::generateCone(const float radius, const float length, const int slices, const int stacks) {
-	return Primitives::generateCylinder(radius, 0.0f, length, slices, stacks);
+std::shared_ptr<Mesh> Primitives::generateCone(const float radius, const float length, const int slices, const int stacks, const glm::vec2 uvScale) {
+	return Primitives::generateCylinder(radius, 0.0f, length, slices, stacks, uvScale);
 }
 
-std::shared_ptr<Mesh> Primitives::generateThorus(const float innerRadius, const float circleRadius, const uint32_t resCircle, const uint32_t resSteps) {
+std::shared_ptr<Mesh> Primitives::generateThorus(const float innerRadius, const float circleRadius, const uint32_t resCircle, const uint32_t resSteps, const glm::vec2 uvScale) {
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
     const float stepCircle = glm::two_pi<float>() / resCircle; // Angle step for the circle
@@ -323,7 +323,7 @@ std::shared_ptr<Mesh> Primitives::generateThorus(const float innerRadius, const 
             );
             const glm::vec3 normal = glm::normalize(circlePoint);
             const glm::vec2 texCoord = glm::vec2(static_cast<float>(j) / resCircle, static_cast<float>(i) / resSteps);
-            vertices.emplace_back(Vertex{ position, normal, texCoord });
+            vertices.emplace_back(Vertex{ position, normal, texCoord * uvScale });
         }
     }
     for (uint32_t i = 0; i < resSteps; ++i) {
