@@ -288,7 +288,6 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <None Include="assets\shaders\sources\phong.frag.glsl" />
     <None Include="assets\shaders\sources\unlit_color.frag.glsl" />
     <None Include="assets\shaders\sources\unlit_color.vert.glsl" />
-    <None Include="assets\shaders\sources\blinn_phong_transparent.frag.glsl" />
     <None Include="assets\shaders\sources\water.vert.glsl" />
     <None Include="assets\shaders\unlit_color.shader" />
     <None Include="assets\shaders\water.shader" />
