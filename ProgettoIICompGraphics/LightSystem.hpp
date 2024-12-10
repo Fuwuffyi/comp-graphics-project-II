@@ -26,8 +26,8 @@ namespace LightSystem {
 		glm::vec3 diffuse;
 		glm::vec3 specular;
 		float range;
-		float constant;
 		float linear;
+		float constant;
 		float quadratic;
 	};
 
@@ -40,8 +40,8 @@ namespace LightSystem {
 		glm::vec3 diffuse;
 		glm::vec3 specular;
 		float range;
-		float constant;
 		float linear;
+		float constant;
 		float quadratic;
 	};
 

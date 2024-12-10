@@ -71,24 +71,31 @@ int main() {
 		LightSystem::setLight(1 + i, LightSystem::SpotLight{ 
 			glm::vec3(6.5f + 3.8f * i, 4.0f, 0.7f), 
 			glm::vec3(0.0f, -1.0f, 0.0f),
-			0.8f, 0.27f,
+			0.85f, 0.35f,
 			glm::vec3(1.0f, 1.0f, 0.0f),
 			glm::vec3(1.0f, 0.95f, 0.6f),
 			glm::vec3(1.0f, 1.0f, 0.0f),
-			15.0f, 0.2f, 0.05f, 0.1f
+			15.0f, 0.2f, 0.65f, 0.2f
 		});
 	}
 	for (uint32_t i = 0; i < 8; ++i) {
 		LightSystem::setLight(9 + i, LightSystem::SpotLight{
 			glm::vec3(-6.5f - 3.8f * i, 4.0f, 0.7f),
 			glm::vec3(0.0f, -1.0f, 0.0f),
-			0.8f, 0.27f,
+			0.85f, 0.35f,
 			glm::vec3(1.0f, 1.0f, 0.0f),
 			glm::vec3(1.0f, 0.95f, 0.6f),
 			glm::vec3(1.0f, 1.0f, 0.0f),
-			15.0f, 0.2f, 0.05f, 0.1f
-			});
+			15.0f, 0.2f, 0.65f, 0.2f
+		});
 	}
+	LightSystem::setLight(17, LightSystem::PointLight{
+		glm::vec3(0.0f, 2.75f, 0.0f),
+		glm::vec3(1.0f, 1.0f, 0.0f),
+		glm::vec3(1.0f, 0.95f, 0.6f),
+		glm::vec3(1.0f, 1.0f, 0.0f),
+		15.0f, 0.14f, 0.36f, 0.6f
+		});
 	// Setup cubemap
 	std::shared_ptr<Mesh> cubemapMesh = Primitives::generateCube(1);
 	Renderer::setCubemap(cubemapMesh, MaterialLoader::load("cubemap"));
