@@ -394,5 +394,8 @@
     <None Include="assets\shaders\sources\blinn_phong_cutout.frag.glsl">
       <Filter>Resource Files\shaders\sources</Filter>
     </None>
+    <None Include="assets\materials\grass.material">
+      <Filter>Resource Files\materials</Filter>
+    </None>
   </ItemGroup>
 </Project>

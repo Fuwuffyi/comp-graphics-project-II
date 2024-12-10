@@ -268,6 +268,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <None Include="assets\materials\blinn_phong.material" />
     <None Include="assets\materials\cubemap.material" />
     <None Include="assets\materials\debug.material" />
+    <None Include="assets\materials\grass.material" />
     <None Include="assets\materials\phong.material" />
     <None Include="assets\materials\seafloor.material" />
     <None Include="assets\materials\water.material" />
