@@ -17,15 +17,18 @@ namespace Renderer {
 	static std::shared_ptr<Material> cubemapMaterial = nullptr;
 	static std::shared_ptr<Mesh> cubemapMesh = nullptr;
 
-	static void sendDataToQueues();
+	static void sendDataToQueues(const glm::mat4& cameraMatrix);
 }
 
 void Renderer::addToRenderingQueues(MeshInstanceNode* renderable) {
 	renderingList.emplace_back(renderable);
 }
 
-void Renderer::sendDataToQueues() {
+void Renderer::sendDataToQueues(const glm::mat4& cameraMatrix) {
 	for (MeshInstanceNode* renderable : renderingList) {
+		if (!renderable->getBoundingBox().isCulled(cameraMatrix)) {
+			continue;
+		}
 		Material* materialPtr = renderable->getMaterial().get();
 		const Shader* shaderPtr = renderable->getMaterial()->getShader();
 		if (shaderPtr->litFlag) {
@@ -76,7 +79,7 @@ void Renderer::toggleWireframe() {
 
 void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::vec3& viewPoint) {
 	// Send renderables to queues
-	sendDataToQueues();
+	sendDataToQueues(cameraMatrix);
 	// Draw skybox
 	if (cubemapMaterial && cubemapMesh) {
 		// Disable depth mask for cubemap and culling

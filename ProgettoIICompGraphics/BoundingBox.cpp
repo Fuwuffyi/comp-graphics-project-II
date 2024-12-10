@@ -71,3 +71,48 @@ bool BoundingBox::rayIntersects(const glm::vec3& rayOrigin, const glm::vec3& ray
 	// If tMax < tMin, no intersection occurs
 	return tMax > glm::max(0.0f, tMin);
 }
+
+bool BoundingBox::isCulled(const glm::mat4& cameraMatrix) const {
+	// Frustum planes
+	glm::vec4 planes[6];
+	// Extract the planes from the camera's projection * view matrix
+	planes[0] = glm::vec4(cameraMatrix[0][3] + cameraMatrix[0][0], cameraMatrix[1][3] + cameraMatrix[1][0], cameraMatrix[2][3] + cameraMatrix[2][0], cameraMatrix[3][3] + cameraMatrix[3][0]); // Left
+	planes[1] = glm::vec4(cameraMatrix[0][3] - cameraMatrix[0][0], cameraMatrix[1][3] - cameraMatrix[1][0], cameraMatrix[2][3] - cameraMatrix[2][0], cameraMatrix[3][3] - cameraMatrix[3][0]); // Right
+	planes[2] = glm::vec4(cameraMatrix[0][3] + cameraMatrix[0][1], cameraMatrix[1][3] + cameraMatrix[1][1], cameraMatrix[2][3] + cameraMatrix[2][1], cameraMatrix[3][3] + cameraMatrix[3][1]); // Bottom
+	planes[3] = glm::vec4(cameraMatrix[0][3] - cameraMatrix[0][1], cameraMatrix[1][3] - cameraMatrix[1][1], cameraMatrix[2][3] - cameraMatrix[2][1], cameraMatrix[3][3] - cameraMatrix[3][1]); // Top
+	planes[4] = glm::vec4(cameraMatrix[0][3] + cameraMatrix[0][2], cameraMatrix[1][3] + cameraMatrix[1][2], cameraMatrix[2][3] + cameraMatrix[2][2], cameraMatrix[3][3] + cameraMatrix[3][2]); // Near
+	planes[5] = glm::vec4(cameraMatrix[0][3] - cameraMatrix[0][2], cameraMatrix[1][3] - cameraMatrix[1][2], cameraMatrix[2][3] - cameraMatrix[2][2], cameraMatrix[3][3] - cameraMatrix[3][2]); // Far
+	// Normalize the planes
+	for (auto& plane : planes) {
+		float length = glm::length(glm::vec3(plane));
+		plane /= length;
+	}
+	// Check each plane to see if any of the bounding box's vertices are outside
+	const glm::vec3 corners[8] = {
+		glm::vec3(minValues.x, minValues.y, minValues.z),
+		glm::vec3(maxValues.x, minValues.y, minValues.z),
+		glm::vec3(minValues.x, maxValues.y, minValues.z),
+		glm::vec3(maxValues.x, maxValues.y, minValues.z),
+		glm::vec3(minValues.x, minValues.y, maxValues.z),
+		glm::vec3(maxValues.x, minValues.y, maxValues.z),
+		glm::vec3(minValues.x, maxValues.y, maxValues.z),
+		glm::vec3(maxValues.x, maxValues.y, maxValues.z)
+	};
+	for (const auto& plane : planes) {
+		// Check the 8 corners of the bounding box
+		bool outsidePlane = true;
+		for (const glm::vec3& corner : corners) {
+			// If the corner is on the same side or inside the plane, we continue checking
+			if (glm::dot(glm::vec3(plane), corner) + plane.w > 0) {
+				outsidePlane = false;
+				break;
+			}
+		}
+		// If a corner is outside this plane, the bounding box is culled
+		if (outsidePlane) {
+			return true; // Bounding box is outside the frustum
+		}
+	}
+	// If no corners are outside, the bounding box is not culled
+	return false;
+}

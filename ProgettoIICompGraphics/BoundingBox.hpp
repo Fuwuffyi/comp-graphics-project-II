@@ -53,4 +53,12 @@ public:
 	 * \return True if the ray intersects the bounding box, false otherwise.
 	 */
 	bool rayIntersects(const glm::vec3& rayOrigin, const glm::vec3& rayDirection, float& tMin, float& tMax) const;
+
+	/**
+	 * Checks if an object is outside the camera's frustum.
+	 * 
+	 * \param cameraMatrix The camera's view * projection matrix.
+	 * \return True if the object is outside the frustum, false otherwise.
+	 */
+	bool isCulled(const glm::mat4& cameraMatrix) const;
 };
