@@ -5,6 +5,41 @@
 #include <glad/glad.h>
 #include <glm/gtc/constants.hpp>
 
+namespace Primitives {
+    static void calculateTangentsAndBitangents(std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
+}
+
+void Primitives::calculateTangentsAndBitangents(std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices) {
+    for (size_t i = 0; i < indices.size(); i += 3) {
+        // Get indices for the triangle
+        const uint32_t i0 = indices[i];
+        const uint32_t i1 = indices[i + 1];
+        const uint32_t i2 = indices[i + 2];
+        // Get the vertices for this triangle
+        Vertex& v0 = vertices[i0];
+        Vertex& v1 = vertices[i1];
+        Vertex& v2 = vertices[i2];
+        // Calculate edges in position space
+        const glm::vec3 edge1 = v1.position - v0.position;
+        const glm::vec3 edge2 = v2.position - v0.position;
+        // Calculate texture space delta
+        const glm::vec2 deltaUV1 = v1.uv - v0.uv;
+        const glm::vec2 deltaUV2 = v2.uv - v0.uv;
+        // Calculate the determinant
+        const float f = 1.0f / (deltaUV1.x * deltaUV2.y - deltaUV1.y * deltaUV2.x);
+        // Calculate tangent and bitangent
+        const glm::vec3 tangent = f * (deltaUV2.y * edge1 - deltaUV1.y * edge2);
+        const glm::vec3 bitangent = f * (-deltaUV2.x * edge1 + deltaUV1.x * edge2);
+        // Normalize the tangent and bitangent
+        v0.tangent = glm::normalize(tangent);
+        v1.tangent = glm::normalize(tangent);
+        v2.tangent = glm::normalize(tangent);
+        v0.bitangent = glm::normalize(bitangent);
+        v1.bitangent = glm::normalize(bitangent);
+        v2.bitangent = glm::normalize(bitangent);
+    }
+}
+
 std::shared_ptr<Mesh> Primitives::generatePlane(const uint32_t resolution, const glm::vec2 uvScale) {
     std::vector<Vertex> vertices;
     std::vector<uint32_t> indices;
@@ -38,6 +73,7 @@ std::shared_ptr<Mesh> Primitives::generatePlane(const uint32_t resolution, const
             indices.emplace_back(bottomRight);
         }
     }
+    calculateTangentsAndBitangents(vertices, indices);
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
@@ -124,6 +160,7 @@ std::shared_ptr<Mesh> Primitives::generateCube(const uint32_t resolution, const 
             }
         }
     }
+    calculateTangentsAndBitangents(vertices, indices);
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
@@ -195,6 +232,7 @@ std::shared_ptr<Mesh> Primitives::generatePyramid(const uint32_t resolution, con
         indices.emplace_back(baseIndex + 1);
         indices.emplace_back(baseIndex + 2);
     }
+    calculateTangentsAndBitangents(vertices, indices);
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
@@ -227,6 +265,7 @@ std::shared_ptr<Mesh> Primitives::generateSphere(const uint32_t resolution, cons
             indices.emplace_back(b + 1);
         }
     }
+    calculateTangentsAndBitangents(vertices, indices);
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
@@ -290,6 +329,7 @@ std::shared_ptr<Mesh> Primitives::generateCylinder(const float bottomRadius, con
         indices.emplace_back(baseIndex + (i + 1) % slices);
         indices.emplace_back(baseIndex + i);
     }
+    calculateTangentsAndBitangents(vertices, indices);
     return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
 
@@ -338,5 +378,6 @@ std::shared_ptr<Mesh> Primitives::generateThorus(const float innerRadius, const 
             indices.emplace_back(next);
         }
     }
+    calculateTangentsAndBitangents(vertices, indices);
 	return std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
 }
