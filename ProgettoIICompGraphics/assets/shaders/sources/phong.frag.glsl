@@ -106,9 +106,12 @@ vec3 directionalLight(Light light, vec3 normal, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = calcDiffuse(light.diffuse, diff);
 	// Specular
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
-	vec3 specular = calcSpecular(light.specular, spec);
+	vec3 specular = vec3(0.0);
+	if (material_shininess != 0.0) {
+		vec3 reflectDir = reflect(-lightDir, normal);
+		float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
+		specular = calcSpecular(light.specular, spec);
+	}
 	// Return values
 	return (ambient + diffuse + specular);
 }
@@ -130,9 +133,12 @@ vec3 pointLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = calcDiffuse(light.diffuse, diff);
 	// Specular
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
-	vec3 specular = calcSpecular(light.specular, spec);
+	vec3 specular = vec3(0.0);
+	if (material_shininess != 0.0) {
+		vec3 reflectDir = reflect(-lightDir, normal);
+		float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
+		specular = calcSpecular(light.specular, spec);
+	}
 	// Return values
 	return attenuation * (ambient + diffuse + specular);
 }
@@ -157,9 +163,12 @@ vec3 spotLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec3 diffuse = calcDiffuse(light.diffuse, diff);
 	// Specular
-	vec3 reflectDir = reflect(-lightDir, normal);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
-	vec3 specular = calcSpecular(light.specular, spec);
+	vec3 specular = vec3(0.0);
+	if (material_shininess != 0.0) {
+		vec3 reflectDir = reflect(-lightDir, normal);
+		float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
+		specular = calcSpecular(light.specular, spec);
+	}
 	// Return values
 	return attenuation * intensity * (ambient + diffuse + specular);
 }

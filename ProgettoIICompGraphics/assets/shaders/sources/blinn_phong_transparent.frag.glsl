@@ -107,9 +107,12 @@ vec4 directionalLight(Light light, vec3 normal, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec4 diffuse = calcDiffuse(light.diffuse, diff);
 	// Specular
-	vec3 halfVec = normalize(viewDir + lightDir);
-	float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
-	vec4 specular = calcSpecular(light.specular, spec);
+	vec4 specular = vec4(0.0);
+	if (material_shininess != 0.0) {
+		vec3 halfVec = normalize(viewDir + lightDir);
+		float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
+		specular = calcSpecular(light.specular, spec);
+	}
 	// Return values
 	return (ambient + diffuse + specular);
 }
@@ -131,9 +134,12 @@ vec4 pointLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec4 diffuse = calcDiffuse(light.diffuse, diff);
 	// Specular
-	vec3 halfVec = normalize(viewDir + lightDir);
-	float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
-	vec4 specular = calcSpecular(light.specular, spec);
+	vec4 specular = vec4(0.0);
+	if (material_shininess != 0.0) {
+		vec3 halfVec = normalize(viewDir + lightDir);
+		float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
+		specular = calcSpecular(light.specular, spec);
+	}
 	// Return values
 	return attenuation * (ambient + diffuse + specular);
 }
@@ -158,9 +164,12 @@ vec4 spotLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	float diff = max(dot(normal, lightDir), 0.0);
 	vec4 diffuse = calcDiffuse(light.diffuse, diff);
 	// Specular
-	vec3 halfVec = normalize(viewDir + lightDir);
-	float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
-	vec4 specular = calcSpecular(light.specular, spec);
+	vec4 specular = vec4(0.0);
+	if (material_shininess != 0.0) {
+		vec3 halfVec = normalize(viewDir + lightDir);
+		float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
+		specular = calcSpecular(light.specular, spec);
+	}
 	// Return values
 	return attenuation * intensity * (ambient + diffuse + specular);
 }
