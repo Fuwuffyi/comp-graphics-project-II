@@ -59,6 +59,10 @@ std::shared_ptr<Texture> TextureLoader::load(const std::string& textureName, con
 	auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + textureName, true);
 	loadedTextures.emplace(textureName, std::make_shared<Texture2D>(inFormat, outFormat));
 	loadedTextures.at(textureName)->uploadData(imageWidth, imageHeight, data);
+	loadedTextures.at(textureName)->setParameter(GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	loadedTextures.at(textureName)->setParameter(GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	loadedTextures.at(textureName)->setParameter(GL_TEXTURE_WRAP_S, GL_REPEAT);
+	loadedTextures.at(textureName)->setParameter(GL_TEXTURE_WRAP_T, GL_REPEAT);
 	stbi_image_free(data);
 	return loadedTextures.at(textureName);
 }
