@@ -118,8 +118,19 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                     shininess = 1.0f;
                 }
                 materialProperties.emplace("shininess", shininess);
+                // Base color (albedo) textures
+                uint32_t textureCount = aiMaterial->GetTextureCount(aiTextureType_BASE_COLOR);
+                for (uint32_t i = 0; i < textureCount; ++i) {
+                    aiString texturePath;
+                    if (AI_SUCCESS == aiMaterial->GetTexture(aiTextureType_BASE_COLOR, i, &texturePath)) {
+                        if (texturePath.length <= 0) {
+                            throw std::runtime_error("Could not read the texture for: " + matName);
+                        }
+                        textures.emplace("albedo" + std::to_string(i), TextureLoader::load(std::string(texturePath.C_Str())));
+                    }
+                }
                 // Diffuse textures
-                uint32_t textureCount = aiMaterial->GetTextureCount(aiTextureType_DIFFUSE);
+                textureCount = aiMaterial->GetTextureCount(aiTextureType_DIFFUSE);
                 for (uint32_t i = 0; i < textureCount; ++i) {
                     aiString texturePath;
                     if (AI_SUCCESS == aiMaterial->GetTexture(aiTextureType_DIFFUSE, i, &texturePath)) {
@@ -194,7 +205,7 @@ std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* 
 
 std::shared_ptr<SceneNode> MeshLoader::loadMesh(const std::string& fileName, const Transform& rootTransform, const std::vector<std::shared_ptr<Material>>& materialOverrides) {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeMeshes | aiProcess_GenSmoothNormals | aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(fileName, aiProcess_GenSmoothNormals | aiProcess_Triangulate);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		throw std::runtime_error("Failed to open mesh file: " + fileName);
 	}

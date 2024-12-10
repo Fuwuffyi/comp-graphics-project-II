@@ -13,7 +13,7 @@ namespace TextureLoader {
 	static std::unordered_map<std::string, std::shared_ptr<Texture2D>> loadedTextures;
 	static std::unordered_map<std::string, std::shared_ptr<TextureCubemap>> loadedCubemaps;
 
-	static std::tuple<int32_t, int32_t, int32_t, int32_t, uint8_t*> loadTextureData(const std::string& file, const bool flip = false);
+	static std::tuple<int32_t, int32_t, int32_t, int32_t, uint8_t*> loadTextureData(const std::string& file, const bool flip = true);
 
 	static constexpr const char* TEXTURE_ASSET_DIR = "assets/textures/";
 }
@@ -72,7 +72,7 @@ std::shared_ptr<Texture> TextureLoader::loadCubemap(const std::string& cubemapDi
 	loadedCubemaps.emplace(cubemapDirectory, std::make_shared<TextureCubemap>());
 	// Load faces of cubemap
 	for (uint32_t i = 0; i < 6; ++i) {
-		auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + cubemapDirectory + "/" + std::to_string(i) + ".jpg");
+		auto [imageWidth, imageHeight, inFormat, outFormat, data] = loadTextureData(TEXTURE_ASSET_DIR + cubemapDirectory + "/" + std::to_string(i) + ".jpg", false);
 		loadedCubemaps.at(cubemapDirectory)->uploadData(imageWidth, imageHeight, data, i);
 		stbi_image_free(data);
 	}

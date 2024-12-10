@@ -17,6 +17,7 @@ uniform vec4 material_diffuse;
 uniform vec4 material_specular;
 uniform float material_shininess;
 
+uniform sampler2D albedo0;
 uniform sampler2D diffuse0;
 uniform sampler2D specular0;
 uniform sampler2D normal0;
@@ -72,11 +73,10 @@ void main() {
 			combinedLighting += spotLight(light, normal, worldPosition, viewDir);
 		}
 	}
-	if (isTextureValid(diffuse0)) {
-		fragColor = vec4(texture(diffuse0, uvIn).xyz * combinedLighting, 1.0);
-	}
-	else {
-		fragColor = vec4(material_diffuse.xyz * combinedLighting, 1.0);
+	if (isTextureValid(albedo0)) {
+		fragColor = vec4(texture(albedo0, uvIn).xyz * combinedLighting, 1.0);
+	} else {
+		fragColor = vec4(material_color.xyz * combinedLighting, 1.0);
 	}
 }
 
