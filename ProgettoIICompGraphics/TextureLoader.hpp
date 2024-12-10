@@ -12,6 +12,4 @@ namespace TextureLoader {
 	void unloadAll();
 
 	bool isLoaded(const std::string& textureName);
-	std::vector<std::string> getAllTextureNames();
-	std::vector<std::string> getAllCubemapNames();
 }

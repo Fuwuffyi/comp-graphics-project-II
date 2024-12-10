@@ -8,7 +8,6 @@
 #include "SceneNode.hpp"
 #include "Shader.hpp"
 #include "ShaderLoader.hpp"
-#include "TextureLoader.hpp"
 #include <glfw/glfw3.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
@@ -224,51 +223,6 @@ void GUI::drawResources() const {
 					}
 				}
 				ImGui::TreePop();
-			}
-		}
-	}
-	if (ImGui::CollapsingHeader("Shaders")) {
-		for (const std::string& shaderName : ShaderLoader::getAllFileNames()) {
-			ImGui::Separator();
-			if (ShaderLoader::isLoaded(shaderName)) {
-				ImGui::Text(shaderName.c_str());
-			} else {
-				if (ImGui::TreeNode(shaderName.c_str())) {
-					if (ImGui::Button("Load Cubemap")) {
-						ShaderLoader::load(shaderName);
-					}
-					ImGui::TreePop();
-				}
-			}
-		}
-	}
-	if (ImGui::CollapsingHeader("Textures")) {
-		for (const std::string& textureName : TextureLoader::getAllTextureNames()) {
-			ImGui::Separator();
-			if (TextureLoader::isLoaded(textureName)) {
-				ImGui::Text(textureName.c_str());
-			} else {
-				if (ImGui::TreeNode(textureName.c_str())) {
-					if (ImGui::Button("Load Cubemap")) {
-						TextureLoader::load(textureName);
-					}
-					ImGui::TreePop();
-				}
-			}
-		}
-	}
-	if (ImGui::CollapsingHeader("Cubemaps")) {
-		for (const std::string& cubemapName : TextureLoader::getAllCubemapNames()) {
-			ImGui::Separator();
-			if (TextureLoader::isLoaded(cubemapName)) {
-				ImGui::Text(cubemapName.c_str());
-			} else {
-				if (ImGui::TreeNode(cubemapName.c_str())) {
-					if (ImGui::Button("Load Cubemap")) {
-						TextureLoader::loadCubemap(cubemapName);
-					}
-					ImGui::TreePop();
-				}
 			}
 		}
 	}

@@ -32,6 +32,10 @@ std::tuple<int32_t, int32_t, int32_t, int32_t, uint8_t*> TextureLoader::loadText
 			inFormat = GL_RGB;
 			outFormat = GL_RGB;
 			break;
+		case 2:
+			inFormat = GL_RG;
+			outFormat = GL_RG;
+			break;
 		case 1:
 			inFormat = GL_RED;
 			outFormat = GL_RED;
@@ -86,24 +90,4 @@ void TextureLoader::unloadAll() {
 
 bool TextureLoader::isLoaded(const std::string& textureName) {
 	return (loadedTextures.find(textureName) != loadedTextures.end()) || (loadedCubemaps.find(textureName) != loadedCubemaps.end());
-}
-
-std::vector<std::string> TextureLoader::getAllTextureNames() {
-	std::vector<std::string> names;
-	for (const auto& entry : std::filesystem::directory_iterator(TEXTURE_ASSET_DIR)) {
-		if (std::filesystem::is_regular_file(entry)) {
-			names.emplace_back(entry.path().filename().string());
-		}
-	}
-	return names;
-}
-
-std::vector<std::string> TextureLoader::getAllCubemapNames() {
-	std::vector<std::string> names;
-	for (const auto& entry : std::filesystem::directory_iterator(TEXTURE_ASSET_DIR)) {
-		if (std::filesystem::is_directory(entry)) {
-			names.emplace_back(entry.path().filename().string());
-		}
-	}
-	return names;
 }
