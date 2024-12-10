@@ -26,7 +26,7 @@ void Renderer::addToRenderingQueues(MeshInstanceNode* renderable) {
 
 void Renderer::sendDataToQueues(const glm::mat4& cameraMatrix) {
 	for (MeshInstanceNode* renderable : renderingList) {
-		if (!renderable->getBoundingBox().isCulled(cameraMatrix)) {
+		if (renderable->getBoundingBox().isCulled(cameraMatrix)) {
 			continue;
 		}
 		Material* materialPtr = renderable->getMaterial().get();
