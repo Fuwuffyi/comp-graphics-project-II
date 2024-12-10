@@ -32,8 +32,10 @@ void Mesh::draw() const {
 }
 
 void Mesh::setVertexArrayAttributes() const {
-	// Link the vertices' attributes to slots: (0 = vec2 position, 1 = vec2 normal, 2 = vec2 uv)
+	// Link the vertices' attributes to slots: (0 = vec2 position, 1 = vec2 normal, 2 = vec2 uv, 3 = vec3 tangent, 4 = vec3 bitangent)
 	this->vao.linkAttrib(0, 3, sizeof(Vertex), GL_FLOAT, 0);
 	this->vao.linkAttrib(1, 3, sizeof(Vertex), GL_FLOAT, 3 * sizeof(float));
 	this->vao.linkAttrib(2, 2, sizeof(Vertex), GL_FLOAT, 6 * sizeof(float));
+	this->vao.linkAttrib(3, 3, sizeof(Vertex), GL_FLOAT, 8 * sizeof(float));
+	this->vao.linkAttrib(4, 3, sizeof(Vertex), GL_FLOAT, 11 * sizeof(float));
 }

@@ -66,6 +66,11 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
             vertex.uv = glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
         } else {
             vertex.uv = glm::vec2(0.0f);
+
+        } 
+        if (mesh->HasTangentsAndBitangents()) {
+            vertex.tangent = glm::vec3(mesh->mTangents[i].x, mesh->mTangents[i].y, mesh->mTangents[i].z);
+            vertex.bitangent = glm::vec3(mesh->mBitangents[i].x, mesh->mBitangents[i].y, mesh->mBitangents[i].z);
         }
         // process vertex positions, normals and texture coordinates
         vertices.emplace_back(vertex);
@@ -215,7 +220,7 @@ std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* 
 
 std::shared_ptr<SceneNode> MeshLoader::loadMesh(const std::string& fileName, const Transform& rootTransform, const std::unordered_map<uint32_t, std::shared_ptr<Material>>& materialOverrides) {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes | aiProcess_RemoveRedundantMaterials | aiProcess_GenSmoothNormals | aiProcess_Triangulate);
+	const aiScene* scene = importer.ReadFile(fileName, aiProcess_CalcTangentSpace | aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes | aiProcess_RemoveRedundantMaterials | aiProcess_GenSmoothNormals | aiProcess_Triangulate);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		throw std::runtime_error("Failed to open mesh file: " + fileName);
 	}
