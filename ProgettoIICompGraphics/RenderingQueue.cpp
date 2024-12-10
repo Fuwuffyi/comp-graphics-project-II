@@ -25,9 +25,9 @@ void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& view
 		const glm::vec3 position2 = glm::vec3(std::get<2>(second)[3]);
 		const glm::vec3 point1 = viewPoint - position1;
 		const glm::vec3 point2 = viewPoint - position2;
-		return this->closestFirst 
-			? glm::dot(point1, point1) < glm::dot(point2, point2)
-			: glm::dot(point1, point1) > glm::dot(point2, point2);
+		return this->closestFirst
+			? glm::distance(viewPoint, point1) > glm::distance(viewPoint, point2)
+			: glm::distance(viewPoint, point1) < glm::distance(viewPoint, point2);
 	});
 	// Render all objects
 	for (auto [meshPtr, materialPtr, model] : this->renderables) {
