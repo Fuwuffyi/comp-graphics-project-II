@@ -42,13 +42,13 @@ std::shared_ptr<SceneNode> MainScene::getCity() {
 	city->addChild(grass);
 	// Add Houses
 	for (uint32_t i = 0; i < 6; ++i) {
-		std::shared_ptr<SceneNode> testHouse = MeshLoader::loadMesh("assets/meshes/LisboaHouse/scene.gltf", Transform(glm::vec3(6.15f + 5.04 * i, 4.78f, -14.57f), glm::vec3(-90.0f, 0.0f, 0.0f), glm::vec3(1.15f)));
+		std::shared_ptr<SceneNode> testHouse = MeshLoader::loadMesh("assets/meshes/LisboaHouse/scene.gltf", Transform(glm::vec3(6.15f + 5.04 * i, 3.53f, -4.563f), glm::vec3(-90.0f, 0.0f, 0.0f), glm::vec3(1.15f)));
 		testHouse->name = testHouse->name + "R" + std::to_string(i);
 		testHouse->setParent(city);
 		city->addChild(testHouse);
 	}
 	for (uint32_t i = 0; i < 6; ++i) {
-		std::shared_ptr<SceneNode> testHouse = MeshLoader::loadMesh("assets/meshes/LisboaHouse/scene.gltf", Transform(glm::vec3(-7.7f - 5.04 * i, 4.78f, -14.57f), glm::vec3(-90.0f, 0.0f, 0.0f), glm::vec3(1.15f)));
+		std::shared_ptr<SceneNode> testHouse = MeshLoader::loadMesh("assets/meshes/LisboaHouse/scene.gltf", Transform(glm::vec3(-7.7f - 5.04 * i, 3.53f, -4.563f), glm::vec3(-90.0f, 0.0f, 0.0f), glm::vec3(1.15f)));
 		testHouse->name = testHouse->name + "L" + std::to_string(i);
 		testHouse->setParent(city);
 		city->addChild(testHouse);

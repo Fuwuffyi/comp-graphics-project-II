@@ -218,7 +218,7 @@ std::shared_ptr<SceneNode> MeshLoader::processNode(aiNode* node, const aiScene* 
 
 std::shared_ptr<SceneNode> MeshLoader::loadMesh(const std::string& fileName, const Transform& rootTransform, const std::vector<std::shared_ptr<Material>>& materialOverrides) {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(fileName, aiProcess_GenSmoothNormals | aiProcess_Triangulate);
+	const aiScene* scene = importer.ReadFile(fileName, aiProcess_OptimizeGraph | aiProcess_OptimizeMeshes | aiProcess_RemoveRedundantMaterials | aiProcess_GenSmoothNormals | aiProcess_Triangulate);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 		throw std::runtime_error("Failed to open mesh file: " + fileName);
 	}
