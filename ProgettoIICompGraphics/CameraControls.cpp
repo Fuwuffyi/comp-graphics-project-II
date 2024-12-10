@@ -86,6 +86,14 @@ void CameraControls::cameraControls(Camera& cam, Window& window, const float del
 		const glm::vec3 newPosition = target - cam.getViewDirection() * trackballZoom;
 		cam.getMutableTransform().setPosition(newPosition);
 	}
+	// Check collisions
+	const std::vector<MeshInstanceNode*>& instances = Renderer::getAllRenderables();
+	for (MeshInstanceNode* instance : instances) {
+		if (instance->getBoundingBox().checkCollisions(cam.getTransform().getPosition())) {
+			cam.getMutableTransform().setPosition(currentTransform.getPosition());
+			return;
+		}
+	}
 	// Check selections
 	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_RIGHT)) {
 		// Get useful coordinates
@@ -108,8 +116,6 @@ void CameraControls::cameraControls(Camera& cam, Window& window, const float del
 		// Setup some base variables for the search
 		MeshInstanceNode* closestInstance = nullptr;
 		float closestDistance = std::numeric_limits<float>::max();
-		// Loop through all instances and check if the ray intersects any bounding boxes
-		const std::vector<MeshInstanceNode*>& instances = Renderer::getAllRenderables();
 		for (MeshInstanceNode* instance : instances) {
 			float tMin, tMax;
 			if (instance->getBoundingBox().rayIntersects(rayOrigin, rayDirection, tMin, tMax)) {
@@ -121,13 +127,5 @@ void CameraControls::cameraControls(Camera& cam, Window& window, const float del
 			}
 		}
 		selectedInstance = selectedInstance == closestInstance ? nullptr : closestInstance;
-	}
-	// Check collisions
-	const std::vector<MeshInstanceNode*>& instances = Renderer::getAllRenderables();
-	for (MeshInstanceNode* instance : instances) {
-		if (instance->getBoundingBox().checkCollisions(cam.getTransform().getPosition())) {
-			cam.getMutableTransform().setPosition(currentTransform.getPosition());
-			return;
-		}
 	}
 }
