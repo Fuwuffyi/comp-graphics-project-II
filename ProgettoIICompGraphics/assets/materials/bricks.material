@@ -1,0 +1,10 @@
+shader blinn_phong
+p color vec4 1.0 1.0 1.0 1.0
+p specular vec4 1.0 1.0 1.0 1.0
+p ambient vec4 1.0 1.0 1.0 1.0
+p shininess float 8.0
+p diffuse vec4 1.0 1.0 1.0 1.0
+p cutoutThreshold float 0.0
+t albedo0 texture2D Bricks/Bricks_Color.jpg
+t normal0 texture2D Bricks/Bricks_Normal.jpg
+t specular0 texture2D Bricks/Bricks_Shiny.jpg

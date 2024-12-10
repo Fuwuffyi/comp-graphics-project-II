@@ -44,7 +44,7 @@ std::shared_ptr<SceneNode> MainScene::getGrass() {
 	std::uniform_real_distribution<float> distZ(-0.43f, 0.23f);
 	std::uniform_real_distribution<float> distScl(0.8f, 1.2f);
 	std::unordered_map<uint32_t, std::shared_ptr<Material>> treeOverrides = {
-		{ 0, MaterialLoader::load("leaves")}
+		{ 0, MaterialLoader::load("leaves") }
 	};
 	// Right trees
 	for (uint32_t i = 0; i < 100; ++i) {
@@ -67,7 +67,10 @@ std::shared_ptr<SceneNode> MainScene::getGrass() {
 std::shared_ptr<SceneNode> MainScene::getCity() {
 	std::shared_ptr<SceneNode> city = std::make_shared<SceneNode>("City", Transform());
 	// Add walkway lights
-	std::shared_ptr<SceneNode> walkway = MeshLoader::loadMesh("assets/meshes/walkways.obj", Transform());
+	std::unordered_map<uint32_t, std::shared_ptr<Material>> walkwayOverrides = {
+		{ 0, MaterialLoader::load("bricks") }
+	};
+	std::shared_ptr<SceneNode> walkway = MeshLoader::loadMesh("assets/meshes/walkways.obj", Transform(), walkwayOverrides);
 	walkway->setParent(city);
 	city->addChild(walkway);
 	// Add cool fountain
@@ -77,16 +80,20 @@ std::shared_ptr<SceneNode> MainScene::getCity() {
 	// Add lights
 	std::shared_ptr<SceneNode> lights = std::make_shared<SceneNode>("Lights", Transform(), city);
 	city->addChild(lights);
+	std::unordered_map<uint32_t, std::shared_ptr<Material>> lightsOverrides = {
+		{ 0, MaterialLoader::load("lampPost") },
+		{ 3, MaterialLoader::load("lightGlass") }
+	};
 	// Right lights
 	for (uint32_t i = 0; i < 8; ++i) {
-		std::shared_ptr<SceneNode> lightMesh = MeshLoader::loadMesh("assets/meshes/rv_lamp_post_4.obj", Transform(glm::vec3(6.5f + 3.8f * i, 2.15f, 1.2f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(0.1f)));
+		std::shared_ptr<SceneNode> lightMesh = MeshLoader::loadMesh("assets/meshes/rv_lamp_post_4.obj", Transform(glm::vec3(6.5f + 3.8f * i, 2.15f, 1.2f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(0.1f)), lightsOverrides);
 		lightMesh->name = lightMesh->name + "R" + std::to_string(i);
 		lightMesh->setParent(lights);
 		lights->addChild(lightMesh);
 	}
 	// Left lights
 	for (uint32_t i = 0; i < 8; ++i) {
-		std::shared_ptr<SceneNode> lightMesh = MeshLoader::loadMesh("assets/meshes/rv_lamp_post_4.obj", Transform(glm::vec3(-6.5f - 3.8f * i, 2.15f, 1.2f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(0.1f)));
+		std::shared_ptr<SceneNode> lightMesh = MeshLoader::loadMesh("assets/meshes/rv_lamp_post_4.obj", Transform(glm::vec3(-6.5f - 3.8f * i, 2.15f, 1.2f), glm::vec3(0.0f, 90.0f, 0.0f), glm::vec3(0.1f)), lightsOverrides);
 		lightMesh->name = lightMesh->name + "L" + std::to_string(i);
 		lightMesh->setParent(lights);
 		lights->addChild(lightMesh);

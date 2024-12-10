@@ -1,0 +1,10 @@
+shader blinn_phong
+p color vec4 1.0 1.0 1.0 1.0
+p specular vec4 0.2 0.2 0.2 1.0
+p ambient vec4 0.0 0.0 0.0 1.0
+p diffuse vec4 0.0 0.0 0.0 1.0
+p shininess float 16.0
+p cutoutThreshold float 0.0
+t albedo0 Metal/Metal_Base.jpg
+t normal0 Metal/Metal_Normal.png
+t specular0 Metal/Metal_Shiny.jpg
