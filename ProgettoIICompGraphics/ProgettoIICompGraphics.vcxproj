@@ -141,8 +141,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);glfw3.lib;zlibstaticd.lib;assimp-vc143-mtd.lib</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
-PATH=$(VSInstallDir)Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
+      <Command>PATH=$(VSInstallDir)Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
 git submodule update --init --recursive
 copy $(SolutionDir)external\imgui\backends\*  $(SolutionDir)external\imgui
 cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF
@@ -172,8 +171,7 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
       <AdditionalLibraryDirectories>$(SolutionDir)\external\glfw\src\Release;$(SolutionDir)\external\assimp\lib\Release;$(SolutionDir)\external\assimp\contrib\zlib\Release</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>PATH=C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
-PATH=$(VSInstallDir)Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
+      <Command>PATH=$(VSInstallDir)Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;%PATH%
 git submodule update --init --recursive
 copy $(SolutionDir)external\imgui\backends\*  $(SolutionDir)external\imgui
 cmake -S  $(SolutionDir)external\glfw -B $(SolutionDir)external\glfw -G "Visual Studio 17 2022" -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_INSTALL=OFF

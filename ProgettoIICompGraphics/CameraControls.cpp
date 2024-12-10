@@ -82,7 +82,7 @@ void CameraControls::cameraControls(Camera& cam, Window& window, const float del
 		const glm::vec3 currentRotation = cam.getTransform().getRotation();
 		const float yaw = currentRotation.y + mouseDeltaX * sensitivity;
 		const float pitch = currentRotation.x + mouseDeltaY * sensitivity;
-		cam.getMutableTransform().setRotation(glm::vec3(glm::clamp(pitch, -90.0f + epsilon, 89.0f - epsilon), yaw, currentRotation.z));
+		cam.getMutableTransform().setRotation(glm::vec3(glm::clamp(pitch, -90.0f + epsilon, 90.0f - epsilon), yaw, currentRotation.z));
 		const glm::vec3 newPosition = target - cam.getViewDirection() * trackballZoom;
 		cam.getMutableTransform().setPosition(newPosition);
 	}
