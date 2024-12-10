@@ -76,8 +76,8 @@ void main() {
 		}
 	}
 	if (isTextureValid(albedo0)) {
-		vec4 matColor = texture(albedo0, uvIn));
-		if (matColor.a <= material_cutoutThreshold ) {
+		vec4 matColor = texture(albedo0, uvIn);
+		if (matColor.a <= material_cutoutThreshold) {
 			discard;
 		}
 		fragColor = matColor * combinedLighting;
