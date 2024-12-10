@@ -74,7 +74,7 @@ void CameraControls::cameraControls(Camera& cam, Window& window, const float del
 	static glm::vec3 target = glm::vec3(0.0f);
 	if (Mouse::buttonWentDown(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		glfwSetInputMode(window.getWindowPtr(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		target = cam.getTransform().getPosition() + cam.getViewDirection();
+		target = cam.getTransform().getPosition() + cam.getViewDirection() * trackballZoom;
 	}
 	if (Mouse::button(GLFW_MOUSE_BUTTON_MIDDLE)) {
 		const float mouseDeltaX = Mouse::getDx();
