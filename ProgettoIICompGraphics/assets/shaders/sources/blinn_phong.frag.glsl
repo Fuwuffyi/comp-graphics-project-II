@@ -78,7 +78,7 @@ void main() {
 	}
 	vec4 endColor;
 	if (isTextureValid(albedo0)) {
-		endColor = texture(albedo0, uvIn) * combinedLighting;
+		endColor = material_color * texture(albedo0, uvIn) * combinedLighting;
 	} else {
 		endColor = material_color * combinedLighting;
 	}
@@ -94,14 +94,14 @@ bool isTextureValid(sampler2D tex) {
 
 vec4 calcDiffuse(vec3 lightDiffuse, float diffuseFactor) {
 	if (isTextureValid(diffuse0)) {
-		return texture(diffuse0, uvIn) * vec4(lightDiffuse, 1.0) * diffuseFactor;
+		return material_diffuse * texture(diffuse0, uvIn) * vec4(lightDiffuse, 1.0) * diffuseFactor;
 	}
 	return material_diffuse * vec4(lightDiffuse, 1.0) * diffuseFactor;
 }
 
 vec4 calcSpecular(vec3 lightSpecular, float specularFactor) {
 	if (isTextureValid(specular0)) {
-		return texture(specular0, uvIn) * vec4(lightSpecular, 1.0) * specularFactor;
+		return material_specular * texture(specular0, uvIn).r * vec4(lightSpecular, 1.0) * specularFactor;
 	}
 	return material_specular * vec4(lightSpecular, 1.0) * specularFactor;
 }
