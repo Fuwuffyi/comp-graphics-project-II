@@ -43,7 +43,7 @@ std::shared_ptr<SceneNode> MainScene::getGrass() {
 	std::uniform_real_distribution<float> distX(0.04f, 0.47f);
 	std::uniform_real_distribution<float> distZ(-0.43f, 0.23f);
 	std::uniform_real_distribution<float> distScl(0.8f, 1.2f);
-	std::unordered_map<uint32_t, std::shared_ptr<Material>> treeOverrides = {
+	const std::unordered_map<uint32_t, std::shared_ptr<Material>> treeOverrides = {
 		{ 0, MaterialLoader::load("leaves") }
 	};
 	// Right trees
@@ -67,20 +67,23 @@ std::shared_ptr<SceneNode> MainScene::getGrass() {
 std::shared_ptr<SceneNode> MainScene::getCity() {
 	std::shared_ptr<SceneNode> city = std::make_shared<SceneNode>("City", Transform());
 	// Add walkway lights
-	std::unordered_map<uint32_t, std::shared_ptr<Material>> walkwayOverrides = {
+	const std::unordered_map<uint32_t, std::shared_ptr<Material>> walkwayOverrides = {
 		{ 0, MaterialLoader::load("bricks") }
 	};
 	std::shared_ptr<SceneNode> walkway = MeshLoader::loadMesh("assets/meshes/walkways.obj", Transform(), walkwayOverrides);
 	walkway->setParent(city);
 	city->addChild(walkway);
 	// Add cool fountain
-	std::shared_ptr<SceneNode> fountain = MeshLoader::loadMesh("assets/meshes/Fountain/scene.gltf", Transform(glm::vec3(-0.15f, 3.67f, 0.8f), glm::vec3(-180.0f, -90.0f, 0.0f), glm::vec3(0.6)));
-	fountain->setParent(walkway);
-	walkway->addChild(fountain);
+	const std::unordered_map<uint32_t, std::shared_ptr<Material>> statueOverrides = {
+		{ 0, MaterialLoader::load("marble") }
+	};
+	std::shared_ptr<SceneNode> centralStatue = MeshLoader::loadMesh("assets/meshes/DragonStatue/dragon.glb", Transform(glm::vec3(0.0f, 4.5f, 0.0f), glm::vec3(0.0f), glm::vec3(0.025f)), statueOverrides);
+	centralStatue->setParent(walkway);
+	walkway->addChild(centralStatue);
 	// Add lights
 	std::shared_ptr<SceneNode> lights = std::make_shared<SceneNode>("Lights", Transform(), city);
 	city->addChild(lights);
-	std::unordered_map<uint32_t, std::shared_ptr<Material>> lightsOverrides = {
+	const std::unordered_map<uint32_t, std::shared_ptr<Material>> lightsOverrides = {
 		{ 0, MaterialLoader::load("lampPost") },
 		{ 3, MaterialLoader::load("lightGlass") }
 	};

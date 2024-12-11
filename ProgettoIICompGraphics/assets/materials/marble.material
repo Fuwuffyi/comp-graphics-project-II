@@ -1,0 +1,12 @@
+shader blinn_phong
+transparent 0
+lit 1
+p color vec4 1.0 1.0 1.0 1.0
+p specular vec4 0.2 0.2 0.2 1.0
+p ambient vec4 0.6 0.6 0.6 1.0
+p shininess float 16.0
+p diffuse vec4 0.3 0.3 0.3 1.0
+p cutoutThreshold float 0.0
+t albedo0 texture2D Marble/Marble_Color.png
+t normal0 texture2D Marble/Marble_Normal.png
+t specular0 texture2D Marble/Marble_Shiny.png

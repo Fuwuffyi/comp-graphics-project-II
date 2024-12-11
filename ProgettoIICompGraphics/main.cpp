@@ -90,11 +90,11 @@ int main() {
 		});
 	}
 	LightSystem::setLight(17, LightSystem::PointLight{
-		glm::vec3(0.0f, 2.75f, 0.0f),
-		glm::vec3(1.0f, 1.0f, 0.0f),
-		glm::vec3(1.0f, 0.95f, 0.6f),
-		glm::vec3(1.0f, 1.0f, 0.0f),
-		15.0f, 0.14f, 0.36f, 0.6f
+		glm::vec3(1.0f, 6.47f, 0.3f),
+		glm::vec3(0.05f, 0.0f, 0.0f),
+		glm::vec3(0.4f, 0.0f, 0.5f),
+		glm::vec3(1.0f, 0.0f, 1.0f),
+		15.0f, 0.015f, 0.02f, 0.1f
 		});
 	// Setup cubemap
 	std::shared_ptr<Mesh> cubemapMesh = Primitives::generateCube(1);

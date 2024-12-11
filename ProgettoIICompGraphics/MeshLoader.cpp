@@ -48,11 +48,12 @@ std::string MeshLoader::getNodeName(const aiString& str, const std::string& pare
 }
 
 std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const aiScene* scene, const std::unordered_map<uint32_t, std::shared_ptr<Material>>& materialOverrides, const std::shared_ptr<SceneNode>& parent) {
-    if (loadedMeshes.find(getNodeName(mesh->mName, parent ? parent->name : "")) != loadedMeshes.end()) {
+    const std::string nodeName = getNodeName(mesh->mName, parent ? parent->name : "");
+    if (loadedMeshes.find(nodeName) != loadedMeshes.end()) {
         return std::make_shared<MeshInstanceNode>(
-            getNodeName(mesh->mName, parent ? parent->name : ""),
-            loadedMeshes.at(getNodeName(mesh->mName, parent ? parent->name : "")).second,
-            loadedMeshes.at(getNodeName(mesh->mName, parent ? parent->name : "")).first,
+            nodeName,
+            loadedMeshes.at(nodeName).second,
+            loadedMeshes.at(nodeName).first,
             Transform(),
             parent);
     }
@@ -185,9 +186,9 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
         throw std::runtime_error("No material has been provided for index: " + std::to_string(mesh->mMaterialIndex));
     }
     const std::shared_ptr<Mesh> loadedMesh = std::make_shared<Mesh>(vertices, indices, GL_TRIANGLES);
-    loadedMeshes.emplace(getNodeName(mesh->mName, parent ? parent->name : ""), std::pair<std::shared_ptr<Material>, std::shared_ptr<Mesh>>(material, loadedMesh));
+    loadedMeshes.emplace(nodeName, std::pair<std::shared_ptr<Material>, std::shared_ptr<Mesh>>(material, loadedMesh));
     return std::make_shared<MeshInstanceNode>(
-        getNodeName(mesh->mName, parent ? parent->name : ""),
+        nodeName,
         loadedMesh, 
         material,
         Transform(),

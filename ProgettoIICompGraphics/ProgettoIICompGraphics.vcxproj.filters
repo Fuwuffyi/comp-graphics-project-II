@@ -400,5 +400,8 @@
     <None Include="assets\materials\lightGlass.material">
       <Filter>Resource Files\materials</Filter>
     </None>
+    <None Include="assets\materials\marble.material">
+      <Filter>Resource Files\materials</Filter>
+    </None>
   </ItemGroup>
 </Project>
