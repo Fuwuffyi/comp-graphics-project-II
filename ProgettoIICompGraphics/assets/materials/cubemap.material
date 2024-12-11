@@ -1,2 +1,4 @@
 shader cubemap
+transparent 0
+lit 0
 t skybox cubemap deep_sky

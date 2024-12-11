@@ -34,6 +34,8 @@ private:
 
 public:
 	const std::string name;
+	const bool litFlag;
+	const bool transparentFlag;
 
 	/**
 	 * Constructor for a material.
@@ -42,8 +44,10 @@ public:
 	 * \param _shader A shader pointer to be used to render the material.
 	 * \param values The properties of the material.
 	 * \param textures The material's loaded textures.
+	 * \param _litFlag The fragment shader's code.
+	 * \param _transparentFlag The fragment shader's code.
 	 */
-	Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures);
+	Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures, const bool _litFlag, const bool _transparentFlag);
 
 	/**
 	 * Destructor for the material class.

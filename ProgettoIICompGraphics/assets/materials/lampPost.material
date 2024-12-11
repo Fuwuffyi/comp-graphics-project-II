@@ -1,4 +1,6 @@
 shader blinn_phong
+transparent 0
+lit 1
 p color vec4 1.0 1.0 1.0 1.0
 p specular vec4 0.2 0.2 0.2 1.0
 p ambient vec4 0.0 0.0 0.0 1.0

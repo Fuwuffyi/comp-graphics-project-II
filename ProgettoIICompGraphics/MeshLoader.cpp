@@ -91,16 +91,11 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
             if (MaterialLoader::isLoaded(matName)) {
                 material = MaterialLoader::load(matName);
             } else {
-                std::string currShader = "blinn_phong";
                 std::unordered_map<std::string, Material::MaterialValueType> materialProperties;
                 std::unordered_map<std::string, std::shared_ptr<Texture>> textures;
                 // Check opacity
-                float opacity;
-                if (AI_SUCCESS == aiMaterial->Get(AI_MATKEY_OPACITY, opacity)) {
-                    if (opacity < 1.0f) {
-                        std::string currShader = "blinn_phong_transparency";
-                    }
-                }
+                float opacity = 1.0f;
+                aiMaterial->Get(AI_MATKEY_OPACITY, opacity);
                 // Setup base color
                 aiColor4D color;
                 if (AI_SUCCESS != aiMaterial->Get(AI_MATKEY_BASE_COLOR, color)) {
@@ -180,7 +175,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                     }
                 }
                 // Load all textures
-                material = MaterialLoader::load(matName, currShader, materialProperties, textures);
+                material = MaterialLoader::load(matName, "blinn_phong", materialProperties, textures, true, opacity < 1.0f);
             }
         }
     } else {

@@ -328,9 +328,6 @@
     <None Include="assets\materials\blinn_phong.material">
       <Filter>Resource Files\materials</Filter>
     </None>
-    <None Include="assets\materials\phong.material">
-      <Filter>Resource Files\materials</Filter>
-    </None>
     <None Include="assets\shaders\blinn_phong.shader">
       <Filter>Resource Files\shaders</Filter>
     </None>
@@ -382,9 +379,6 @@
     <None Include="assets\materials\seafloor.material">
       <Filter>Resource Files\materials</Filter>
     </None>
-    <None Include="assets\shaders\blinn_phong_transparent.shader">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
     <None Include="assets\materials\grass.material">
       <Filter>Resource Files\materials</Filter>
     </None>
@@ -396,9 +390,6 @@
     </None>
     <None Include="assets\materials\leaves.material">
       <Filter>Resource Files\materials</Filter>
-    </None>
-    <None Include="assets\shaders\phong_transparent.shader">
-      <Filter>Resource Files\shaders</Filter>
     </None>
     <None Include="assets\materials\bricks.material">
       <Filter>Resource Files\materials</Filter>

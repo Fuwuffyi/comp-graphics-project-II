@@ -4,12 +4,14 @@
 #include "Texture.hpp"
 #include <stdexcept>
 
-Material::Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures)
+Material::Material(const std::string& _name, const std::shared_ptr<Shader>& _shader, const std::unordered_map<std::string, MaterialValueType>& _values, const std::unordered_map<std::string, std::shared_ptr<Texture>>& _textures, const bool _litFlag, const bool _transparentFlag)
 	:
 	shader(_shader),
 	values(_values),
 	textures(_textures),
-	name(_name)
+	name(_name),
+	litFlag(_litFlag),
+	transparentFlag(_transparentFlag)
 {
 	if (this->shader == nullptr) {
 		std::runtime_error("The material has been initialized without a shader!");

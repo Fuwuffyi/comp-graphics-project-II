@@ -30,15 +30,14 @@ void Renderer::sendDataToQueues(const glm::mat4& cameraMatrix) {
 			continue;
 		}
 		Material* materialPtr = renderable->getMaterial().get();
-		const Shader* shaderPtr = renderable->getMaterial()->getShader();
-		if (shaderPtr->litFlag) {
-			if (shaderPtr->transparentFlag) {
+		if (materialPtr->litFlag) {
+			if (materialPtr->transparentFlag) {
 				litTransparentQueue.addRenderable(renderable->getMesh(), materialPtr, renderable->getWorldTransform().getTransformMatrix());
 			} else {
 				litQueue.addRenderable(renderable->getMesh(), materialPtr, renderable->getWorldTransform().getTransformMatrix());
 			}
 		} else {
-			if (shaderPtr->transparentFlag) {
+			if (materialPtr->transparentFlag) {
 				unlitTransparentQueue.addRenderable(renderable->getMesh(), materialPtr, renderable->getWorldTransform().getTransformMatrix());
 			} else {
 				unlitQueue.addRenderable(renderable->getMesh(), materialPtr, renderable->getWorldTransform().getTransformMatrix());

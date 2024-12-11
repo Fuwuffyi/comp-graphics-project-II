@@ -1,4 +1,6 @@
 shader leaves
+transparent 0
+lit 1
 p windDirection vec3 0.8 0.2 0.4
 p windStrength float 0.2
 p color vec4 1.0 1.0 1.0 1.0
