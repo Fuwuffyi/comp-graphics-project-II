@@ -4,11 +4,11 @@
 
 out vec4 fragColor;
 
-in vec3 normalIn;
+flat in vec3 normalIn;
 in vec2 uvIn;
 in vec3 worldPosition;
-in mat3 normalMatrix;
-in mat3 TBN;
+flat in mat3 normalMatrix;
+flat in mat3 TBN;
 
 uniform vec3 cameraPosition;
 
@@ -17,12 +17,12 @@ uniform vec4 material_ambient;
 uniform vec4 material_diffuse;
 uniform vec4 material_specular;
 uniform float material_shininess;
+uniform float material_cutoutThreshold;
 
 uniform sampler2D albedo0;
 uniform sampler2D diffuse0;
 uniform sampler2D specular0;
 uniform sampler2D normal0;
-uniform float material_cutoutThreshold;
 
 struct Light {
 	vec3 position;
@@ -105,8 +105,8 @@ vec4 directionalLight(Light light, vec3 normal, vec3 viewDir) {
 	// Specular
 	vec4 specular = vec4(0.0);
 	if (material_shininess != 0.0) {
-		vec3 reflectDir = reflect(-lightDir, normal);
-		float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
+		vec3 halfVec = normalize(viewDir + lightDir);
+		float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
 		specular = calcSpecular(light.specular, spec);
 	}
 	// Return values
@@ -132,8 +132,8 @@ vec4 pointLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	// Specular
 	vec4 specular = vec4(0.0);
 	if (material_shininess != 0.0) {
-		vec3 reflectDir = reflect(-lightDir, normal);
-		float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
+		vec3 halfVec = normalize(viewDir + lightDir);
+		float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
 		specular = calcSpecular(light.specular, spec);
 	}
 	// Return values
@@ -162,8 +162,8 @@ vec4 spotLight(Light light, vec3 normal, vec3 fragPos, vec3 viewDir) {
 	// Specular
 	vec4 specular = vec4(0.0);
 	if (material_shininess != 0.0) {
-		vec3 reflectDir = reflect(-lightDir, normal);
-		float spec = pow(max(dot(viewDir, reflectDir), 0.0), material_shininess);
+		vec3 halfVec = normalize(viewDir + lightDir);
+		float spec = pow(max(dot(normal, halfVec), 0.0), material_shininess);
 		specular = calcSpecular(light.specular, spec);
 	}
 	// Return values
