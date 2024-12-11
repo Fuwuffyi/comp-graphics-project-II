@@ -279,6 +279,8 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <None Include="assets\shaders\blinn_phong.shader" />
     <None Include="assets\shaders\cubemap.shader" />
     <None Include="assets\shaders\flat.shader" />
+    <None Include="assets\shaders\gouraud_blinn_phong.shader" />
+    <None Include="assets\shaders\gouraud_phong.shader" />
     <None Include="assets\shaders\leaves.shader" />
     <None Include="assets\shaders\phong.shader" />
     <None Include="assets\shaders\sources\base.vert.glsl" />
@@ -287,6 +289,9 @@ cmake --build $(SolutionDir)external\assimp --config $(Configuration)</Command>
     <None Include="assets\shaders\sources\cubemap.frag.glsl" />
     <None Include="assets\shaders\sources\cubemap.vert.glsl" />
     <None Include="assets\shaders\sources\flat.frag.glsl" />
+    <None Include="assets\shaders\sources\gouraud.frag.glsl" />
+    <None Include="assets\shaders\sources\gouraud_blinn_phong.vert.glsl" />
+    <None Include="assets\shaders\sources\gouraud_phong.vert.glsl" />
     <None Include="assets\shaders\sources\leaves.vert.glsl" />
     <None Include="assets\shaders\sources\phong.frag.glsl" />
     <None Include="assets\shaders\sources\unlit_color.frag.glsl" />
