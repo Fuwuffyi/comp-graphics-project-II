@@ -204,26 +204,24 @@ void GUI::drawLightsEditor() const {
 }
 
 void GUI::drawResources() const {
-	ImGui::Begin("Resources", nullptr, ImGuiWindowFlags_AlwaysVerticalScrollbar);
-	if (ImGui::CollapsingHeader("Materials")) {
-		for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
-			ImGui::Separator();
-			if (ImGui::TreeNode((materialName + ".material").c_str())) {
-				if (MaterialLoader::isLoaded(materialName)) {
-					for (auto& [uniform, value] : MaterialLoader::load(materialName).get()->getMutableProperties()) {
-						auto visitor = [&](auto& val) {
-							using T = std::decay_t<decltype(val)>;
-							GUI::drawMaterialProperties(uniform, val);
-						};
-						std::visit(visitor, value);
-					}
-				} else {
-					if (ImGui::Button("Load Material")) {
-						MaterialLoader::load(materialName);
-					}
+	ImGui::Begin("Materials", nullptr, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+	for (const std::string& materialName : MaterialLoader::getAllFileNames()) {
+		ImGui::Separator();
+		if (ImGui::TreeNode((materialName + ".material").c_str())) {
+			if (MaterialLoader::isLoaded(materialName)) {
+				for (auto& [uniform, value] : MaterialLoader::load(materialName).get()->getMutableProperties()) {
+					auto visitor = [&](auto& val) {
+						using T = std::decay_t<decltype(val)>;
+						GUI::drawMaterialProperties(uniform, val);
+					};
+					std::visit(visitor, value);
 				}
-				ImGui::TreePop();
+			} else {
+				if (ImGui::Button("Load Material")) {
+					MaterialLoader::load(materialName);
+				}
 			}
+			ImGui::TreePop();
 		}
 	}
 	ImGui::End();

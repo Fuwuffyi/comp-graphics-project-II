@@ -84,7 +84,7 @@ void main() {
 }
 
 bool isTextureValid(sampler2D tex) {
-	return texture(tex, vec2(0.5, 0.5)) != vec4(0.0, 0.0, 0.0, 0.0);
+	return texture(tex, vec2(0.5, 0.5)) != vec4(1.0, 1.0, 1.0, 1.0);
 }
 
 vec4 calcDiffuse(vec3 lightDiffuse, float diffuseFactor) {
