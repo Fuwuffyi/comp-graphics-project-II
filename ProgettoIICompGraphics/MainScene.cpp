@@ -65,7 +65,7 @@ std::shared_ptr<SceneNode> MainScene::getGrass() {
 }
 
 std::shared_ptr<SceneNode> MainScene::getCity() {
-	std::shared_ptr<SceneNode> city = std::make_shared<SceneNode>("City", Transform());
+	std::shared_ptr<SceneNode> city = std::make_shared<SceneNode>("City", Transform(glm::vec3(0.0f), glm::vec3(0.0f, 180.0f, 0.0f)));
 	// Add walkway lights
 	const std::unordered_map<uint32_t, std::shared_ptr<Material>> walkwayOverrides = {
 		{ 0, MaterialLoader::load("bricks") }

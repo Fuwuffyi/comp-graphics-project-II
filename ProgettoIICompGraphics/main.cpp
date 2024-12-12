@@ -61,10 +61,10 @@ int main() {
 	// Initialize light System
 	LightSystem::initialize();
 	LightSystem::setLight(0, LightSystem::DirectionalLight{ 
-		glm::vec3(-0.52f, -0.62f, -0.5f),
-		glm::vec3(0.0f, 0.16f, 0.31f), 
-		glm::vec3(0.2f, 0.42f, 0.4f), 
-		glm::vec3(0.19f, 0.35f, 0.35f)
+		glm::vec3(-0.25f, -0.5f, 1.0f),
+		glm::vec3(0.17f, 0.25f, 0.22f), 
+		glm::vec3(0.4f, 0.58f, 0.62f), 
+		glm::vec3(0.0f, 1.0f, 0.76f)
 	});
 	// Add more lights to reflect current scene
 	for (uint32_t i = 0; i < 8; ++i) {
