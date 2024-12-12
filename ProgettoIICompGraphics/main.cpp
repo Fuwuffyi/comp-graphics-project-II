@@ -90,7 +90,7 @@ int main() {
 		});
 	}
 	LightSystem::setLight(17, LightSystem::PointLight{
-		glm::vec3(1.0f, 6.47f, 0.3f),
+		glm::vec3(-0.86f, 6.35f, -0.18f),
 		glm::vec3(0.05f, 0.0f, 0.0f),
 		glm::vec3(0.4f, 0.0f, 0.5f),
 		glm::vec3(1.0f, 0.0f, 1.0f),
