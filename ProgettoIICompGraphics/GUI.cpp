@@ -45,15 +45,15 @@ void GUI::newFrame(const glm::uvec2& dimensions) const {
 void GUI::createNodeInputs(SceneNode*& node) const {
 	glm::vec3 input = node->getLocalTransform().getPosition();
 	if (ImGui::TreeNode((node->name + " position").c_str())) {
-		if (ImGui::InputFloat3("Position", &input.x)) {
+		if (ImGui::DragFloat3("Position", &input.x, 0.01f, -100.0f, 100.0f)) {
 			node->setPosition(input);
 		}
 		input = node->getLocalTransform().getRotation();
-		if (ImGui::InputFloat3("Rotation", &input.x)) {
+		if (ImGui::DragFloat3("Rotation", &input.x, 0.01f, -360.0f, 360.0f)) {
 			node->setRotation(input);
 		}
 		input = node->getLocalTransform().getScale();
-		if (ImGui::InputFloat3("Scale", &input.x)) {
+		if (ImGui::DragFloat3("Scale", &input.x, 0.01f, -100.0f, 100.0f)) {
 			node->setScale(input);
 		}
 		ImGui::TreePop();
@@ -149,44 +149,44 @@ void GUI::drawLightsEditor() const {
 				case LightSystem::LIGHT_TYPE::NONE:
 					break;
 				case LightSystem::LIGHT_TYPE::DIRECTIONAL:
-					if (ImGui::SliderFloat3("Direction", &light.direction.x, -1.0f, 1.0f)) {
+					if (ImGui::DragFloat3("Direction", &light.direction.x, 0.01f, -1.0f, 1.0f)) {
 						LightSystem::setLight(i, light);
 					}
 					break;
 				case LightSystem::LIGHT_TYPE::POINT:
-					if (ImGui::SliderFloat3("Position", &light.position.x, -10.0f, 10.0f)) {
+					if (ImGui::DragFloat3("Position", &light.position.x, 0.01f, -100.0f, 100.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat("Range", &light.range, 0.0f, 100.0f)) {
+					if (ImGui::DragFloat("Range", &light.range, 0.01f, 0.0f, 100.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat("Linear", &light.linear, 0.0f, 1.0f)) {
+					if (ImGui::DragFloat("Linear", &light.linear, 0.01f, 0.0f, 1.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat("Constant", &light.constant, 0.0f, 1.0f)) {
+					if (ImGui::DragFloat("Constant", &light.constant, 0.01f, 0.0f, 1.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat("Quadratic", &light.quadratic, 0.0f, 1.0f)) {
+					if (ImGui::DragFloat("Quadratic", &light.quadratic, 0.01f, 0.0f, 1.0f)) {
 						LightSystem::setLight(i, light);
 					}
 					break;
 				case LightSystem::LIGHT_TYPE::SPOT:
-					if (ImGui::SliderFloat3("Position", &light.position.x, -10.0f, 10.0f)) {
+					if (ImGui::DragFloat3("Position", &light.position.x, 0.01f, -10.0f, 10.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat3("Direction", &light.direction.x, -1.0f, 1.0f)) {
+					if (ImGui::DragFloat3("Direction", &light.direction.x, 0.01f, -1.0f, 1.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat("Range", &light.range, 0.0f, 100.0f)) {
+					if (ImGui::DragFloat("Range", &light.range, 0.01f, 0.0f, 100.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat("Linear", &light.linear, 0.0f, 1.0f)) {
+					if (ImGui::DragFloat("Linear", &light.linear, 0.01f, 0.0f, 1.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat("Constant", &light.constant, 0.0f, 1.0f)) {
+					if (ImGui::DragFloat("Constant", &light.constant, 0.01f, 0.0f, 1.0f)) {
 						LightSystem::setLight(i, light);
 					}
-					if (ImGui::SliderFloat("Quadratic", &light.quadratic, 0.0f, 1.0f)) {
+					if (ImGui::DragFloat("Quadratic", &light.quadratic, 0.01f, 0.0f, 1.0f)) {
 						LightSystem::setLight(i, light);
 					}
 					if (ImGui::SliderFloat("Cutoff", &light.cutOff, 0.0f, 1.0f)) {

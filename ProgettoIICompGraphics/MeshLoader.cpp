@@ -125,10 +125,7 @@ std::shared_ptr<MeshInstanceNode> MeshLoader::processMesh(aiMesh* mesh, const ai
                 float shininess = 0.0f;
                 if (AI_SUCCESS == aiMaterial->Get(AI_MATKEY_SHININESS, shininess)) {
                     // Normalize shininess, for some reason it is 1000 in assimp?
-                    shininess /= 1000.0f;
-                }
-                if (shininess == 0.0f) {
-                    shininess = 1.0f;
+                    shininess = 1000.0f;
                 }
                 materialProperties.emplace("shininess", shininess);
                 // Base color (albedo) textures

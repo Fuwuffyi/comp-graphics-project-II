@@ -47,14 +47,14 @@ std::shared_ptr<SceneNode> MainScene::getGrass() {
 		{ 0, MaterialLoader::load("leaves") }
 	};
 	// Right trees
-	for (uint32_t i = 0; i < 60; ++i) {
+	for (uint32_t i = 0; i < 120; ++i) {
 		std::shared_ptr<SceneNode> tree = MeshLoader::loadMesh("assets/meshes/PineTree/scene.gltf", Transform(glm::vec3(-distX(randEngine), 0.0f, distZ(randEngine)), glm::vec3(-90.0f, 0.0f, 0.0f), distScl(randEngine) * baseScale), treeOverrides);
 		tree->name = tree->name + "R" + std::to_string(i);
 		tree->setParent(trees);
 		trees->addChild(tree);
 	}
 	// Left trees
-	for (uint32_t i = 0; i < 60; ++i) {
+	for (uint32_t i = 0; i < 120; ++i) {
 		std::shared_ptr<SceneNode> tree = MeshLoader::loadMesh("assets/meshes/PineTree/scene.gltf", Transform(glm::vec3(distX(randEngine), 0.0f, distZ(randEngine)), glm::vec3(-90.0f, 0.0f, 0.0f), distScl(randEngine) * baseScale), treeOverrides);
 		tree->name = tree->name + "L" + std::to_string(i);
 		tree->setParent(trees);
