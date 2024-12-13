@@ -12,6 +12,7 @@ SceneNode::SceneNode(const std::string& _name, const Transform& _transform, cons
 }
 
 void SceneNode::updateWorldTransform() {
+	// Use parent transform to update own transform
 	if (!this->parentNode) {
 		this->worldTransform = localTransform;
 	} else {

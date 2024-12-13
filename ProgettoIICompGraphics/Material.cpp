@@ -58,6 +58,7 @@ void Material::activate() const {
 }
 
 void Material::deactivate() const {
+	// Set all texture to base
 	bindingPoint = 0;
 	for (const auto& [uniform, texturePtr] : this->textures) {
 		texturePtr->deactivate(bindingPoint++);

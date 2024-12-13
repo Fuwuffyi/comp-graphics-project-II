@@ -8,6 +8,10 @@
  */
 class ElementBuffer : public SimpleBuffer {
 public:
+	// Erase copy constructors, as it would break opengl
+	ElementBuffer(const ElementBuffer&) = delete;
+	ElementBuffer& operator=(const ElementBuffer&) = delete;
+
 	/**
 	 * Constructor for the element buffer.
 	 *

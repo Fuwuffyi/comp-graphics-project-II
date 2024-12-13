@@ -164,14 +164,14 @@ void Shader::setUniform(const std::string& uniformName, const glm::uvec4& v) con
 	glUniform4ui(this->getUniformLocation(uniformName), v.x, v.y, v.z, v.w);
 }
 
-void Shader::setUniformMatrix(const std::string& uniformName, const glm::mat2& v, const bool transpose) const {
+void Shader::setUniform(const std::string& uniformName, const glm::mat2& v, const bool transpose) const {
 	glUniformMatrix2fv(this->getUniformLocation(uniformName), 1, transpose, glm::value_ptr(v));
 }
 
-void Shader::setUniformMatrix(const std::string& uniformName, const glm::mat3& v, const bool transpose) const {
+void Shader::setUniform(const std::string& uniformName, const glm::mat3& v, const bool transpose) const {
 	glUniformMatrix3fv(this->getUniformLocation(uniformName), 1, transpose, glm::value_ptr(v));
 }
 
-void Shader::setUniformMatrix(const std::string& uniformName, const glm::mat4& v, const bool transpose) const {
+void Shader::setUniform(const std::string& uniformName, const glm::mat4& v, const bool transpose) const {
 	glUniformMatrix4fv(this->getUniformLocation(uniformName), 1, transpose, glm::value_ptr(v));
 }

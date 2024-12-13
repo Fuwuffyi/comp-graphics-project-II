@@ -41,7 +41,7 @@ public:
 	 * \param valueType The value's type (float, int etc..)
 	 * \param offset The offset to read from compared to the 0th element of the vertex.
 	 */
-	void linkAttrib(const uint32_t layout, const uint32_t numComponents, const size_t sturctSize, const uint32_t valueType, const uint32_t offset) const;
+	void linkAttrib(const uint32_t layout, const uint32_t numComponents, const size_t sturctSize, const uint32_t valueType, const size_t offset) const;
 
 	/**
 	 * Activates this VertexArray to draw the object.

@@ -83,9 +83,8 @@ bool BoundingBox::isCulled(const glm::mat4& cameraMatrix) const {
 	planes[4] = glm::vec4(cameraMatrix[0][3] + cameraMatrix[0][2], cameraMatrix[1][3] + cameraMatrix[1][2], cameraMatrix[2][3] + cameraMatrix[2][2], cameraMatrix[3][3] + cameraMatrix[3][2]); // Near
 	planes[5] = glm::vec4(cameraMatrix[0][3] - cameraMatrix[0][2], cameraMatrix[1][3] - cameraMatrix[1][2], cameraMatrix[2][3] - cameraMatrix[2][2], cameraMatrix[3][3] - cameraMatrix[3][2]); // Far
 	// Normalize the planes
-	for (auto& plane : planes) {
-		float length = glm::length(glm::vec3(plane));
-		plane /= length;
+	for (glm::vec4& plane : planes) {
+		plane /= glm::length(glm::vec3(plane));
 	}
 	// Check each plane to see if any of the bounding box's vertices are outside
 	const glm::vec3 corners[8] = {
@@ -103,14 +102,14 @@ bool BoundingBox::isCulled(const glm::mat4& cameraMatrix) const {
 		bool outsidePlane = true;
 		for (const glm::vec3& corner : corners) {
 			// If the corner is on the same side or inside the plane, we continue checking
-			if (glm::dot(glm::vec3(plane), corner) + plane.w > 0) {
+			if (glm::dot(glm::vec3(plane), corner) + plane.w > 0.0f) {
 				outsidePlane = false;
 				break;
 			}
 		}
 		// If a corner is outside this plane, the bounding box is culled
 		if (outsidePlane) {
-			return true; // Bounding box is outside the frustum
+			return true;
 		}
 	}
 	// If no corners are outside, the bounding box is not culled

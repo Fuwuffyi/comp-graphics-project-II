@@ -8,15 +8,21 @@
 #include <glad/glad.h>
 
 namespace Renderer {
+	// Rendering queues to render objects in a performant way
 	static RenderingQueue litQueue;
 	static RenderingQueue litTransparentQueue(false);
 	static RenderingQueue unlitQueue;
 	static RenderingQueue unlitTransparentQueue(false);
 	static std::vector<MeshInstanceNode *> renderingList;
 
+	// Cubemap stuff
 	static std::shared_ptr<Material> cubemapMaterial = nullptr;
 	static std::shared_ptr<Mesh> cubemapMesh = nullptr;
 
+	/**
+	 * Method that sends all of the current objects to the rendering queues.
+	 * \param cameraMatrix The matrix of the camera to render the objects from.
+	 */
 	static void sendDataToQueues(const glm::mat4& cameraMatrix);
 }
 
@@ -26,9 +32,11 @@ void Renderer::addToRenderingQueues(MeshInstanceNode* renderable) {
 
 void Renderer::sendDataToQueues(const glm::mat4& cameraMatrix) {
 	for (MeshInstanceNode* renderable : renderingList) {
+		// Skip culled objects
 		if (renderable->getBoundingBox().isCulled(cameraMatrix)) {
 			continue;
 		}
+		// Check correct rendering queue to send objects to
 		Material* materialPtr = renderable->getMaterial().get();
 		if (materialPtr->litFlag) {
 			if (materialPtr->transparentFlag) {
@@ -86,8 +94,8 @@ void Renderer::renderAll(const glm::mat4& cameraMatrix, const glm::mat4& viewMat
 		glDepthMask(GL_FALSE);
 		// Draw cubemap using material
 		cubemapMaterial->activate();
-		cubemapMaterial->getShader()->setUniformMatrix("projectionMatrix", projectionMatrix);
-		cubemapMaterial->getShader()->setUniformMatrix("viewMatrix", viewMatrix);
+		cubemapMaterial->getShader()->setUniform("projectionMatrix", projectionMatrix);
+		cubemapMaterial->getShader()->setUniform("viewMatrix", viewMatrix);
 		cubemapMesh->draw();
 		// Re-enable other stuff for rendering
 		glEnable(GL_CULL_FACE);

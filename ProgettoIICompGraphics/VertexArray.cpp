@@ -17,7 +17,7 @@ VertexArray::~VertexArray() {
 	glDeleteVertexArrays(1, &this->id);
 }
 
-void VertexArray::linkAttrib(const uint32_t layout, const uint32_t numComponents, const size_t sturctSize, const uint32_t valueType, const uint32_t offset) const {
+void VertexArray::linkAttrib(const uint32_t layout, const uint32_t numComponents, const size_t sturctSize, const uint32_t valueType, const size_t offset) const {
 	glVertexAttribPointer(layout, static_cast<int32_t>(numComponents), valueType, GL_FALSE, static_cast<uint32_t>(sturctSize), reinterpret_cast<void*>(offset));
 	glEnableVertexAttribArray(layout);
 }

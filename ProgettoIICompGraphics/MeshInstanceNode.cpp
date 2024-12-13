@@ -11,7 +11,9 @@ MeshInstanceNode::MeshInstanceNode(const std::string& _name, const std::shared_p
 {}
 
 void MeshInstanceNode::updateWorldTransform() {
+	// Update the transform of the children
 	SceneNode::updateWorldTransform();
+	// Update the bounding box when the transform updates from the parent
 	boundingBox = this->mesh->getBoundingBox().transform(this->localTransform.getTransformMatrix());
 	if (this->parentNode) {
 		boundingBox = boundingBox.transform(this->parentNode->getWorldTransform().getTransformMatrix());

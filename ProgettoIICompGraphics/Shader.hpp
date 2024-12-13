@@ -271,7 +271,7 @@ public:
 	 * \param v The matrix to set on the shader.
 	 * \param transpose Flag to set if it should transpose the matrix.
 	 */
-	void setUniformMatrix(const std::string& uniformName, const glm::mat2& v, const bool transpose = false) const;
+	void setUniform(const std::string& uniformName, const glm::mat2& v, const bool transpose = false) const;
 
 	/**
 	 * Sets a uniform on the shader (provided the shader is active, and the uniform exists).
@@ -281,7 +281,7 @@ public:
 	 * \param v The matrix to set on the shader.
 	 * \param transpose Flag to set if it should transpose the matrix.
 	 */
-	void setUniformMatrix(const std::string& uniformName, const glm::mat3& v, const bool transpose = false) const;
+	void setUniform(const std::string& uniformName, const glm::mat3& v, const bool transpose = false) const;
 
 	/**
 	 * Sets a uniform on the shader (provided the shader is active, and the uniform exists).
@@ -291,5 +291,5 @@ public:
 	 * \param v The matrix to set on the shader.
 	 * \param transpose Flag to set if it should transpose the matrix.
 	 */
-	void setUniformMatrix(const std::string& uniformName, const glm::mat4& v, const bool transpose = false) const;
+	void setUniform(const std::string& uniformName, const glm::mat4& v, const bool transpose = false) const;
 };

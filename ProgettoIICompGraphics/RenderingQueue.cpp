@@ -39,8 +39,8 @@ void RenderingQueue::render(const glm::mat4& cameraMatrix, const glm::vec3& view
 		// Continue rendering normally
 		materialPtr->getShader()->setUniform("glfwTime", static_cast<float>(glfwGetTime()));
 		materialPtr->getShader()->setUniform("cameraPosition", viewPoint);
-		materialPtr->getShader()->setUniformMatrix("cameraMatrix", cameraMatrix);
-		materialPtr->getShader()->setUniformMatrix("objMatrix", model);
+		materialPtr->getShader()->setUniform("cameraMatrix", cameraMatrix);
+		materialPtr->getShader()->setUniform("objMatrix", model);
 		meshPtr->draw();
 		materialPtr->deactivate();
 	}

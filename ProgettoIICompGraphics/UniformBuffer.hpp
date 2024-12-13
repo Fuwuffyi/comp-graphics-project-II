@@ -4,6 +4,10 @@
 
 class UniformBuffer : public SimpleBuffer {
 public:
+	// Erase copy constructors, as it would break opengl
+	UniformBuffer(const UniformBuffer&) = delete;
+	UniformBuffer& operator=(const UniformBuffer&) = delete;
+
 	/**
 	 * Creates an uniform buffer object.
 	 * 

@@ -6,6 +6,11 @@
 #include <glm/gtc/constants.hpp>
 
 namespace Primitives {
+    /**
+     * Utility to calculate tangent and bitangent coordinates of primitives.
+     * \param vertices The vector of vertices to add tangent and bitangent to.
+     * \param indices The indices composing the mesh.
+     */
     static void calculateTangentsAndBitangents(std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
 }
 
