@@ -22,7 +22,7 @@ std::shared_ptr<SceneNode> MainScene::getSea() {
 	sea->addChild(seaFloor);
 	// Add some doughnuts
 	std::uniform_real_distribution<float> distX(-30.0f, 30.0f);
-	std::uniform_real_distribution<float> distZ(6.0f, 15.0f);
+	std::uniform_real_distribution<float> distZ(-6.0f, -15.0f);
 	for (uint32_t i = 0; i < 12; ++i) {
 		std::shared_ptr<SceneNode> doughnut = std::make_shared<MeshInstanceNode>("Doughnut", Primitives::generateThorus(1.0f, 0.5f, 15, 15), MaterialLoader::load("blinn_phong"), Transform(glm::vec3(distX(randEngine), 0.0f, distZ(randEngine)), glm::vec3(0.0f), glm::vec3(0.3f)), sea);
 		doughnut->name = doughnut->name + std::to_string(i);
