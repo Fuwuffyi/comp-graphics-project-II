@@ -127,6 +127,7 @@ int main() {
 		// Draw gui
 		gui.drawLightsEditor();
 		gui.drawInspector(scene.get());
+		gui.drawControls();
 		gui.drawResources();
 		gui.drawSelection(CameraControls::getSelection());
 		gui.endRendering();

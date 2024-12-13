@@ -98,8 +98,8 @@ void GUI::drawInspectorNode(SceneNode*& node) const {
 }
 
 void GUI::drawInspector(SceneNode* root) const {
-	ImGui::SetNextWindowPos(ImVec2(screenSize.x - 500, 0), ImGuiCond_Always);
-	ImGui::SetNextWindowSize(ImVec2(500, screenSize.y), ImGuiCond_Always);
+	ImGui::SetNextWindowPos(ImVec2(static_cast<float>(screenSize.x) - 500.0f, 0.0f), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(500.0f, static_cast<float>(screenSize.y)), ImGuiCond_Always);
 	ImGui::Begin("Scene Inspector", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysHorizontalScrollbar | ImGuiWindowFlags_AlwaysVerticalScrollbar | ImGuiWindowFlags_NoResize);
 	this->drawInspectorNode(root);
 	ImGui::End();
@@ -109,8 +109,8 @@ void GUI::drawSelection(SceneNode*& selectedObject) const {
 	if (selectedObject == nullptr) {
 		return;
 	}
-	ImGui::SetNextWindowPos(ImVec2(0, screenSize.y - 200), ImGuiCond_Always);
-	ImGui::SetNextWindowSize(ImVec2(screenSize.x, 200), ImGuiCond_Always);
+	ImGui::SetNextWindowPos(ImVec2(0.0f, static_cast<float>(screenSize.y) - 200.0f), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(static_cast<float>(screenSize.x), 200.0f), ImGuiCond_Always);
 	ImGui::Begin("Selected Item", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize);
 	ImGui::Text("Current selection: %s", selectedObject->name.c_str());
 	if (selectedObject->getParent()) {
@@ -224,6 +224,17 @@ void GUI::drawResources() const {
 			ImGui::TreePop();
 		}
 	}
+	ImGui::End();
+}
+
+void GUI::drawControls() const {
+	ImGui::Begin("Controls", nullptr);
+	ImGui::Text("Hold Left Click -> Turn camera");
+	ImGui::Text("Right Click -> Select object");
+	ImGui::Text("Scroll wheel -> change FOV");
+	ImGui::Text("Hold middle mouse button -> Tracbkall camera");
+	ImGui::Text("W, A, S, D, Shift, Space -> Move around the scene");
+	ImGui::Text("Scroll wheel & Hold middle mouse button -> change trackball camera distance");
 	ImGui::End();
 }
 

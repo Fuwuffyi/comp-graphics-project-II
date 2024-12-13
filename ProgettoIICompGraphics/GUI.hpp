@@ -34,6 +34,7 @@ public:
 	void drawSelection(SceneNode*& selectedObject) const;
 	void drawInspector(SceneNode* root) const;
 	void drawResources() const;
+	void drawControls() const;
 	void drawLightsEditor() const;
 	void endRendering() const;
 };
