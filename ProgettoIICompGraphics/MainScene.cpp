@@ -27,7 +27,7 @@ std::shared_ptr<SceneNode> MainScene::getSea() {
 		MaterialLoader::load("doughnutC")
 	};
 	std::uniform_real_distribution<float> distX(-30.0f, 30.0f);
-	std::uniform_real_distribution<float> distZ(-6.0f, -15.0f);
+	std::uniform_real_distribution<float> distZ(-15.0f, -6.0f);
 	std::uniform_int_distribution<uint32_t> matRand(0, 2);
 	for (uint32_t i = 0; i < 12; ++i) {
 		std::shared_ptr<SceneNode> doughnut = std::make_shared<MeshInstanceNode>("Doughnut", Primitives::generateThorus(1.0f, 0.5f, 15, 15), doughnutMaterials[matRand(randEngine)], Transform(glm::vec3(distX(randEngine), 0.0f, distZ(randEngine)), glm::vec3(0.0f), glm::vec3(0.3f)), sea);
@@ -87,8 +87,8 @@ std::shared_ptr<SceneNode> MainScene::getCity() {
 	centralStatue->setParent(walkway);
 	walkway->addChild(centralStatue);
 	// Add lights
-	std::shared_ptr<SceneNode> lights = std::make_shared<SceneNode>("Lights", Transform(), city);
-	city->addChild(lights);
+	std::shared_ptr<SceneNode> lights = std::make_shared<SceneNode>("Lights", Transform(), walkway);
+	walkway->addChild(lights);
 	const std::unordered_map<uint32_t, std::shared_ptr<Material>> lightsOverrides = {
 		{ 0, MaterialLoader::load("lampPost") },
 		{ 3, MaterialLoader::load("lightGlass") }

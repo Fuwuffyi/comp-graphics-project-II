@@ -135,7 +135,8 @@ void Transform::updateScaleMatrix() {
 }
 
 Transform Transform::operator*(const Transform& other) const {
-	const glm::vec3 combinedPosition = this->position + glm::vec3(this->getRotationMatrix() * glm::vec4(other.position, 1.0f)) * this->scale;
+	const glm::vec3 combinedPosition = this->position +
+		glm::vec3(this->getRotationMatrix() * glm::vec4(other.position * this->scale, 1.0f));
 	const glm::vec3 combinedRotation = this->rotation + other.rotation;
 	const glm::vec3 combinedScale = this->scale * other.scale;
 	return Transform(combinedPosition, combinedRotation, combinedScale);
