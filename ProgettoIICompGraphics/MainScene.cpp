@@ -21,10 +21,16 @@ std::shared_ptr<SceneNode> MainScene::getSea() {
 	std::shared_ptr<SceneNode> seaFloor = std::make_shared<MeshInstanceNode>("Seafloor", Primitives::generatePlane(1), MaterialLoader::load("seafloor"), Transform(glm::vec3(0.0f, -10.0f, 0.0f), glm::vec3(0.0f), glm::vec3(200.0f)), sea);
 	sea->addChild(seaFloor);
 	// Add some doughnuts
+	std::vector<std::shared_ptr<Material>> doughnutMaterials = {
+		MaterialLoader::load("doughnutA"),
+		MaterialLoader::load("doughnutB"),
+		MaterialLoader::load("doughnutC")
+	};
 	std::uniform_real_distribution<float> distX(-30.0f, 30.0f);
 	std::uniform_real_distribution<float> distZ(-6.0f, -15.0f);
+	std::uniform_int_distribution<uint32_t> matRand(0, 2);
 	for (uint32_t i = 0; i < 12; ++i) {
-		std::shared_ptr<SceneNode> doughnut = std::make_shared<MeshInstanceNode>("Doughnut", Primitives::generateThorus(1.0f, 0.5f, 15, 15), MaterialLoader::load("blinn_phong"), Transform(glm::vec3(distX(randEngine), 0.0f, distZ(randEngine)), glm::vec3(0.0f), glm::vec3(0.3f)), sea);
+		std::shared_ptr<SceneNode> doughnut = std::make_shared<MeshInstanceNode>("Doughnut", Primitives::generateThorus(1.0f, 0.5f, 15, 15), doughnutMaterials[matRand(randEngine)], Transform(glm::vec3(distX(randEngine), 0.0f, distZ(randEngine)), glm::vec3(0.0f), glm::vec3(0.3f)), sea);
 		doughnut->name = doughnut->name + std::to_string(i);
 		doughnut->setParent(sea);
 		sea->addChild(doughnut);

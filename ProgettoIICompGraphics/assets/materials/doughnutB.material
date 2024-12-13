@@ -1,0 +1,9 @@
+shader blinn_phong
+transparent 1
+lit 1
+p color vec4 1.0 0.7 1.0 0.7
+p specular vec4 1.0 1.0 1.0 0.7
+p ambient vec4 1.0 1.0 1.0 0.7
+p shininess float 8.0
+p diffuse vec4 0.2 0.2 0.2 0.7
+p cutoutThreshold float 0.0
